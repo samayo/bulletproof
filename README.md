@@ -6,7 +6,7 @@ Ever created a simple blog site, with few static/dynamic pages and wanted to bui
 
 Extremely easy way, to explain what these files do is, to imagine: 
 
-That you have a basic site, with static & one dynamic page. That means, you may have static pages like (`home.php, about.php, portofolio.php, contact.php.php`) pages. All are basic, or could be accessible through one page i.e. index.php?page=home, index.php?=page=about... BUT, you also have one dynamic page, let's call it articles.php?id=... 
+That you have a basic site, with static & one dynamic page. That means, you may have static pages like (`home.php, about.php, portofolio.php, contact.php`) pages. All are basic, or could be accessible through one page i.e. index.php?page=home, index.php?=page=about... BUT, you also have one dynamic page, let's call it `articles.php?id=...` 
 
 OK! Now, if you include this class, then give it ONCE, a title, keywords, content for each of your static pages + provide table, row name for that daynamic page we talked, about. Then, you don't have to every worry about, what to put inside the </head></head> tags i.e. SEO-wise, speaking. 
 
@@ -37,7 +37,7 @@ And the page, only you want your users to access.
 
 And title for the above page. 
 
-		$Declared_Page_Titles = [
+		$Static_Page_Titles = [
 				'Put title for your index page here...',
 				'Put title for your category page here page here...',
 				'Put title for your search page here...',
