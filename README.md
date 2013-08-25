@@ -17,11 +17,11 @@ Just, include the header file in your main page, and call in the class.
 
 ## Installing  
 
-Just `include()` the class file, at the begging of your page, or `spl_autoload_register('myAutoloader');` what ever, works for you. 
+Just `include()` the class file, at the start of your page, or use `spl_autoload_register('myAutoloader');`. Whatever works for you. 
 
 ## Configuring
 
-You need to open the `MainClass.php.php` and add your details. ex: You can start by putting your site name in
+You need to open the `MainClass.php.php` and add your details. Ex: You can start by putting your site name in
 
 		public $SiteName = ' | Mysite.com';
 	 
@@ -50,7 +50,7 @@ And, keywords for all your static page, which are mentioned above. (NOTE! You ca
 				'keywords'=>'this, is, where, your, keywords, go, seperated, by, comma'
 			];
 
-And, fianlly the contents of your each, which is going to be the same. i.e. `<meta name="description" content="" />`
+And, finally the contents of your each, which is going to be the same. i.e. `<meta name="description" content="" />`
 
 		$Static_Page_Content = [
 				'content'=>'This is where the decription of the page goes'
@@ -58,7 +58,7 @@ And, fianlly the contents of your each, which is going to be the same. i.e. `<me
 
 
 
-And, that is it for the static page. You are good to go. You can also, have a dynamic page, just tell it your table name and which rows to fetch, and it will do so, and allocate those data to the relative parts inside your head doc
+And, that is it for the static page. You are good to go. You can also, have a dynamic page, just tell it your table name and which rows to fetch, and it will do so, and allocate those data to the relative parts inside your head doc.
 
 
 
