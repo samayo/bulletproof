@@ -78,7 +78,7 @@
 		 
 		 
 		 
-		 # The Below script should be left "As Is" unless, for extending the functionality of this script
+		 # ENJOY!! because The Below script should be left "As Is" unless, for extending the functionality of this script
 		   ##########################################################################################
 		   
 		   
