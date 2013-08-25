@@ -1,6 +1,6 @@
 <?php 
 
-    $Obj_tinySeo = new tinySeoClass($conn);
+    $Obj_tinySeo = new simpleSeoClass($conn);
 
     /*
      *   Check if Current page is static / dynamic (dynamic == fetch data from db, and display title, cont, desc... from this data)
