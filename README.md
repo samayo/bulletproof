@@ -1,14 +1,15 @@
-tinySEO
+SimpleSeo
 ===========================
 
-Every created a simple blog site, with few static pages and wanted to set up the title, content, and keywords but felt lazy somehow? Well, here is your rescue. 
+Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output title, content, and keywords but felt lazy somehow? Well, here is SimpleSeo to the rescue. 
 
 
 Extremely easy way, to explain what these files do is, to imagine: 
 
-That you have a basic site, with static & one dynamic page. That means, you may have static pages like (`home.php, about.php, portofolio.php, contact.php`) pages. All are basic, and/or could be accessible through one page i.e. index.php?page=home, index.php?=about... BUT, you also have one dynamic page, let's call it articles.php?id=99. 
+That you have a basic site, with static & one dynamic page. That means, you may have static pages like (`home.php, about.php, portofolio.php, contact.php.php`) pages. All are basic, or could be accessible through one page i.e. index.php?page=home, index.php?=page=about... BUT, you also have one dynamic page, let's call it articles.php?id=... 
 
 OK! Now, if you include this class, then give it ONCE, a title, keywords, content for each of your static pages + provide table, row name for that daynamic page we talked, about. Then, you don't have to every worry about, what to put inside the </head></head> tags i.e. SEO-wise, speaking. 
+
 
 
 Just, include the header file in your main page, and call in the class. 
@@ -20,13 +21,13 @@ Just `include()` the class file, at the begging of your page, or `spl_autoload_r
 
 ## Configuring
 
-You need to open the `tinySeoClass.php` and add your details. ex: You can start by putting your site name in
+You need to open the `MainClass.php.php` and add your details. ex: You can start by putting your site name in
 
 		public $SiteName = ' | Mysite.com';
 	 
 And the page, only you want your users to access. 
 
-		$Allowed_Static_Pages = [
+		$Declared_Static_Pages = [
 				'index.php', 
 				'category.php', 
 				'search.php', 
@@ -36,7 +37,7 @@ And the page, only you want your users to access.
 
 And title for the above page. 
 
-		$Static_Page_Titles = [
+		$Declared_Page_Titles = [
 				'Put title for your index page here...',
 				'Put title for your category page here page here...',
 				'Put title for your search page here...',
