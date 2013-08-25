@@ -16,7 +16,7 @@ CONFIG:
 
 
 
-class tinySeoClass{
+class simpleSeoClass{
 		protected $conn;
 		private $_errors = [];
 		public $SiteName = ' | YourSiteNameHere.com ';
