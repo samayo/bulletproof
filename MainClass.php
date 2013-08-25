@@ -1,7 +1,6 @@
 <?php
 
- /*
-    INTRO:
+ /* INTRO:
 		If you wanted to create a small blog site, and you do not want to waste time creating a function that outputs 
 		title, description and content inside the <head></head> tags, for all pages then tinySeo is your friend.
 		Just spend 20 seconds mentioning your static/dynamic page + table and row name for the dynamic pages, then all is Ghuuud!
