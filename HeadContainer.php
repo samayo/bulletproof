@@ -12,7 +12,7 @@
     if($StaticPage === null){ 
 	// null means, that the current page is not found in the list of StaticPage, so treat it as dynamic.
         
-       $Page_Id = (isset($_GET['id']) && !empty($_GET['id'])) ? htmlspecialchars((int)$_GET['id']) : 0 ;
+       $Page_Id = (isset($_GET['id']) && !empty($_GET['id'])) ? (int)$_GET['id'] : 0 ;
         // check/get the id= value from the current page
 		
        $fetch = $Obj_tinySeo->Get_Dynamic_Contents('clients', $Page_Id);
