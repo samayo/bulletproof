@@ -21,7 +21,7 @@ Just `include()` the class file, at the start of your page, or use `spl_autoload
 
 ## Configuring
 
-You need to open the `MainClass.php.php` and add your details. Ex: You can start by putting your site name in
+You need to open the `MainClass.php` and add your details. Ex: You can start by putting your site name in
 
 		public $SiteName = ' | Mysite.com';
 	 
