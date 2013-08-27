@@ -73,7 +73,7 @@ function Declare_Static_Contents(){
 		'content'=>'This is where the "content" of your meta site goes'];
 		
 		
-		return = [$Declare_Static_Pages, $Static_Page_Titles, $Static_Page_Keywords, $Static_Page_Content];
+		return  [$Declared_Static_Pages, $Static_Page_Titles, $Static_Page_Keywords, $Static_Page_Content];
  }
  
 		 
@@ -143,9 +143,9 @@ function Declare_Static_Contents(){
 	/*
 	 * If errors are found during db, querying then this method will give ~404 error
 	 */
-	 function ShowErrors(){
+	 function checkErrors(){
 		 if(!empty($this->_errors)){
-			 die('<h1>  Not Found!! </h1> The requested address: <b>'.$_SERVER["REQUEST_URI"].'</b> was not found. Error-Type: <i>'.$this->errors.'</i>');
+			 die('<h1>  Not Found!! </h1> The requested address: <b>'.$_SERVER["REQUEST_URI"].'</b> was not found. Error-Type: <i>'.$this->_errors.'</i>');
 		 }else{
 			 return false;
 		 }
