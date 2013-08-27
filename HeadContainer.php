@@ -1,6 +1,6 @@
 <?php 
-
-    $Obj_tinySeo = new simpleSeoClass($conn);
+	require_once('MainClass.php');
+    $Obj_tinySeo = new simpleSeoClass('..--connection dsn goes here--..');
 
     /*
      *   Check if Current page is static / dynamic (dynamic == fetch data from db, and display title, cont, desc... from this data)
