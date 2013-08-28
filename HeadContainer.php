@@ -1,6 +1,6 @@
 		
 	 
-	$Obj_seoWrapper = new seoWrapper(new PDO('mysql:host=localhost; dbname=Test_SimpleSeo', 'root', ''));
+	$Obj_seoWrapper = new seoWrapper($conn);
 
 	/*
 	*   Check if Current page is static / dynamic (dynamic == fetch data from db, and display title, cont, desc... from this data)
