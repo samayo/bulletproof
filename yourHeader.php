@@ -1,5 +1,5 @@
 <?php 
-	require_once('seoWrapperClass.php');
+	require_once('seoWrapper.php');
 	$_seoWrapper = new seoWrapper();
 
 	/*
