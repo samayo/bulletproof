@@ -1,6 +1,6 @@
 <?php 
-	require_once('seoWrapper.php');
-	$_seoWrapper = new seoWrapper();
+	require_once('seoWrapperClass.php');
+	$_seoWrapper = new SeoWrapper();
 
 	/*
 	*   Check if Current page is static / dynamic (dynamic == fetch data from db, and display title, cont, desc... from this data)
@@ -8,27 +8,25 @@
 	*/
 
 	$StaticPage = $_seoWrapper->Static_Pages();
+
 	
-	if($StaticPage === null){ 
-		//if current page is not found in the list of StaticPages, treat it as dynamic.
-		
-		$conn = new PDO('mysql:host=localhost; dbname=Test_SimpleSeo', 'root', '');
-		$fetch = $_seoWrapper->Get_Dynamic_Contents($conn, 'pages', "id");
-		$error = $_seoWrapper->checkErrors(); $error;
-		
-		$seo['title'] = $fetch['title'];
-		$seo['content'] = $fetch['content'];
-		$seo['keywords'] = $fetch['keyword'];
-
-	}else{
-
+	if($StaticPage !== false){ 
 		$G = $_seoWrapper->Get_Static_Contents();
 		$seo['title'] = $G[0]; // title for current page 
 		$seo['keywords'] = $G[1]['keywords']; //keywords
 		$seo['content'] = $G[2]['content'];  //content
-		
+
+
+	}else{
+		$conn = new PDO('mysql:host=localhost; dbname=Test_SimpleSeo', 'root', '');
+		$_seoWrapper->checkErrors(); 
+		$fetch = $_seoWrapper->Get_Dynamic_Contents($conn, 'pages', "id");
+	
+		$seo['title'] = $fetch['title'];
+		$seo['content'] = $fetch['content'];
+		$seo['keywords'] = $fetch['keyword'];
 	}
-	?>
+?>
 	
 <!DOCTYPE html>
 <html lang="en-US"> 
