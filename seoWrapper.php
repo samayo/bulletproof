@@ -1,42 +1,37 @@
 <?php
 
-/* INTRO:
-	If you wanted to create a small blog site, and you do not want to waste time creating a function that outputs 
-	title, description and content inside the <head></head> tags, for all pages then tinySeo is your friend.
-	Just spend 20 seconds mentioning your static/dynamic page + table and row name for the dynamic pages, then all is Ghuuud!
+/* 
+INTRO:
+	In a nutshell: Do not worry about what to output for title, keywords, description for your site inside the <head></head>
 
 CONFIG: 
 	1 - First declare all your satic pags inside $Declare_Static_Pages and thier titles, in the next array i.e. $Static_Page_Titles
-	2 - Then add one content and decription to for all your static pages in $Static_Page_Keywords, and do the same for $Static_Page_Content. and THAT'S IT!!
-	
+	2 - Then add one content and decription to for all your static pages in $Static_Page_Keywords, and $Static_Page_Content. and THAT'S IT!!
+
 	- If you have a dynamic page, that fetchs data from db, and uses the data to 
-	to show the title, content and description... don't include it in this file. That should be mentioned in tinySeoObject file.
+	to show the title, content and description... don't include it in this file. That should be mentioned in yourHeader.php file.
 
 */
 
-	class seoWrapper{
+	class SeoWrapper{
 		private $_errors = [];
 		protected $SiteName = ' | YourSiteNamehere.tld '; // leave '' if not needed
 	 
-	  /*
-  * Declare_Static_Content holds list of static pages, and title, keyword tags, and content for each of them
-  * Whenever using this class for new project, only these details need to be changed.
-  */
+/*
+	Declare_Static_Content holds list of static pages, and title, keyword tags, and content for each of them
+	Whenever using this class for new project, only these details need to be changed.
+*/
 		
-		function Declare_Static_Contents(){
-		
-		
-				  
+		function Declare_Static_Contents(){  
 // Declare pages that are static. Meaning, their content is accessible with same url, that doesn't need to change
 ## NOTE - If you add pages inside the $Declare_Static_Pages then you must add a title for 
 ## that page, inside the next array i.e. $Static_Page_Titles. the arrays must match in pattern
 			$Declared_Static_Pages = [
-				'/seoWrapper/header.php',	
-				'index.php',
+				'/seoWrapper/header.php',
 				'about.php',
+				'/seoWrapper/header.php',	
 				'password.php?task=change',			
 				'password.php?task=forgot'
-				
 			];	
 				
 			// And their, costume title	
@@ -71,16 +66,10 @@ CONFIG:
 		// Will check if the page you are checking is declared as static in your array by doing PHP_SELF/REQUEST_URI, if yes it will return the array key of that page
 		
 		function Static_Pages(){
-				$Static_Pages = $this->Declare_Static_Contents()[0];
-				$RequestURI = $_SERVER['REQUEST_URI'];
-				$Script_Name = parse_url($_SERVER['SCRIPT_NAME']);
-				
-			foreach($Static_Pages as $key=>$Page){
-				if($Page == $RequestURI  || $Page == $Script_Name){
-					return $key;
-				}
-			}
-				
+				$page = $this->Declare_Static_Contents()[0];
+				$a = $_SERVER['REQUEST_URI'];
+				$b = parse_url($_SERVER['SCRIPT_NAME']);
+				return (in_array($b, $page)) ? array_search($b, $page) :  (in_array($a, $page)) ? array_search($a, $page) : false ;
 		}
 
 			
@@ -96,18 +85,7 @@ CONFIG:
 			
 		}
 
-
-
-			
-			
-			
-			
-			
-			
-			
-	
-			
-		/*
+	/*
 		   This is seperate function to deal with 'A dynamic page', which has to fetch title, keywords and content from database. 
 		   It gets data from db, based on the current ID
 		   if data is not found, it will pass on an error
@@ -116,8 +94,7 @@ CONFIG:
 		
 		
 		 function Get_Dynamic_Contents($conn, $table, $id){
-		 
-
+		
 		 
 		 if(!isset($_GET[$id]) || empty($_GET[$id])){
 			return $this->_errors = 'Content for this page are unavalable';
