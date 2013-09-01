@@ -27,7 +27,6 @@ CONFIG:
 ## NOTE - If you add pages inside the $Declare_Static_Pages then you must add a title for 
 ## that page, inside the next array i.e. $Static_Page_Titles. the arrays must match in pattern
 			$Declared_Static_Pages = [
-				'/seoWrapper/header.php',
 				'about.php',
 				'/seoWrapper/header.php',	
 				'password.php?task=change',			
