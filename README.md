@@ -1,4 +1,4 @@
-SimpleSeo
+SeoWrapper
 ===========================
 
 Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output title, content, and keywords but felt lazy somehow? Well, here is SimpleSeo to the rescue. 
