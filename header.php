@@ -16,7 +16,7 @@
 		$conn = new PDO('mysql:host=localhost; dbname=Test_SimpleSeo', 'root', '');
 		$fetch = $_seoWrapper->getDynamicContents($conn, 'pages', "id");
 
-        $_seoWrapper->checkErrors();
+                $checkError =  $_seoWrapper->checkErrors();
 		$seo['title'] = $fetch['title'];
 		$seo['content'] = $fetch['content'];
 		$seo['keywords'] = $fetch['keyword'];
