@@ -27,34 +27,37 @@ You need to open the `MainClass.php` and add your details. Ex: You can start by 
 	 
 And the page, only you want your users to access. 
 
-		$Declared_Static_Pages = [
-				'index.php', 
-				'category.php', 
-				'search.php', 
-				'page.php?q=about', 
-			];		 
+	
+        $exsistingStaticPages = [
+            '/index.php',
+            '/about.php',
+            '/password.php?task=forgot',
+            '/password.php?task=sent'
+        ];
+		 
 
 
 And title for the above page. 
 
-		$Static_Page_Titles = [
-				'Put title for your index page here...',
-				'Put title for your category page here page here...',
-				'Put title for your search page here...',
-				'Put title for your about page here...',
-			];
+	 $staticPageTitles = [
+            'Welcome to my site, this is index page',
+            'this is the about page',
+            'So, you want to change your password ehh?',
+            'Ok! your password has been sent'
+        ];
+
 
 And, keywords for all your static page, which are mentioned above. (NOTE! You can add more pages if you want)
 
-		$Static_Page_Keywords = [
-				'keywords'=>'this, is, where, your, keywords, go, seperated, by, comma'
-			];
+	 $staticPageKeywords = [
+            'keywords'=>'this, is, where, your, site, keywords, go, separated, by, commas,'
+        ];
 
 And, finally the contents of your each, which is going to be the same. i.e. `<meta name="description" content="" />`
 
-		$Static_Page_Content = [
-				'content'=>'This is where the decription of the page goes'
-			];
+	  $staticPageDescription = [
+            'content'=>'This is where the (content) of your meta site goes'
+        ];
 
 
 
