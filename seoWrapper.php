@@ -79,12 +79,8 @@ class SeoWrapper{
 
 
 
-     function checkErrors(){
-         if(!empty($this->_errors)){
-             die('<pre><h1>  Not Found!! </h1> The requested address: <b>'.$_SERVER["REQUEST_URI"].'</b> was not found.</pre>');
-         }else{
-             return false;
-         }
+      function checkErrors(){
+         return (!empty($this->_errors)) ? true : false;
      }
  }
 
