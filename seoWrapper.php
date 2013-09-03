@@ -8,10 +8,10 @@ class SeoWrapper{
     function declarePageProperties(){
 
         $exsistingStaticPages = [
-            '/seoWrapper/about.php',
-            '/seoWrapper/header.php',
-            '/seoWrapper/password.php?task=change',
-            '/seoWrapper/password.php?task=forgot'
+            '/index.php',
+            '/about.php',
+            '/password.php?task=forgot',
+            '/password.php?task=sent'
         ];
 
 
