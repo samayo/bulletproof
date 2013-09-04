@@ -33,7 +33,6 @@
 		$seo['keywords'] = $fetch['keyword'];
 	}
 ?>
-	
 <!DOCTYPE html>
 <html lang="en-US"> 
 	<head> 
