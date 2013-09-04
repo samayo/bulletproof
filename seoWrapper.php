@@ -2,24 +2,24 @@
 
 class SeoWrapper{
     private $_errors = [];
-    private  $SiteName = ' | YourSiteNamehere.tld '; // leave '' if not needed
+    private  $siteName = ' | YourSiteNamehere.tld '; // leave '' if not needed
 
 
-    function declarePageProperties(){
+    function fetchAllFromStaticPages(){
 
-        $exsistingStaticPages = [
-            '/index.php',
-            '/about.php',
-            '/password.php?task=forgot',
-            '/password.php?task=sent'
+        $existingStaticPages = [
+            '/seowrapper/headder.php',
+            '/seowrapper/header.php',
+            '/seowrapper/password.php?task=change',
+            '/seowrapper/password.php?task=forgot'
         ];
 
 
         $staticPageTitles = [
-            'Welcome to my site, this is index page',
-            'this is the about page',
-            'So, you want to change your password ehh?',
-            'Ok! your password has been sent'
+            'title'=>'Welcome to my site, this is index page',
+            'title'=>'this is the about page',
+            'title'=>'So, you want to change your password ehh?',
+            'title'=>'Ok! your password has been sent'
         ];
 
 
@@ -32,27 +32,32 @@ class SeoWrapper{
             'content'=>'This is where the (content) of your meta site goes'
         ];
 
-         return  [$exsistingStaticPages, $staticPageTitles, $staticPageKeywords, $staticPageDescription];
+         return  [$existingStaticPages, $staticPageTitles, $staticPageKeywords, $staticPageDescription];
     }
 
 
 
-    function checkIfPageIsAllowed(){
-            $page = $this->declarePageProperties()[0];
-            $a = $_SERVER['REQUEST_URI'];
-            $b = parse_url($_SERVER['SCRIPT_NAME']);
-            return (in_array($b, $page)) ? array_search($b, $page) :  (in_array($a, $page)) ? array_search($a, $page) : false ;
+    function returnPageContent($requestUri, $scriptName){
+
+        $existingStaticPages = $this->fetchAllFromStaticPages()[0];
+
+        if(in_array($requestUri, $existingStaticPages)){
+            $pageKey =  array_search($requestUri, $existingStaticPages);
+           return $pageKey;
+           // return $this->declaredPageProperties()[0][$pageKey];
+
+        }else if(in_array($scriptName, $existingStaticPages)){
+            $pageKey =  array_search($scriptName, $existingStaticPages);
+                return $pageKey;
+          //  return $this->declaredPageProperties()[0][$pageKey];
+
+        }else{
+            return $this->_errors = 'Current url is not found in allowed static pages';
+        }
     }
 
 
 
-
-    function getPageProperties(){
-            $pageKey = $this->checkIfPageIsAllowed();
-            $pageTitle = $this->declarePageProperties()[1][$pageKey].$this->SiteName;
-            return [$pageTitle, $this->declarePageProperties()[2], $this->declarePageProperties()[3]];
-
-    }
 
 
 
@@ -79,7 +84,7 @@ class SeoWrapper{
 
 
 
-      function checkErrors(){
+     function checkErrors(){
          return (!empty($this->_errors)) ? true : false;
      }
  }
