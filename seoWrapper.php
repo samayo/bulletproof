@@ -5,10 +5,10 @@ class SeoWrapper{
     function fetchAllFromStaticPages(){
 
         $existingStaticPages = [
-            '/seowrapper/f.php',
-            '/seowrapper/header.php',
-            '/seowrapper/password.php?task=change',
-            '/seowrapper/password.php?task=forgot'
+            '/index.php',
+            '/about.php.php',
+            '/password.php?task=change',
+            '/password.php?task=forgot'
         ];
 
 
