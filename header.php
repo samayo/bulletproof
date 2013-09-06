@@ -1,36 +1,23 @@
 <?php
 
+    $conn = new PDO('mysql:host=localhost; dbname=seoWrapper', 'root', '');
 	require_once('seoWrapperClass.php');
-	$_seoWrapper = new SeoWrapper();
 
 
-	$StaticPage = $_seoWrapper->returnPageContent()->forUrl($_SERVER['REQUEST_URI'], parse_url($_SERVER['SCRIPT_NAME']));
+	$SeoWrapper = new SeoWrapper();
+	$currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
+
+    if($currentPage === 'dynamic'){
+        $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id"); //'pages' = table name. "id" = $_GET['*']
+        ($SeoWrapper->checkErrors()) ? 'Page Not Found 404' : list($title,$content,$keywords) = $fetch;
+
+    }else{
+        $title = $SeoWrapper->fetchAllFromStaticPages()['title'][$currentPage];
+        $content = $SeoWrapper->fetchAllFromStaticPages()['keywords']['0'];
+        $keywords = $SeoWrapper->fetchAllFromStaticPages()['content']['0'];
+    }
 
 
-	if($StaticPage !== false){
-
-        $title = $_seoWrapper->fetchAllFromStaticPages()[1][$StaticPage];
-        $content = $_seoWrapper->fetchAllFromStaticPages()[2][0];
-        $keywords = $_seoWrapper->fetchAllFromStaticPages()[3][0];
-
-	}else{
-
-		$conn = new PDO('mysql:host=localhost; dbname=seoWrapper', 'root', '');
-		$fetch = $_seoWrapper->getDynamicContents($conn, 'pages', "id");
-
-
-        ($_seoWrapper->checkErrors()) ? die('Page not found') : '';
-        // ^^ if page is not found or query failed, do your monkey business here.
-
-        $title = $fetch['title'];
-        $content = $fetch['content'];
-        $keywords = $fetch['keywords'];
-
-
-
-
-
-	}
 ?>
 	
 <!DOCTYPE html>
