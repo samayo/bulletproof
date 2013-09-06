@@ -2,19 +2,20 @@
 
 class SeoWrapper{
     private $_errors = [];
-    public $foo;
+
+
 
     function fetchAllFromStaticPages(){
 
         $existingStaticPages = [
+            '/seowrapper/f.php',
             '/seowrapper/header.php',
-            '/seowrapper/headder.php',
             '/seowrapper/password.php?task=change',
             '/seowrapper/password.php?task=forgot'
         ];
 
 
-        $staticPageTitles = [
+        $pageTitle = [
             'Welcome to my site, this is index page',
             'this is the about page',
             'So, you want to change your password ehh?',
@@ -22,42 +23,26 @@ class SeoWrapper{
         ];
 
 
-        $staticPageKeywords = [
+        $pageKeywords = [
            'this, is, where, your, site, keywords, go, separated, by, commas,'
         ];
 
 
-        $staticPageDescription = [
-           'This is where the (content) of your meta site goes'
+        $pageContent = [
+          'testThis is where the (content) of your meta site goes'
         ];
 
-         return  [$existingStaticPages, $staticPageTitles, $staticPageKeywords, $staticPageDescription];
+         return  [$existingStaticPages, 'title'=>$pageTitle, 'keywords'=>$pageKeywords, 'content'=>$pageContent];
     }
 
 
 
-    function returnPageContent(){
 
-         function forUrl($requestUri, $scriptName){
-            $existingStaticPages = $this->fetchAllFromStaticPages()[0];
 
-            if(in_array($requestUri, $existingStaticPages)){
-                $pageKey =  array_search($requestUri, $existingStaticPages);
-               return $pageKey;
-
-            }else if(in_array($scriptName, $existingStaticPages)){
-                $pageKey =  array_search($scriptName, $existingStaticPages);
-                    return $pageKey;
-
-            }else{
-                return $this->_errors = false;
-            }
+    function isPageStaticOrDynamic($requestUri){
+            $inStatic = $this->fetchAllFromStaticPages()[0];
+            return (in_array($requestUri, $inStatic)) ? array_search($requestUri, $inStatic) : 'dynamic';
         }
-
-    }
-
-
-
 
 
 
@@ -77,9 +62,8 @@ class SeoWrapper{
             if($stmt->rowCount() == 0){
                 return $this->_errors  = 'Page not found! Link may be invalid or expired';
             }
-
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result[0];
+            $result = $stmt->fetchAll(PDO::FETCH_NUM)[0];
+            return $result;
         }
     }
 
