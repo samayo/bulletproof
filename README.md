@@ -6,40 +6,36 @@ Ever created a simple blog site, with few static/dynamic pages and wanted to bui
 
 Extremely easy way, to explain what these files do is, to imagine: 
 
-That you have a basic site, with static & one dynamic page. That means, you may have static pages like (`home.php, about.php, portofolio.php, contact.php`) pages. All are basic, or could be accessible through one page i.e. index.php?page=home, index.php?=page=about... BUT, you also have one dynamic page, let's call it `articles.php?id=...` 
+That you have a basic site, with static & one dynamic page. That means, you may have static pages like
+(`home.php, about.php, portofolio.php, contact.php`) pages. All are basic (i.e. NO dynamically changing content is in the page)
 
-OK! Now, if you include this class, then give it ONCE, a title, keywords, content for each of your static pages + provide table, row name for that daynamic page we talked, about. Then, you don't have to every worry about, what to put inside the </head></head> tags i.e. SEO-wise, speaking. 
-
-
-
-Just, include the header file in your main page, and call in the class. 
+OK! Now, if you include this the `seoWrapperClass.php`  then give declare all static pages you have, and their titles, 
+and you are done. The lib will detected the current page, pull titles, content and keywords for that page. 
 
 
-## Installing  
+## bootstrap  
 
-Just `include()` the class file, at the start of your page, or use `spl_autoload_register('myAutoloader');`. Whatever works for you. 
+Just `include()` `seoWrapperClass.php` class, at the start of your page, or use `spl_autoload_register('myAutoloader');`. Whatever works for you. 
 
-## Configuring
 
-You need to open the `MainClass.php` and add your details. Ex: You can start by putting your site name in
+## Configuring/installing
 
-		public $SiteName = ' | Mysite.com';
-	 
-And the page, only you want your users to access. 
+You need to open the `header.php` and add your details. 
 
-	
-        $exsistingStaticPages = [
+Ex:  you can declare all your static pages here
+
+    $existingStaticPages = [
             '/index.php',
-            '/about.php',
-            '/password.php?task=forgot',
-            '/password.php?task=sent'
+            '/about.php.php',
+            '/password.php?task=change',
+            '/password.php?task=forgot'
         ];
 		 
 
 
-And title for the above page. 
+..and costume titles for each of the above mentioned pages(pages must relate to the title in pattern)
 
-	 $staticPageTitles = [
+    $pageTitle = [
             'Welcome to my site, this is index page',
             'this is the about page',
             'So, you want to change your password ehh?',
@@ -47,21 +43,23 @@ And title for the above page.
         ];
 
 
-And, keywords for all your static page, which are mentioned above. (NOTE! You can add more pages if you want)
 
-	 $staticPageKeywords = [
-            'keywords'=>'this, is, where, your, site, keywords, go, separated, by, commas,'
-        ];
+Unlike pages, titles above keyword should just be one value. (don't include multiple arrays)
 
-And, finally the contents of your each, which is going to be the same. i.e. `<meta name="description" content="" />`
-
-	  $staticPageDescription = [
-            'content'=>'This is where the (content) of your meta site goes'
+    $pageKeywords = [
+           'this, is, where, your, site, keywords, go, separated, by, commas,'
         ];
 
 
+Same goes for description of the meta `<meta name="description" content="" />` remember, only on array.
 
-And, that is it for the static page. You are good to go. You can also, have a dynamic page, just tell it your table name and which rows to fetch, and it will do so, and allocate those data to the relative parts inside your head doc.
+    $pageContent = [
+          'testThis is where the (content) of your meta site goes'
+        ];
+
+
+
+And, that is it for the static page. You are good to go. You can also, have a dynamic page, just give  it your table name and which rows to fetch, and it will do so, and allocate those data to the relative parts inside the head of your page according to the pages. .
 
 
 
