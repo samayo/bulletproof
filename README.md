@@ -14,7 +14,7 @@ and you are done. The lib will detected the current page, pull titles, content a
 
 
 ## bootstrap  
-
+(I don't know what boostrap means :) but, if it is an engine starter, then this is bootsrap)
 Just `include()` `seoWrapperClass.php` class, at the start of your page, or use `spl_autoload_register('myAutoloader');`. Whatever works for you. 
 
 
