@@ -2,11 +2,11 @@ SeoWrapper
 ===========================
 
 Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output:
-	`<meta name="description" content="`description`" />`
-	
-	`<meta name="keywords" content="`keywords`" />`
-	
-	`<title>`title`</title>`
+`<meta name="description" content="`description`" />`
+
+`<meta name="keywords" content="`keywords`" />`
+
+`<title>`title`</title>`
 	
 But, felt lazy somehow, and needed a quick solution? Well, seoWrapper is a good solution. 
 
