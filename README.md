@@ -2,20 +2,24 @@ SeoWrapper
 ===========================
 
 Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output:
-`<meta name="description" content="`description`" />`
-
-`<meta name="keywords" content="`keywords`" />`
-
-`<title>`title`</title>`
+`<meta name="description" content="... page-relevant description here here.." />`      
+`<meta name="keywords" content="... page-relevant keywords here here.." />`    
+`<title>...I need my page title here..</title>`
 	
-But, felt lazy somehow, and needed a quick solution? Well, seoWrapper is a good solution. 
+But, felt lazy somehow, and needed a quick/dynamic solution? If so, then you are on the right place. 
 
 
-Another example is, to imagine, that you have a site with `4` pages. `3` are static pages, like 
+Another example is, to just imagine, that you have a site with `4` pages.     
+lets assume `3` of those pages are `static pages`, like 
         `home.php // Static Page : just static stuff, same url & content always. `
-       ` about.php // Static Page : just static stuff, same url & content always. `
-       ` blog.php / /Dynamic Page : This page is dynamic, and url can change with id?= thus needs dynamic meta data`
-        `contact.php // Static Page : just static stuff, same url & content always. `
+        `about.php // Static Page : just static stuff, same url & content always. `
+        `contact.php // Static Page : just static stuff, same url & content always. `   
+        
+And the `4th` one is `dynamic`, and hence the all the infos must change according to the content being fetched. 
+        `blog.php / /Dynamic Page : This page is dynamic, and url can change with id?= thus needs dynamic meta data`
+        
+Now, in simple terms, if you use `seoWrapper` class, then you don't have to worry about outputting `title,description,content
+`for these pages ever. 
         
 
 ## Configuring
