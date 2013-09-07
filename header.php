@@ -8,7 +8,7 @@
 
     if($currentPage === 'dynamic'){
         $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id"); //'pages' = table name. "id" = $_GET['*']
-        ($SeoWrapper->checkErrors()) ? 'Your 404 Error Here' : list($title,$content,$keywords) = $fetch;
+        ($SeoWrapper->hasErrors()) ? 'Your 404 Error Here' : list($title,$content,$keywords) = $fetch;
     }else{
         $title = $SeoWrapper->fetchAllFromStaticPages()['title'][$currentPage];
         $content = $SeoWrapper->fetchAllFromStaticPages()['keywords']['0'];
