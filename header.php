@@ -20,13 +20,13 @@
 	
 <!DOCTYPE html>
 <html lang="en-US"> 
-	<head> 
-		<meta charset="utf-8" /> 
-		<meta name="robots" content="index, follow" />
-		<meta name="description" content="<?php echo $content; ?> " />
-		<meta name="keywords" content="<?php echo $keywords; ?>" />
-		<meta name="REVISIT-AFTER" content="15 DAYS" />
-	<title><?php echo $title; ?>  </title>
+<head> 
+	<meta charset="utf-8" /> 
+	<meta name="robots" content="index, follow" />
+	<meta name="description" content="<?php echo $content; ?> " />
+	<meta name="keywords" content="<?php echo $keywords; ?>" />
+	<meta name="REVISIT-AFTER" content="15 DAYS" />
+<title><?php echo $title; ?>  </title>
 </head> 
 
 
