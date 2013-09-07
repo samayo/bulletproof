@@ -10,13 +10,13 @@ But, felt lazy somehow, and needed a quick/dynamic solution? If so, then you are
 
 
 Another example is, to just imagine, that you have a site with `4` pages.     
-lets assume `3` of those pages are `static pages`, like 
-        `home.php // Static Page : just static stuff, same url & content always. `
-        `about.php // Static Page : just static stuff, same url & content always. `
-        `contact.php // Static Page : just static stuff, same url & content always. `   
+lets assume `3` of those pages are `static pages`, like    
+        `home.php`  Static Page : just static stuff, same url & content always.    
+        `about.php`  Static Page : just static stuff, same url & content always.     
+        `contact.php`  Static Page : just static stuff, same url & content always.     
         
-And the `4th` one is `dynamic`, and hence the all the infos must change according to the content being fetched. 
-        `blog.php / /Dynamic Page : This page is dynamic, and url can change with id?= thus needs dynamic meta data`
+And the `4th` one is `dynamic`, and hence the all the infos must change according to the content being fetched.     
+        `blog.php` Dynamic Page : This page is dynamic, and url can change with id?= thus needs dynamic meta data
         
 Now, in simple terms, if you use `seoWrapper` class, then you don't have to worry about outputting `title,description,content
 `for these pages ever. 
