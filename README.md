@@ -1,22 +1,20 @@
 SeoWrapper
 ===========================
 
-Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output title, content, and keywords but felt lazy somehow? Well, here is SimpleSeo to the rescue. 
+Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output:
+	`<meta name="description" content="`description`" />`
+	`<meta name="keywords" content="`keywords`" />`
+	`<title>`title`</title>`
+	
+But, felt lazy somehow, and needed a quick solution? Well, seoWrapper is a good solution. 
 
 
-Extremely easy way, to explain what these files do is, to imagine: 
-
-That you have a basic site, with static & one dynamic page. That means, you may have static pages like
-(`home.php, about.php, portofolio.php, contact.php`) pages. All are basic (i.e. NO dynamically changing content is in the page)
-
-OK! Now, if you include this the `seoWrapperClass.php`  then give declare all static pages you have, and their titles, 
-and you are done. The lib will detected the current page, pull titles, content and keywords for that page. 
-
-
-## bootstrap  
-(I don't know what boostrap means :) but, if it is an engine starter, then this is bootsrap)
-Just `include()` `seoWrapperClass.php` class, at the start of your page, or use `spl_autoload_register('myAutoloader');`. Whatever works for you. 
-
+A another example is, to imagine, that you have a site with `4` pages. `3` are static pages, like 
+        `home.php` // Static Page : just static stuff, same url & content always. 
+        `about.php` // Static Page : just static stuff, same url & content always. 
+        `blog.php` / /Dynamic Page : This page is dynamic, and url can change with `id?=` thus needs dynamic meta data
+        `contact.php` // Static Page : just static stuff, same url & content always. 
+        
 
 ## Configuring/installing
 
@@ -44,7 +42,7 @@ Ex:  you can declare all your static pages here
 
 
 
-Unlike pages, titles above keyword should just be one value. (don't include multiple arrays)
+Unlike pages, titles arrays, the keyword should just contain one valued-array. (don't include multiple arrays)
 
     $pageKeywords = [
            'this, is, where, your, site, keywords, go, separated, by, commas,'
@@ -56,6 +54,13 @@ Same goes for description of the meta `<meta name="description" content="" />` r
     $pageContent = [
           'testThis is where the (content) of your meta site goes'
         ];
+
+
+
+## bootstrap  
+(I don't know what boostrap means :) but, if it is an engine starter, then this is bootsrap)
+Just `include()` `seoWrapperClass.php` class, at the start of your page, or use `spl_autoload_register('myAutoloader');`. Whatever works for you. 
+
 
 
 
