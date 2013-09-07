@@ -67,7 +67,7 @@ class SeoWrapper{
 
 
 
-     function hasErrors()(){
+     function hasErrors(){
          return (!empty($this->_errors)) ? true : false;
      }
  }
