@@ -3,7 +3,6 @@
        $conn = new PDO('mysql:host=localhost; dbname=seoWrapper', 'root', ''); //don't mind me, i'm just an example
 	require_once('seoWrapperClass.php');
 
-
 	$SeoWrapper = new SeoWrapper();
 	$currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
 
