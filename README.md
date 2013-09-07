@@ -12,10 +12,10 @@ But, felt lazy somehow, and needed a quick solution? Well, seoWrapper is a good 
 
 
 Another example is, to imagine, that you have a site with `4` pages. `3` are static pages, like 
-        `home.php` // Static Page : just static stuff, same url & content always. 
-        `about.php` // Static Page : just static stuff, same url & content always. 
-        `blog.php` / /Dynamic Page : This page is dynamic, and url can change with `id?=` thus needs dynamic meta data
-        `contact.php` // Static Page : just static stuff, same url & content always. 
+        home.php // Static Page : just static stuff, same url & content always. 
+        about.php // Static Page : just static stuff, same url & content always. 
+        blog.php / /Dynamic Page : This page is dynamic, and url can change with id?= thus needs dynamic meta data
+        contact.php // Static Page : just static stuff, same url & content always. 
         
 
 ## Configuring/installing
