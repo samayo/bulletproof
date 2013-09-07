@@ -20,7 +20,7 @@ Just `include()` `seoWrapperClass.php` class, at the start of your page, or use 
 
 ## Configuring/installing
 
-You need to open the `header.php` and add your details. 
+You need to open the `seoWrapperClass.php` and add your details. 
 
 Ex:  you can declare all your static pages here
 
