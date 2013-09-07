@@ -2,6 +2,7 @@
 
 class SeoWrapper{
     private $_errors = [];
+    
     function fetchAllFromStaticPages(){
 
         $existingStaticPages = [
