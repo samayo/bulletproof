@@ -55,11 +55,9 @@ class SeoWrapper{
             }catch(PDOException $e){
                 return $this->_errors = 'Unknown error occured. Please try again'.$e->getMessage();
             }
-
-
-            if($stmt->rowCount() == 0){
-                return $this->_errors  = 'Page not found! Link may be invalid or expired';
-            }
+            
+            
+            return ( $stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : null;
             $result = $stmt->fetchAll(PDO::FETCH_NUM)[0];
             return $result;
         }
