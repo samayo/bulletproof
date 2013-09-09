@@ -56,10 +56,8 @@ class SeoWrapper{
                 return $this->_errors = 'Unknown error occured. Please try again'.$e->getMessage();
             }
             
-            
-            return ( $stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : null;
-            $result = $stmt->fetchAll(PDO::FETCH_NUM)[0];
-            return $result;
+            return ( $stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : $stmt->fetchAll(PDO::FETCH_NUM)[0];
+           
         }
     }
 
