@@ -3,24 +3,18 @@
 class SeoWrapper{
     private $_errors = [];
 
-    function construct($pageProperties){
-        $this->pageProperties = $pageProperties;
+    public function __construct($customPages, $defaultSettings){
+        $this->customPages = $customPages;
+        $this->defaultSettings = $defaultSettings;
     }
 
-
-
-
-
-
-
-
     public function isPageStaticOrDynamic($requestUri){
-            $inStatic = $this->fetchAllFromStaticPages()[0];
-            return (in_array($requestUri, $inStatic)) ? array_search($requestUri, $inStatic) : 'dynamic';
-        }
 
 
-
+       return array_key_exists($requestUri, $this->customPages['Pages']) ?
+           array_search($requestUri, $this->customPages['Pages']) : 'dynamic';
+      //  return (array_key_exists($requestUri, $checkPageExists)) ? array_search($requestUri, $checkPageExists) : 'dynamic';
+   }
 
     public function getDynamicContents($conn, $table, $identifier){
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
@@ -40,7 +34,7 @@ class SeoWrapper{
 
 
 
-     private function hasErrors(){
+     public function hasErrors(){
          return (!empty($this->_errors)) ? true : false;
      }
  }

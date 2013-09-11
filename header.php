@@ -4,23 +4,46 @@
 	require_once('seoWrapperClass.php');
 
 
-    $staticPageDefaultConfigs = [
-            'keywords'=>'describe, your, costume, static, page, keywords, here, seperated, by, comas,',
+
+    $customPages = [
+
+        'Pages'=>[
+            '/seowrdapper/header.php'=>['costume title for static page called header',
+                'optional keywords',
+                'optional description'],
+
+            '/seowrapper/header.php'=>['page title for about.php',
+                'optional..',
+                'optional..'],
+
+            '/mywork.php'=>['page title for mywork.php',
+                'optional',
+                'optional..'],
+
+            '/contact.php'=>['page title for contact.php',
+                'otional keyword',
+                'optional..']
+        ]
+     ];
+
+    $defaultSettings = [
+            'keywords'=>'describe, your, costume, static, page, keywords, here, separated, by, comas,',
             'description'=>'default website description for static pages goes here'
     ];
 
-    $defineConstumeStaticPages = [
-        '/header.php'=>['title for header.php goes here', 'optional keywords', 'optional page description'],
-        '/home.php'=>['put your title for home page here', 'optional keywords', 'optional page description']
-    ];
+
+var_dump(array_keys($customPages['Pages'], '/seowrapper/header.php'));
+
+    $SeoWrapper = new SeoWrapper($customPages, $defaultSettings);
 
 
 
 
 
 
-    $SeoWrapper = new SeoWrapper();
+
 	$currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
+var_dump($currentPage);
 
     if($currentPage === 'dynamic'){
         $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id"); 
