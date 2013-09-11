@@ -1,0 +1,7 @@
+<?php 
+
+$pageProperties[
+  '/index.php'=>'I am index page',
+  '/about.php'=>'I am about page',
+  '/contact.php'=>'I am contact page',
+]
