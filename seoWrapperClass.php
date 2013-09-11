@@ -3,7 +3,7 @@
 class SeoWrapper{
     private $_errors = [];
     
-    function fetchAllFromStaticPages(){
+    public function fetchAllFromStaticPages(){
 
         $existingStaticPages = [
             '/index.php',
@@ -37,7 +37,7 @@ class SeoWrapper{
 
 
 
-    function isPageStaticOrDynamic($requestUri){
+    public function isPageStaticOrDynamic($requestUri){
             $inStatic = $this->fetchAllFromStaticPages()[0];
             return (in_array($requestUri, $inStatic)) ? array_search($requestUri, $inStatic) : 'dynamic';
         }
@@ -45,7 +45,7 @@ class SeoWrapper{
 
 
 
-    function getDynamicContents($conn, $table, $identifier){
+    public function getDynamicContents($conn, $table, $identifier){
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
             return $this->_errors = 'Invalid URL is found';
         }else{
@@ -63,7 +63,7 @@ class SeoWrapper{
 
 
 
-     function hasErrors(){
+     private function hasErrors(){
          return (!empty($this->_errors)) ? true : false;
      }
  }
