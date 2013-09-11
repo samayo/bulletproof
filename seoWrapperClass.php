@@ -2,36 +2,13 @@
 
 class SeoWrapper{
     private $_errors = [];
-    
-    public function fetchAllFromStaticPages(){
 
-        $existingStaticPages = [
-            '/index.php',
-            '/about.php.php',
-            '/password.php?task=change',
-            '/password.php?task=forgot'
-        ];
-
-
-        $pageTitle = [
-            'Welcome to my site, this is index page',
-            'this is the about page',
-            'So, you want to change your password ehh?',
-            'Ok! your password has been sent'
-        ];
-
-
-        $pageKeywords = [
-           'this, is, where, your, site, keywords, go, separated, by, commas,'
-        ];
-
-
-        $pageContent = [
-          'testThis is where the (content) of your meta site goes'
-        ];
-
-         return  [$existingStaticPages, 'title'=>$pageTitle, 'keywords'=>$pageKeywords, 'content'=>$pageContent];
+    function construct($pageProperties){
+        $this->pageProperties = $pageProperties;
     }
+
+
+
 
 
 
