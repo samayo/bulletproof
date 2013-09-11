@@ -26,7 +26,7 @@ Now, in simple terms, if you use `seoWrapper` class, then you don't have to worr
 
 You need to open the `seoWrapperClass.php` and declare all your static pages first. 
 
-Ex:  you can declare all your static pages here
+Ex:  you  can declare all your static pages here
 
     $existingStaticPages = [
             '/index.php',
