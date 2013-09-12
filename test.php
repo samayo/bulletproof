@@ -34,7 +34,7 @@
 
 var_dump(array_keys($customPages['Pages'], '/seowrapper/header.php'));
 
-    $SeoWrapper = new SeoWrapper($customPages, $defaultSettings);
+    
 
 
 
