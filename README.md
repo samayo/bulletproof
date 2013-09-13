@@ -2,9 +2,7 @@ SeoWrapper
 ===========================
 
 Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output:
-`<meta name="description" content="... page-relevant description here here.." />`      
-`<meta name="keywords" content="... page-relevant keywords here here.." />`    
-`<title>...I need my page title here..</title>`
+the title, keywords and description for each page inside the `<head>` tags?
 	
 But, felt lazy somehow, and needed a quick/dynamic solution? If so, then you are on the right place. 
 

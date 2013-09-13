@@ -3,7 +3,6 @@
  * Fly you fools..
  *
  * this is where you declare all your static pages, and default configuration.
- *
  * Each static page should have a title and optional keyword and descriptions to be specific for that page.
  */
 
@@ -11,6 +10,7 @@
 /**
  * Tell seoWrapper here how many static pages you have in your website, and titles for each on of them.
  */
+
 $customPages = [
 
     'Pages'=>[
