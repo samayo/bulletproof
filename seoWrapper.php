@@ -8,18 +8,20 @@ class SeoWrapper{
         $this->defaultSettings = $defaultSettings;
     }
 
+
     public function isPageStaticOrDynamic($currentUrl){
         $pageName = array_keys($this->customPages['Pages']);
         $checkPage = (in_array($currentUrl, $pageName)) ? $this->customPages['Pages'][$currentUrl] : 'dynamic';
        return $checkPage;
    }
 
+
     public function getDynamicContents($conn, $table, $identifier){
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
             return $this->_errors = 'Invalid URL is found';
         }else{
             try{
-                $stmt = $conn->prepare("SELECT title,content,keywords FROM $table WHERE id = ? ");
+                $stmt = $conn->prepare("SELECT title, keywords, description FROM $table WHERE id = ? ");
                 $stmt->execute([$_GET[$identifier]]);
             }catch(PDOException $e){
                 return $this->_errors = 'Unknown error occured. Please try again'.$e->getMessage();
