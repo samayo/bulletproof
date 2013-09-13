@@ -36,7 +36,7 @@ $conn = new PDO('mysql:host=localhost; dbname=seoWrapper', 'root', ''); //don't 
     $SeoWrapper = new SeoWrapper($customPages, $defaultSettings);
 
 
-   
+
 	$currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
 
 var_dump($currentPage);
