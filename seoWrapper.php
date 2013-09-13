@@ -12,10 +12,6 @@ class SeoWrapper{
         $pageName = array_keys($this->customPages['Pages']);
         $checkPage = (in_array($currentUrl, $pageName)) ? $this->customPages['Pages'][$currentUrl] : 'dynamic';
        return $checkPage;
-
-        //return array_key_exists($requestUri, $this->customPages['Pages']) ?
-           //array_search($requestUri, $this->customPages['Pages']) : 'dynamic';
-      //  return (array_key_exists($requestUri, $checkPageExists)) ? array_search($requestUri, $checkPageExists) : 'dynamic';
    }
 
     public function getDynamicContents($conn, $table, $identifier){
