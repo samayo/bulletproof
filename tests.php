@@ -19,7 +19,7 @@
 
 
     if($currentPage === 'dynamic'){
-        $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id");
+        $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id")->bringMe('title', 'kewords', 'desc');
 
         /**
          * if out query throws an error, you can end the script or

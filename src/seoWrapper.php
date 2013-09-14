@@ -1,6 +1,17 @@
 <?php
 
-class SeoWrapper{
+abstract class DbSettings{
+
+    abstract  function bringMe();
+    function getDynamicContents(){
+        $this->bringMe();
+    }
+
+}
+
+
+
+class SeoWrapper extends DbSettings{
     private $_errors = [];
 
 
@@ -45,6 +56,13 @@ class SeoWrapper{
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
             return $this->_errors = 'Invalid URL is found';
         }else{
+
+            function bringMe($value = []){
+                return $value;
+            }
+
+            $rows = bringMe($value);
+               var_dump($rows);
             try{
                 $stmt = $conn->prepare("SELECT title, keywords, description FROM $table WHERE id = ? ");
                 $stmt->execute([$_GET[$identifier]]);
