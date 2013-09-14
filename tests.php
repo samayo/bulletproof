@@ -21,6 +21,7 @@
      */
     $currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
 
+    var_dump($currentPage);
 
     /**
      * If current page is static, we will take in configuration from the imported file
@@ -30,7 +31,7 @@
 
     if($currentPage === 'dynamic'){
         $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id");
-        ($SeoWrapper->hasErrors()) ? die('Page is 404ed') : list($title, $keywords, $description) = $fetch;
+        ($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;
     }else{
         list($title, $keywords, $description) = $currentPage;
     }
