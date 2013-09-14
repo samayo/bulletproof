@@ -5,8 +5,8 @@
     /**
      * require main class and a php file wich has our custome changes
      */
-    require_once('seoWrapper.php');
-    require_once('MyConfig.php');
+    require_once('src/seoWrapper.php');
+    require_once('src/MyConfig.php');
 
 
         $SeoWrapper = new SeoWrapper($customPages, $defaultSettings);
