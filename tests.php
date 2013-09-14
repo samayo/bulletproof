@@ -21,8 +21,6 @@
      */
     $currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
 
-    var_dump($currentPage);
-
     /**
      * If current page is static, we will take in configuration from the imported file
      * If page is dynamic we will check db, for table called  'pages' and page 'id'
