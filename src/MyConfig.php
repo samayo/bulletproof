@@ -1,54 +1,46 @@
 <?php
-/**
- * Fly you fools..
- *
- * this is where you declare all your static pages, and default configuration.
- * Each static page should have a title and optional keyword and descriptions to be specific for that page.
- */
+
+    //fly you fools
 
 
-/**
- * Tell seoWrapper here how many static pages you have in your website, and titles for each on of them.
- */
+    /**
+     *  this file only deals with static pages. If you have none, then you don't even need it.
+     *
+     *  If you have static pages in your website, like contact page or some pages that
+     *  don't fetch contents from database, you can declare them here and asign titles for each,
+     *
+     *  Note: Keywords & Descriptions are optional, if you don't give your pages one of those, the
+     *  the keywords and Descriptions in the defaultSettings array will be used.
+     */
+
+    $customPages = [
+
+        'Pages'=>[
+            '/tests.php'=> ['I am title for this page',
+                             'I am optional keywords for test page',
+                             'same here, optional description'
+                            ],
+
+            '/index.php'=> ['page title for about.php',
+                             'optional',
+                             'optional'
+                             ],
+
+            '/contact.php'=> ['page title for mywork.php',
+                             'optional',
+                             ],
+
+        ]
+    ];
 
 
-$customPages = [
+    /**
+     *  default settings go here, describe keywords and desc.. for all you *static* pages.
+     */
 
-    'Pages'=>[
-        '/seowrapper/test.php'=>  // declare the page here
-            ['Hello you are now at test.php', // decalre a title for the above page
-             'I am optional keyword for this specific page', // optional, keyword for this page goes here
-             'Put your optional description here, otherwise the default array will be used'
-            ],
-
-        '/seowrapper/header.php'=>
-            ['page title for about.php',
-             'optional..',
-             'optional..'
-            ],
-
-        '/mywork.php'=>
-            ['page title for mywork.php',
-             'optional',
-             'optional..'
-            ],
-
-        '/contact.php'=>
-            ['page title for contact.php',
-             'otional keyword',
-             'optional..'
-            ]
-    ]
-];
-
-
-/**
- * default settings such as keywords and description will be use when you have not specified anything in the previous array
- */
-
-$defaultSettings = [
-    'keywords'=>
-        'describe, your, costume, static, page, keywords, here, separated, by, comas,',
-    'description'=>
-        'default website description for static pages goes here'
-];
+    $defaultSettings = [
+            'keywords'=>
+                'describe, your, costume, static, page, keywords, here, separated, by, comas,',
+            'description'=>
+                'default website description for static pages goes here'
+        ];
