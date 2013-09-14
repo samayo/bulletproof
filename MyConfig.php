@@ -11,6 +11,7 @@
  * Tell seoWrapper here how many static pages you have in your website, and titles for each on of them.
  */
 
+
 $customPages = [
 
     'Pages'=>[

@@ -3,11 +3,27 @@
 class SeoWrapper{
     private $_errors = [];
 
+
+    /**
+     *  injecting custom made pages and their properties: title, keywords and description
+     *
+     * @param $customPages
+     * @param $defaultSettings
+     *
+     */
     public function __construct($customPages, $defaultSettings){
         $this->customPages = $customPages;
         $this->defaultSettings = $defaultSettings;
     }
 
+
+    /**
+     * check if current page is defined inside static pages
+     *
+     * @param $currentUrl this is feched from the server variable REQUEST_URI
+     * @return string this will either return a current page name or the word dynamic, if page ins't static
+     *
+     */
 
     public function isPageStaticOrDynamic($currentUrl){
         $pageName = array_keys($this->customPages['Pages']);
@@ -15,6 +31,15 @@ class SeoWrapper{
        return $checkPage;
    }
 
+
+    /**
+     * if page is dynamic, we need to fetch something to serve as title, key.. desc..
+     *
+     * @param $conn
+     * @param $table specify the table from which we want to fetch datas
+     * @param $identifier this checks if `something?=` is defined. could be id, q ...
+     * @return string if query is success, we will return fetched results, else we will send message to error method
+     */
 
     public function getDynamicContents($conn, $table, $identifier){
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
@@ -33,7 +58,9 @@ class SeoWrapper{
     }
 
 
-
+    /*
+     * checks if error is found
+     */
      public function hasErrors(){
          return (!empty($this->_errors)) ? true : false;
      }
