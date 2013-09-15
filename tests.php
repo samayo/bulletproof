@@ -8,7 +8,7 @@
     */
 
     require_once('src/seoWrapper.php');
-    require_once('src/MyConfig.php');
+    require_once('src/StaticPages.php');
 
 
     /**
