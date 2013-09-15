@@ -28,7 +28,7 @@
      */
 
     if($currentPage === 'dynamic'){
-        $fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id");
+        $fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);
         ($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;
     }else{
         list($title, $keywords, $description) = $currentPage;

@@ -35,27 +35,31 @@ class SeoWrapper  {
 
 
 
+
     /**
-     * if page is dynamic, we need to fetch something to serve as title, key.. desc..
+     *  if page is dynamic, we need to fetch something to serve as title, key.. desc..
      *
      * @param $conn
      * @param $table specify the table from which we want to fetch datas
-     * @param $identifier this checks if `something?=` is defined. could be id, q ...
-     * @return string if query is success, we will return fetched results, else we will send message to error method
+     * @param $identifier $identifier this checks if `something?=` is defined. could be id, q ...
+     * @param array $values specified rows to fetch from db
+     * @return string string if query is success, we will return fetched results, else we will send message to error method
      */
 
-    public function getDynamicContents($conn, $table, $identifier){
+    public function getContents($conn, $table, $identifier, $values = []){
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
             return $this->_errors = 'Invalid URL / Broken Link ';
         }else{
+            var_dump($values);
+            $rows = implode(', ', $values);
             try{
-                $stmt = $conn->prepare("SELECT title, keywords, description FROM $table WHERE id = ? ");
+                $stmt = $conn->prepare("SELECT  $rows FROM $table WHERE id = ? ");
                 $stmt->execute([$_GET[$identifier]]);
             }catch(PDOException $e){
                 return $this->_errors = 'Unknown error! Please try again later. '; //$e->getMessage();
             }
             
-            return ( $stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : $stmt->fetchAll(PDO::FETCH_NUM)[0];
+          return ( $stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : $stmt->fetchAll(PDO::FETCH_NUM)[0];
            
         }
     }
