@@ -48,10 +48,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="robots" content="index, follow" />
-        <meta name="description" content="<?php echo $description; ?> " />
-        <meta name="keywords" content="<?php echo $keywords; ?>" />
+        <meta name="description" content="  <?php echo $description; ?> " />
+        <meta name="keywords" content="  <?php echo $keywords; ?>  " />
         <meta name="REVISIT-AFTER" content="15 DAYS" />
 
-        <title><?php echo $title; ?>  </title>
+        <title>  <?php echo $title; ?>  </title>
     </head>
 
