@@ -6,10 +6,10 @@ class SeoWrapper  {
 
 
     /**
-     *  Bring custom settings so, we can send properties for each pages as defined in our MyConfig file
+     *  The constructor will pull all your declared static pages and their costume meta tag settings
      *
-     * @param $customPages
-     * @param $defaultSettings
+     * @param $customPages | This variable contains list of all our pages defined as static
+     * @param $defaultSettings | This variable imports default keyword, description for all the static pages
      *
      */
 
@@ -50,7 +50,7 @@ class SeoWrapper  {
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
             return $this->_errors = 'Invalid URL / Broken Link ';
         }else{
-            
+
             $rows = implode(', ', $values);
             try{
                 $stmt = $conn->prepare("SELECT  $rows FROM $table WHERE id = ? ");
