@@ -50,7 +50,7 @@ class SeoWrapper  {
         if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
             return $this->_errors = 'Invalid URL / Broken Link ';
         }else{
-            var_dump($values);
+            
             $rows = implode(', ', $values);
             try{
                 $stmt = $conn->prepare("SELECT  $rows FROM $table WHERE id = ? ");
