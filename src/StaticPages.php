@@ -17,17 +17,15 @@
 
         'Pages'=>[
             '/seowrapper/tests.php'=> ['I am title for this page',
-                             'I am optional keywords for test page',
-                             'same here, optional description'
+                             'I am optional description for test page',
                             ],
 
             '/index.php'=> ['page title for about.php',
-                             'optional',
-                             'optional'
+                             'optional description',
                              ],
 
             '/contact.php'=> ['page title for mywork.php',
-                             'optional',
+                             'optional description',
                              ],
 
         ]
