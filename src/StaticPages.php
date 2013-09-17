@@ -16,19 +16,19 @@
     $customPages = [
 
         'Pages'=>[
-            '/seowrapper/tests.php'=> [
+            '/tests.php'=> [
                     'I am title for this page',
                     'I am optional description for test page',
                             ],
 
             '/index.php'=> [
-                    'page title for about.php',
-                    'optional description',
+                    'me is page title for index.php',
+                    'optional page description',
                              ],
 
             '/contact.php'=> [
-                    'page title for mywork.php',
-                    'optional description',
+                    'title for contact page, Aloha!! Meos contactios ',
+                    'optional page description',
                              ],
 
         ]
