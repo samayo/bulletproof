@@ -1,6 +1,8 @@
 {NOTE!! This trivial piece of sh.. em code, is here to get me aquiented with github, so ... beat it }
 SeoWrapper
 ===========================
+define: Search Engine Optimization Flexibility:
+
 
 Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output:
 the title, keywords and description for each page inside the `<head>` tags?
