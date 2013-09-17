@@ -9,23 +9,26 @@
      *  If you have static pages in your website, like contact page or some pages that
      *  don't fetch contents from database, you can declare them here and asign titles for each,
      *
-     *  Note: Keywords & Descriptions are optional, if you don't give your pages one of those, the
+     *  Note:  Descriptions are optional, if you don't give your pages one of those, the
      *  the keywords and Descriptions in the defaultSettings array will be used.
      */
 
     $customPages = [
 
         'Pages'=>[
-            '/seowrapper/tests.php'=> ['I am title for this page',
-                             'I am optional description for test page',
+            '/seowrapper/tests.php'=> [
+                    'I am title for this page',
+                    'I am optional description for test page',
                             ],
 
-            '/index.php'=> ['page title for about.php',
-                             'optional description',
+            '/index.php'=> [
+                    'page title for about.php',
+                    'optional description',
                              ],
 
-            '/contact.php'=> ['page title for mywork.php',
-                             'optional description',
+            '/contact.php'=> [
+                    'page title for mywork.php',
+                    'optional description',
                              ],
 
         ]
@@ -37,8 +40,9 @@
      */
 
     $defaultSettings = [
+            'description'=>
+                'default website description for static pages goes here',
             'keywords'=>
                 'describe, your, costume, static, page, keywords, here, separated, by, comas,',
-            'description'=>
-                'default website description for static pages goes here'
+
         ];
