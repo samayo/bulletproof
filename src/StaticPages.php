@@ -16,7 +16,7 @@
     $customPages = [
 
         'Pages'=>[
-            '/tests.php'=> ['I am title for this page',
+            '/seowrapper/tests.php'=> ['I am title for this page',
                              'I am optional keywords for test page',
                              'same here, optional description'
                             ],
