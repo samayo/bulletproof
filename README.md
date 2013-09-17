@@ -1,3 +1,4 @@
+{NOTE!! This trivial piece of sh.. em code, is here to get me aquiented with github, so ... beat it }
 SeoWrapper
 ===========================
 
