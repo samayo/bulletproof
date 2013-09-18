@@ -1,4 +1,4 @@
-###### this lib, was just away for me to learn about github. So, its not a real library :{
+###### This is just a way for me to learn about github. So, its not a real library :{
 
 ###SeoWrapper
 ###### `define: Search Engine Optimization Flexibility:`
