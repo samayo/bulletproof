@@ -8,10 +8,10 @@ title, keywords and description for each of your pages? In that case, then do no
         
 
 ### Configuring
-is all done here : https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php
+If you have static pages, say it here: https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php
 
-### Dynamic pages
-To fetch data from db, for your dynamic pages, just configure this line, from `tests.php`
+For you dynamic pages:
+to fetch data from db, to display that data as meta tag, just configure this line, from `tests.php`
 
 ###### `$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`    
  All that line is saying is:    
@@ -19,6 +19,6 @@ To fetch data from db, for your dynamic pages, just configure this line, from `t
 ###### `$conn->prepare('SELECT title, keywords, description from pages where id = ?')`
 ###### `execute->([$_GET['id']])`
 
-It is done!! 
+It is done!! You will get what you asked for in here, either error or the data: 
 
-Finally, you have to include the `seoWrapper.php` to the page where your `<header></head>` tags are located, in-order to use it.	
+`($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;`
