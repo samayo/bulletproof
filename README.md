@@ -17,17 +17,10 @@ To fetch data from db, for your dynamic pages, just configure this line, from `t
  `$conn` should be established using `new PDO()` object    
  `pages` is your table name from which the data for this page is being fetched from
  `id` is the row from your tables. 
- 
- #### in short ...
- 
- All that line does is send to `function getContents(..` a query as:      
+  
+##### in short ... All that line does is send to `function getContents(..` a query as:        
  
  `$conn->prepare('SELECT title, keywords, description from pages where id = ?')`     
- 
- 
- 
- 
- `['title', 'keywords', 'description']` signals, what you want to fetch from your database. 
 
 It is done!! 
 
