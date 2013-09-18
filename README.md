@@ -14,13 +14,10 @@ is all done here : https://github.com/Eritrea/seoWrapper/blob/master/src/StaticP
 To fetch data from db, for your dynamic pages, just configure this line, from `tests.php`
 
 ###### `$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`    
- `$conn` should be established using `new PDO()` object    
- `pages` is your table name from which the data for this page is being fetched from
- `id` is the row from your tables. 
-  
-##### in short ... All that line does is send to `function getContents(..` a query as:        
+ All that line is saying is:    
  
- `$conn->prepare('SELECT title, keywords, description from pages where id = ?')`     
+###### `$conn->prepare('SELECT title, keywords, description from pages where id = ?')`
+###### `execute->([$_GET['id']])`
 
 It is done!! 
 
