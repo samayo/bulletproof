@@ -1,20 +1,21 @@
 ###### This is just a way for me to learn about github. So, its not a real library :{
 
-###SeoWrapper
-###### `define: Search Engine Optimization Flexibility:`
+### WHAT?
+###### `#seoWrapper{Simple, Dynamic, Seo, Flexibility, More ;}`
 
 Let say, you wanted to create a website in PHP, and you needed to make a function to do the job of outputting 
-outputting title, keyword & description from database, and cofiguration in a very flexibly way, if so... its your luck day. 
+title, keyword & description from database, or more in a very flexibly way, if so... its your lucky day. 
         
 
-### Configuring
+### HOW?
 If you have static pages go here: https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php
 
 If you have dynamic pages: 
-to fetch data from db, & to display that data as meta tag, just configure this line:
+fetch dynamic contents just with this line. 
 
 ###### `$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`    
- All that line is saying is:    
+
+All that line says is:    
  
 ###### `$conn->prepare('SELECT title, keywords, description from pages where id = ?')`
 ###### `execute->([$_GET['id']])`
