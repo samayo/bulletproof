@@ -1,4 +1,4 @@
-{NOTE!! This trivial piece of sh.. em code, is here to get me aquiented with github, so ... beat it }
+`{NOTE!! This trivial piece of sh.. em code, is here to get me aquiented with github, so ... beat it }
 SeoWrapper
 ===========================
 define: Search Engine Optimization Flexibility:
@@ -24,13 +24,15 @@ Now, in simple terms, if you use `seoWrapper` class, then you don't have to worr
         
 
 ## Configuring
-if all done here : https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php
+is all done here : https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php
 
 ## Dynamic pages
-If you have a dynamic page, that needed to fetch data from db, then since the title, desc.. key.. must be relative 
-to the pages fetched data, you need to just to give it table name & row of the data being fetched in `header.php` here
+To fetch data from db, for your dynamic pages, just configure this line, from `tests.php`
 
-`$fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id"); //'pages' = table name. "id" = $_GET['*']`
+ `$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`
+ `$conn` should be established using `new PDO()` object    
+ `id` is the current identifier of your dynamic page, it can be changed to anything     
+ `['title', 'keywords', 'description']` signals, what you want to fetch from your database. 
 
 It is done!! 
 
