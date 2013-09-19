@@ -14,7 +14,7 @@
     /**
      * Injecting costume and default page declarations and properties
      */
-    $SeoWrapper = new SeoWrapper($customPages, $defaultSettings);
+    $SeoWrapper = new SeoWrapper($myStaticPages, $myDefaultPageSettings);
 
     /**
      * We will take one server variable, and check the out settings for the current page
@@ -55,3 +55,12 @@
         <title>  <?php echo $title; ?>  </title>
     </head>
 
+/**
+* Lets hit that second bird now.
+* If you pulled more rows from your database, other than the specified ones, you could optionally use the variables to display more
+* data here instead of your header tags, for ex:
+*
+*     echo $PageTitle <br/>
+*     echo $PageContent ..
+*
+*/

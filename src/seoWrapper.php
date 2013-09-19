@@ -32,7 +32,7 @@ class SeoWrapper  {
 
         $description = (empty($this->customPages['Pages'][$currentUrl][1])) ?
                         $this->defaultSettings['description'] : $this->customPages['Pages'][$currentUrl][1];
-        
+
         if(in_array($currentUrl, $allStaticPages)){
           return $description;
         }else{

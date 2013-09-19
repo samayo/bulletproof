@@ -13,7 +13,7 @@
      *  the keywords and Descriptions in the defaultSettings array will be used.
      */
 
-    $customPages = [
+    $myStaticPages = [
 
         'Pages'=>[
             '/tests.php'=> [
@@ -39,7 +39,7 @@
      *  default settings go here, describe keywords and desc.. for all you *static* pages.
      */
 
-    $defaultSettings = [
+    $myDefaultPageSettings = [
             'description'=>
                 'default website description for static pages goes here',
             'keywords'=>
