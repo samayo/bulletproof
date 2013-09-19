@@ -1,73 +1,25 @@
-{NOTE!! This trivial piece of sh.. em code, is here to get me aquiented with github, so ... beat it }
-SeoWrapper
-===========================
+###### This is just a way for me to learn about github. So, its not a real library :{
 
-Ever created a simple blog site, with few static/dynamic pages and wanted to build a function to output:
-the title, keywords and description for each page inside the `<head>` tags?
-	
-But, felt lazy somehow, and needed a quick/dynamic solution? If so, then you are on the right place. 
+### WHAT?
+###### `#seoWrapper{Simple, Dynamic, Seo, Flexibility, More ;}`
 
-
-Another example is, to just imagine, that you have a site with `4` pages.     
-lets assume `3` of those pages are `static pages`, like    
-        `home.php`  Static Page : just static stuff, same url & content always.    
-        `about.php`  Static Page : just static stuff, same url & content always.     
-        `contact.php`  Static Page : just static stuff, same url & content always.     
-        
-And the `4th` one is `dynamic`, and hence the all the infos must change according to the content being fetched.     
-        `blog.php` Dynamic Page : This page is dynamic, and url can change with id?= thus needs dynamic meta data
-        
-Now, in simple terms, if you use `seoWrapper` class, then you don't have to worry about outputting `title,description,content
-`for these pages ever. 
+Let say, you wanted to create a website in PHP, and you needed to make a function to do the job of outputting 
+title, keyword & description from database, or more in a very flexibly way, if so... its your lucky day. 
         
 
-## Configuring
+### HOW?
+If you have static pages go here: https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php
 
-You need to open the `seoWrapperClass.php` and declare all your static pages first. 
+If you have dynamic pages: 
+fetch dynamic contents just with this line. 
 
-Ex:  you  can declare all your static pages here
+###### `$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`    
 
-    $existingStaticPages = [
-            '/index.php',
-            '/about.php.php',
-            '/password.php?task=change',
-            '/password.php?task=forgot'
-        ];
-		 
+All that line says is:    
+ 
+###### `$conn->prepare('SELECT title, keywords, description from pages where id = ?')`
+###### `execute->([$_GET['id']])`
 
+It is done!! If there is data identified with the id of your page, then you will get content othewiser an error. 
 
-..and costume titles for each of the above mentioned pages, titles must be relative to pages. 
-
-    $pageTitle = [
-            'Welcome to my site, this is index page',
-            'this is the about page',
-            'So, you want to change your password ehh?',
-            'Ok! your password has been sent'
-        ];
-
-
-
-Since all your static pages share the same keyword, keep the array as-is: ONE! 
-
-    $pageKeywords = [
-           'this, is, where, your, site, keywords, go, separated, by, commas,'
-        ];
-
-
-Same goes for description of the meta, keep it one array, but length of character is unlimited.  
-
-    $pageContent = [
-          'testThis is where the (content) of your meta site goes'
-        ];
-
-
-
-## Dynamic pages
-If you have a dynamic page, that needed to fetch data from db, then since the title, desc.. key.. must be relative 
-to the pages fetched data, you need to just to give it table name & row of the data being fetched in `header.php` here
-
-`$fetch = $SeoWrapper->getDynamicContents($conn, 'pages', "id"); //'pages' = table name. "id" = $_GET['*']`
-
-It is done!! 
-
-Finally, you have to include the `seoWrapperClass.php` to the page where your `<header></head>` tags are located, in-order to use it.	
+`($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;`
