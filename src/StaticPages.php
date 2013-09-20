@@ -13,26 +13,28 @@
      *  the keywords and Descriptions in the defaultSettings array will be used.
      */
 
-    $myStaticPages = [
-
+    $myStaticPages = [ 
         'Pages'=>[
+
             '/tests.php'=> [
-                    'I am title for this page',
-                    'I am optional description for test page',
-                            ],
+                'I am title for this page',
+                'I am optional description for test page',
+                 ],
+
 
             '/index.php'=> [
-                    'me is page title for index.php',
-                    'optional page description',
-                             ],
-
+                'me is page title for index.php',
+                'optional page description',
+                ],
+            
             '/contact.php'=> [
-                    'title for contact page, Aloha!! Meos contactios ',
-                    'optional page description',
-                             ],
-
-        ]
-    ];
+                'title for contact page, Aloha!! Meos contactios ',
+                'optional page description',
+                 ],
+                 
+                ]
+        
+        ];
 
 
     /**
