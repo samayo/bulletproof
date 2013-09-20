@@ -38,8 +38,6 @@ class SeoWrapper  {
         }else{
             return 'dynamic';
         }
-//        $checkPage = (in_array($currentUrl, $allStaticPages)) ? $this->customPages['Pages'][$currentUrl] : 'dynamic';
-  //     return $checkPage;
    }
 
 
