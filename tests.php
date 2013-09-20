@@ -3,29 +3,13 @@
     $conn = new PDO('mysql:host=localhost; dbname=seowrapper', 'root', ''); //don't mind me, i'm just an example
 
 
-    /**
-    *  require the main class and your personal config file
-    */
-
     require_once('src/seoWrapper.php');
     require_once('src/StaticPages.php');
 
-
-    /**
-     * Injecting costume and default page declarations and properties
-     */
     $SeoWrapper = new SeoWrapper($myStaticPages, $myDefaultPageSettings);
 
-    /**
-     * We will take one server variable, and check the out settings for the current page
-     */
     $currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
 
-    /**
-     * If current page is static, we will take in configuration from the imported file
-     * If page is dynamic we will check db, for table called  'pages' and page 'id'
-     * matching the current page id. If data is not found, then we'll throw 404
-     */
 
     if($currentPage === 'dynamic'){
         $fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);
