@@ -29,7 +29,7 @@ Sure, if you are building a site from scratch, at some point you may need to wri
 
 #### Configuring ?
 
-Assuming I just have answered your lousy question in StackOverflow, and the link on my profile lead you here, then:
+Assuming I have just answered your lousy question in StackOverflow, and the link on my profile lead you here, then:
       First thing you MUST know is the difference between:         
 
 ######" Static Vs Dynamic Pages "
