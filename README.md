@@ -22,18 +22,19 @@ If the term "meta-tags" is a bit fuzzy to you, then look down. (No!! Not your pa
 #####See those blank fileds, the purpose is to fill them!!
 ===========
 
-###### But, why??
+###### But, why this class??
 
-Well, if you are building a site from scratch, at some point you may need to write a function to take care of that for you, ...but if you were to include this class instead, you will have something hopefully more flexible & powerful than what you were aiming for.
+Sure, if you are building a site from scratch, at some point you may need to write a function to take care of that for you, ...but if you were to include this class instead, you will have something hopefully more flexible & powerful than what you were aiming for. Which would give you a better SEO result. 
 
 
 #### Configuring ?
 
-Assuming I just have answered your lousy question in StackOverflow, and the link on my profile lead you here, then First you MUST have the basic understanding of the difference between:         
+Assuming I just have answered your lousy question in StackOverflow, and the link on my profile lead you here, then:
+      First thing you MUST know is the difference between:         
 
 ######" Static Vs Dynamic Pages "
 
-In short, Static pages are like this `contact.php` the value of the title, keywords... is always the same. However, in a dynamic page, one with `news.php?id=someInteger` every header content must change to be unique to that page id.
+In short, Static pages are like this `contact.php` starting from the page title, the whole page content will always be teh same. However, in a dynamic page, one with `news.php?id=someInteger` every content must change to be unique to that page id.
 
 
 ###### Configuring Static Pages 
