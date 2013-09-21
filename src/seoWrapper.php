@@ -77,7 +77,7 @@ class SeoWrapper  {
      *  Checks if query for fetching dynamic contents has failed.
      */
     public function hasErrors(){
-         return (!empty($this->_errors)) ? true : false;
+         return (!empty($this->_errors));
      }
  }
 
