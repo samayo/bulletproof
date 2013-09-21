@@ -48,7 +48,12 @@ For your dynamic pages, all you have to do configure is this below line:
 
  the `pages` is a table from which you are getting all those datas from.  It could be news, articles.. anything     
  `id` is the page identifier, or in short `$_GET['whatever-is-here']`     
- `['title', 'keywords', 'description']` are what you are fetching from row,    
+ `['title', 'keywords', 'description']` are what you are fetching from row, but you could fetch more if you want to show 
+ more data for your meta tags. 
+ 
+ 
+###### EXAMPLE: 
 
-
-the good news is that, you can fetch for more than three rows and add all those datas inside your meta tags however you want.
+              <meta name='description' content=' <?= $foo, $bar, $tar  ?> ' />
+              <meta name='keywords' content=' <?= $keywords, $tel, $email ?> '/>
+              <title> <?= $pageTitle, $storyDate, $siteName ?> </title>
