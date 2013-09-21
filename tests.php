@@ -7,6 +7,7 @@
     require_once('src/StaticPages.php');
 
     $SeoWrapper = new SeoWrapper($myStaticPages, $myDefaultPageSettings);
+    
     if($SeoWrapper->currentPage($_SERVER['REQUEST_URI']) === 'dynamic'){
         $fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);
         ($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;
