@@ -3,7 +3,7 @@
 
 The objective it to give you the ultimate flexibility on what to display inside your meta tags!!
 
-First! If that "meta-tags" term is a bit fuzzy to you, then look down. (No!! Not your pants. the picture you stoopied :)
+If the term "meta-tags" is a bit fuzzy to you, then look down. (No!! Not your pants. the code you stoopied :)
 
       <!DOCTYPE html>
       <html lang="en-US">
@@ -29,18 +29,18 @@ Well, if you are building a site from scratch, at some point you may need to wri
 
 #### Configuring ?
 
-Assuming I just have answered your lousy question in StackOverflow, and the link on my profile lead you here, then First you MUST have the basic understanding of the difference between before going further.         
+Assuming I just have answered your lousy question in StackOverflow, and the link on my profile lead you here, then First you MUST have the basic understanding of the difference between:         
 
 ######" Static Vs Dynamic Pages "
 
-In short, if you have static page like .. `contact.php` the meta-tags will/should remain the same always, if you have a dynamic page however, one with `id?=someInteger` every header content must be unique to that page.
+In short, Static pages are like this `contact.php` the value of the title, keywords... is always the same. However, in a dynamic page, one with `news.php?id=someInteger` every header content must change to be unique to that page id.
 
 
-###### Static Pages 
+###### Configuring Static Pages 
 If you have static pages, only declare them here... [StaticPages.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php)
 
 
-###### Dynamic Pages
+###### Configuring Dynamic Pages
 
 For your dynamic pages, all you have to do configure is this below line:
 
