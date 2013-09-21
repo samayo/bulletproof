@@ -30,4 +30,4 @@ the `pages` is a table from which you are getting all those datas from.  It coul
 `['title', 'keywords', 'description']` are what you are fetching from row,
 
 
-the good news is that, you can fetch for more than three rows and add all those datas inside your meta tags however you want. 
+the good news is that, you can fetch for more than three rows and add all those datas inside your meta tags however you want.
