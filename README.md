@@ -48,9 +48,9 @@ For your dynamic page, all you have to do configure is this below line:
 `$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`     
 
 let's check what that line is saying:      
-`$conn` is abviously the `DSN` 
-`pages` is a table from which you'll be fetching all those datas from.  It could be news, articles.. anything     
- `id` is the page identifier, or in short `$_GET['whatever-is-inside-here']`     
+`$conn` is abviously the `DSN`    
+`pages` is a table from which you'll be fetching all those datas from.  It could be news, articles.. anything        
+ `id` is the page identifier, or in short `$_GET['whatever-is-inside-here']`       
  `['title', 'keywords', 'description']` rows that you are fetching from the `pages` table you can fetch as much as you want.
  
  
