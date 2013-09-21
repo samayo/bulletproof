@@ -3,7 +3,7 @@
 
 The objective it to give you the ultimate flexibility on what to display inside your meta tags!!
 
-First!! If that "meta-tags" term if a bit fuzzy to you, then look down. (No!! Not your pants. the picture you stoopied :)
+First! If that "meta-tags" term is a bit fuzzy to you, then look down. (No!! Not your pants. the picture you stoopied :)
 
       <!DOCTYPE html>
       <html lang="en-US">
