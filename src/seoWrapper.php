@@ -27,7 +27,7 @@ class SeoWrapper  {
      *
      */
 
-    public function isPageStaticOrDynamic($currentUrl){
+    public function currentPage($currentUrl){
         $allStaticPages = array_keys($this->customPages['Pages']);
 
         $description = (empty($this->customPages['Pages'][$currentUrl][1])) ?
@@ -38,6 +38,8 @@ class SeoWrapper  {
         }else{
             return 'dynamic';
         }
+
+
    }
 
 

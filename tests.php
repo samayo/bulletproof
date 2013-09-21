@@ -7,16 +7,12 @@
     require_once('src/StaticPages.php');
 
     $SeoWrapper = new SeoWrapper($myStaticPages, $myDefaultPageSettings);
-
     if($SeoWrapper->currentPage($_SERVER['REQUEST_URI']) === 'dynamic'){
         $fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);
         ($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;
     }else{
         list($title, $keywords, $description) = $currentPage;
     }
-
-
-
 
 ?>
 
@@ -35,3 +31,9 @@
 
         <title>  <?php echo $title; ?>  </title>
     </head>
+
+<!--
+    Why limit yourself to fetching few keywords, you can fetch as many as you want and add it to
+    your meta tags to make them richer, but you can also map the intire page down if you fetch everything from
+    your database.
+
