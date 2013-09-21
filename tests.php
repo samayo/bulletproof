@@ -8,10 +8,7 @@
 
     $SeoWrapper = new SeoWrapper($myStaticPages, $myDefaultPageSettings);
 
-    $currentPage = $SeoWrapper->isPageStaticOrDynamic($_SERVER['REQUEST_URI']);
-
-
-    if($currentPage === 'dynamic'){
+    if($SeoWrapper->currentPage($_SERVER['REQUEST_URI']) === 'dynamic'){
         $fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);
         ($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;
     }else{
