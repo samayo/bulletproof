@@ -1,11 +1,10 @@
 
-
 ###SeoWrapper
 
 The objective it to give you the ultimate flexibility on what to display inside your meta tags!!
 If that meta-tags term if a bit fuzzy, then look down. (No!! Not your pants. the picture you stoopied :)
 
-
+http://i.imgur.com/214fGGX.jpg?1
 
 
 But, why? Well, if you are building a site from scratch  at some point you may need to write a function to output something to your
