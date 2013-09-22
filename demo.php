@@ -3,10 +3,8 @@
     $conn = new PDO('mysql:host=localhost; dbname=seowrapper', 'root', ''); //don't mind me, i'm just an example
 
     require_once('src/seoWrapper.php');
-
-
-	$SeoWrapper = new SeoWrapper();
-
+    
+    $SeoWrapper = new SeoWrapper();
 
     if($SeoWrapper->currentPage($_SERVER['REQUEST_URI']) === 'dynamic'){
         $result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->getContents($conn);
