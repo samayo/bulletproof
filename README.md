@@ -29,7 +29,7 @@ Sure, if you are building a site from scratch, at some point you may need to wri
 
 #### Configuring ?
 
-Assuming I just have answered your lousy question in StackOverflow, and the link on my profile lead you here, then:
+Assuming I have just answered your lousy question in StackOverflow, and the link on my profile lead you here, then:
       First thing you MUST know is the difference between:         
 
 ######" Static Vs Dynamic Pages "
@@ -51,7 +51,7 @@ let's check what that line is saying:
 `$conn` is abviously the `DSN`    
 `pages` is a table from which you'll be fetching all those datas from.  It could be news, articles.. anything        
  `id` is the page identifier, or in short `$_GET['whatever-is-inside-here']`       
- `['title', 'keywords', 'description']` rows that you are fetching from the `pages` table you can fetch as much as you want.
+ `['title', 'keywords', 'description']` are rows you are fetching from the `pages` table but you can fetch as much as you want.
  
  
 ###### EXAMPLE: 
