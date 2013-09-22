@@ -1,24 +1,15 @@
 <?php
 
+    include 'StaticPages.php';
+
 
 class SeoWrapper  {
     private $_errors = [];
 
 
-    /**
-     *  The constructor will pull all your declared static pages and their costume meta tag settings
-     *
-     * @param $customPages | This variable contains list of all our pages defined as static
-     * @param $defaultSettings | This variable imports default keyword, description for all the static pages
-     *
-     */
-
-    public function __construct($customPages, $defaultSettings){
-        $this->customPages = $customPages;
-        $this->defaultSettings = $defaultSettings;
-    }
-
-
+    use staticPages;
+    use defaultPageSettings;
+	use databaseConfigs;
     /**
      * check if current page is defined inside static pages
      *
@@ -28,49 +19,56 @@ class SeoWrapper  {
      */
 
     public function currentPage($currentUrl){
-        $allStaticPages = array_keys($this->customPages['Pages']);
+        $allStaticPages = array_keys($this->myStaticPages()['Pages']);
 
-        $description = (empty($this->customPages['Pages'][$currentUrl][1])) ?
-                        $this->defaultSettings['description'] : $this->customPages['Pages'][$currentUrl][1];
+		if(in_array($currentUrl, $allStaticPages)){
+            $myPages = $this->myStaticPages()['Pages'];
+            $title = $this->myStaticPages()['Pages'][$currentUrl]['title'];
+            $pageKeywords = $this->myDefaultSettings()['keywords'];
 
-        if(in_array($currentUrl, $allStaticPages)){
-          return $description;
-        }else{
-            return 'dynamic';
-        }
+            if(array_key_exists('description', $myPages[$currentUrl])){
+                $description = $myPages[$currentUrl]['description'];
+            }else{
+                $description = $this->myDefaultSettings()['description'];
+            }
 
+            return array_merge((array)$title, (array)$description, $pageKeywords);
+		}else{
+			return 'dynamic';
+		}
+        
+		
+		
+        //return (in_array($currentUrl, $allStaticPages)) ? $description : 'dynamic';
 
    }
 
 
-
-
     /**
-     *  if page is dynamic, we need to fetch something to serve as title, key.. desc..
-     *
      * @param $conn
-     * @param $table specify the table from which we want to fetch datas
-     * @param $identifier $identifier this checks if `something?=` is defined. could be id, q ...
-     * @param array $values specified rows to fetch from db
-     * @return string string if query is success, we will return fetched results, else we will send message to error method
+     * @return string
      */
 
-    public function getContents($conn, $table, $identifier, $values = []){
-        if(!isset($_GET[$identifier]) || empty($_GET[$identifier])){
-            return $this->_errors = 'Invalid URL / Broken Link ';
-        }else{
+    public function getContents($conn){
+        $tableName = $this->tableName;
+        $queryType = $this->queryType;
+        $rows = implode(',', $this->dataToFetch);
 
-            $rows = implode(', ', $values);
-            try{
-                $stmt = $conn->prepare("SELECT  $rows FROM $table WHERE id = ? ");
-                $stmt->execute([$_GET[$identifier]]);
-            }catch(PDOException $e){
-                return $this->_errors = 'Unknown error! Please try again later. '; //$e->getMessage();
-            }
-            
-          return ( $stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : $stmt->fetchAll(PDO::FETCH_NUM)[0];
-           
+
+        if(!isset($_GET[$queryType]) || empty($_GET[$queryType])){
+            return $this->_errors = 'The URL, you have requested appears to be invalid. Please try again later.';
         }
+
+        try{
+            $stmt = $conn->prepare("SELECT  $rows FROM $tableName WHERE id = ? ");
+            $stmt->execute([$_GET[$queryType]]);
+        }catch(PDOException $e){
+            return $this->_errors = 'Unknown error! Please try again later. '; //$e->getMessage();
+        }
+            
+        return ($stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : array_combine($this->dataToFetch, $stmt->fetchAll(PDO::FETCH_NUM)[0]);
+           
+
     }
 
 

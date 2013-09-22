@@ -1,50 +1,60 @@
 <?php
 
-    //fly you fools
+/**
+ * Class staticPages
+ *
+ * this is where all our static pages and a title for each page is stored. The description is option (see second page, it has none)
+ * if you don't specify description for the pages, then the one from 'defaultPageSettings' or next trait will be used.
+ *
+ */
+trait staticPages{
+    public function myStaticPages(){
+        return [
+            'Pages'=>[
+                    '/seowrapper/demo.php'=> [ 
+							'title'=>'I am title for demo page', 
+							'description'=>'I am optional description for demo page' ],
+							
+                    '/seowrapper/contact.php'=> [
+							'title'=>'I am title for contact page',
+                    ]
+             ]
+		];
+    }
+
+}
 
 
-    /**
-     *  this file only deals with static pages. If you have none, then you don't even need it.
-     *
-     *  If you have static pages in your website, like contact page or some pages that
-     *  don't fetch contents from database, you can declare them here and asign titles for each,
-     *
-     *  Note:  Descriptions are optional, if you don't give your pages one of those, the
-     *  the keywords and Descriptions in the defaultSettings array will be used.
-     */
+/**
+ * Class defaultPageSettings
+ *
+ * By default, all your static pages will use the keyword array, the description however is optional. If user
+ * omits/forgets to mention the description tag, then this one will be used.
+ */
 
-    $myStaticPages = [ 
-        'Pages'=>[
-
-            '/tests.php'=> [
-                'I am title for this page',
-                'I am optional description for test page',
-                 ],
-
-
-            '/index.php'=> [
-                'me is page title for index.php',
-                'optional page description',
-                ],
-            
-            '/contact.php'=> [
-                'title for contact page, Aloha!! Meos contactios ',
-                'optional page description',
-                 ],
-                 
-                ]
-        
+trait defaultPageSettings{
+    public function myDefaultSettings(){
+        return [
+            'description'=>[
+                'this is the default page description for all your static pages'],
+            'keywords'=>[
+                'this, should, be, keywords, for, all, your, pages, seperated, by commas']
         ];
+    }
+}
 
 
-    /**
-     *  default settings go here, describe keywords and desc.. for all you *static* pages.
-     */
+/**
+ * Class databaseConfigs
+ *
+ * $TableName - Specify with table gets fetched for content, when your dynamic pages are fetching for a result.
+ * $queryType - is 'id' or type of the query string
+ * $dataToFetch - tells the what rows to fetch from $tableName
+ */
+trait databaseConfigs{
+	public $tableName = 'pages';
+	public $queryType = 'id';
+	public $dataToFetch = ['title','keywords','description'];
+}
 
-    $myDefaultPageSettings = [
-            'description'=>
-                'default website description for static pages goes here',
-            'keywords'=>
-                'describe, your, costume, static, page, keywords, here, separated, by, comas,',
 
-        ];

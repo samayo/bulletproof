@@ -2,19 +2,19 @@
 
     $conn = new PDO('mysql:host=localhost; dbname=seowrapper', 'root', ''); //don't mind me, i'm just an example
 
-
     require_once('src/seoWrapper.php');
-    require_once('src/StaticPages.php');
 
-    $SeoWrapper = new SeoWrapper($myStaticPages, $myDefaultPageSettings);
-    
+
+	$SeoWrapper = new SeoWrapper();
+
+
     if($SeoWrapper->currentPage($_SERVER['REQUEST_URI']) === 'dynamic'){
-        $fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);
-        ($SeoWrapper->hasErrors()) ? die('page not found') : list($title, $keywords, $description) = $fetch;
+        $result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->getContents($conn);
     }else{
-        list($title, $keywords, $description) = $currentPage;
+		$result = $SeoWrapper->currentPage($_SERVER['REQUEST_URI']);
     }
 
+	
 ?>
 
 
@@ -26,11 +26,11 @@
     <head>
         <meta charset="utf-8" />
         <meta name="robots" content="index, follow" />
-        <meta name="description" content="  <?php echo $description; ?> " />
-        <meta name="keywords" content="  <?php echo $keywords; ?>  " />
+        <meta name="description" content="  <?php echo $result['title'] ; ?> " />
+        <meta name="keywords" content="  <?php echo $result['keywords']; ?>  " />
         <meta name="REVISIT-AFTER" content="15 DAYS" />
 
-        <title>  <?php echo $title; ?>  </title>
+        <title>  <?php echo $result['description']; ?>  </title>
     </head>
 
 <!--
