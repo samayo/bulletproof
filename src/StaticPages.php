@@ -12,11 +12,11 @@ trait staticPages{
         return [
             'Pages'=>[
                     '/seowrapper/demo.php'=> [ 
-							'title'=>'I am title for demo page', 
-							'description'=>'I am optional description for demo page' ],
+			'title'=>'I am title for demo page', 
+			'description'=>'I am optional description for demo page' ],
 							
                     '/seowrapper/contact.php'=> [
-							'title'=>'I am title for contact page',
+			'title'=>'I am title for contact page',
                     ]
              ]
 		];
