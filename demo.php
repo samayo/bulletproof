@@ -11,7 +11,7 @@
     if($SeoWrapper->currentPage($_SERVER['REQUEST_URI']) === 'dynamic'){
         $result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->getContents($conn);
     }else{
-		$result = $SeoWrapper->currentPage($_SERVER['REQUEST_URI']);
+	$result = $SeoWrapper->currentPage($_SERVER['REQUEST_URI']);
     }
 
 	
