@@ -38,22 +38,9 @@ In short, Static pages are like this `contact.php` starting from the page's titl
 
 
 ###### Configuring Static Pages 
-If you have static pages, then all configuration is done here [StaticPages.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php)
+All configuration is done here [StaticPages.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php)
 
 
-###### Configuring Dynamic Pages
-
-For your dynamic page, all you have to do configure is this below line:
-
-`$fetch = $SeoWrapper->getContents($conn, 'pages', "id", ['title', 'keywords', 'description']);`     
-
-let's check what that line is saying:      
-`$conn` is abviously the `DSN`    
-`pages` is a table from which you'll be fetching all those datas from.  It could be news, articles.. anything        
- `id` is the page identifier, or in short `$_GET['whatever-is-inside-here']`       
- `['title', 'keywords', 'description']` are rows you are fetching from the `pages` table but you can fetch as much as you want.
- 
- 
 ###### EXAMPLE: 
 
               <meta name='description' content=' <?= $title, $description  ?> ' />
