@@ -46,3 +46,4 @@ All configuration is done here [StaticPages.php]( https://github.com/Eritrea/seo
               <meta name='description' content=' <?= $title, $description  ?> ' />
               <meta name='keywords' content=' <?= $keywords, $description, $title ?> '/>
               <title> <?= $title ?> </title>
+//hope you like traits
