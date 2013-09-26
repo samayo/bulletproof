@@ -6,42 +6,35 @@
 class SeoWrapper  {
     private $_errors = [];
 
-
-    use staticPages;
-    use defaultPageSettings;
-	use databaseConfigs;
     /**
-     * check if current page is defined inside static pages
-     *
-     * @param $currentUrl this is feched from the server variable REQUEST_URI
-     * @return string this will either return a current page name or the word dynamic, if page ins't static
-     *
+     * method to validate existing URL and fetch metadata according to our settings
+     * @param $currentUrl - REQUEST_URI to check if page has query
+     * @param $PHP_SELF - to match query-less pages
+     * @return array|string return title, keyword, description for static pages, otherwise return text: dynamic
      */
+    public function currentPage($currentUrl, $PHP_SELF){
+        $listOfStaticPages = array_keys(definePages()['staticPages']);
 
-    public function currentPage($currentUrl){
-        $allStaticPages = array_keys($this->myStaticPages()['Pages']);
+		if(in_array($PHP_SELF, $listOfStaticPages)){
+            $title = definePages()['staticPages'][$PHP_SELF]['title'];
+            $keywords = myDefaultSettings()['keywords'][0];
+            $description = definePages()['staticPages'][$PHP_SELF]['description'];
+            return ['title'=>$title, 'keywords'=>$keywords, 'description'=>$description];
 
-		if(in_array($currentUrl, $allStaticPages)){
-            $myPages = $this->myStaticPages()['Pages'];
-            $title = $this->myStaticPages()['Pages'][$currentUrl]['title'];
-            $pageKeywords = $this->myDefaultSettings()['keywords'];
-
-            if(array_key_exists('description', $myPages[$currentUrl])){
-                $description = $myPages[$currentUrl]['description'];
-            }else{
-                $description = $this->myDefaultSettings()['description'];
-            }
-
-            return array_merge((array)$title, (array)$description, $pageKeywords);
 		}else{
-			return 'dynamic';
-		}
-        
-		
-		
-        //return (in_array($currentUrl, $allStaticPages)) ? $description : 'dynamic';
 
-   }
+            if(isset($_GET) && !empty($_GET)){
+                return 'dynamic';
+            }else{
+
+                $title = definePages()['dynamicPages']['title'];
+                $description = definePages()['dynamicPages']['description'];
+                $keywords = myDefaultSettings()['keywords'][0];
+                return ['title'=>$title, 'keywords'=>$keywords, 'description'=>$description];
+            }
+		}
+
+	}
 
 
     /**
@@ -50,14 +43,13 @@ class SeoWrapper  {
      */
 
     public function getContents($conn){
-        $tableName = $this->tableName;
-        $queryType = $this->queryType;
-        $rows = implode(',', $this->dataToFetch);
+        $tableName = databaseConfigs()['tableName'];
+        $queryType = databaseConfigs()['queryType'];
+        $rows = implode(',', databaseConfigs()['dataToFetch']);
 
 
-        if(!isset($_GET[$queryType]) || empty($_GET[$queryType])){
-            return $this->_errors = 'The URL, you have requested appears to be invalid. Please try again later.';
-        }
+        if(isset($_GET[$queryType]) || !empty($_GET[$queryType])){
+
 
         try{
             $stmt = $conn->prepare("SELECT  $rows FROM $tableName WHERE id = ? ");
@@ -65,10 +57,19 @@ class SeoWrapper  {
         }catch(PDOException $e){
             return $this->_errors = 'Unknown error! Please try again later. '; //$e->getMessage();
         }
-            
-        return ($stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' : array_combine($this->dataToFetch, $stmt->fetchAll(PDO::FETCH_NUM)[0]);
-           
 
+        return ($stmt->rowCount() == 0) ? $this->_errors = 'Page Not Found' :
+            array_combine(databaseConfigs()['dataToFetch'], $stmt->fetchAll(PDO::FETCH_NUM)[0]);
+
+        }else{
+            return 'hi';
+            $title = definePages()['staticPages'][$_SERVER['REQUEST_URI']]['title'];
+            $keywords = myDefaultSettings()['keywords'][0];
+            $description = myDefaultSettings()['description'][0];
+
+            return ['title'=>$title, 'keywords'=>$keywords, 'description'=>$description];
+
+        }
     }
 
 
