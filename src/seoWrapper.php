@@ -1,6 +1,6 @@
 <?php
 
-    include 'StaticPages.php';
+    include 'configMe.php';
 
 
 class SeoWrapper  {
