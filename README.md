@@ -41,6 +41,7 @@ will always stay the same. However, in a dynamic page, one with `news.php?id=som
 every one of those contents must change to be unique to that page id.
 
 
+<<<<<<< HEAD
 ##### Which file should I touch? oO
 The class has only two files, `confiMe.php` to apply your configuration, and `seowrapper.php` is the main class.
 All configuration takes in `configMe.php` ( [configMe.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/configMe.php) )
@@ -76,8 +77,15 @@ what to query in a page, and which rows to pull from database.
 
 
 
+=======
+###### Configuring Static Pages 
+All configuration is done here [StaticPages.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php)
+
+
+>>>>>>> 99ae680d139f1d5f7ac6ba8475ca69bf55275d62
 ###### EXAMPLE: 
 
               <meta name='description' content=' <?= $title, $description  ?> ' />
               <meta name='keywords' content=' <?= $keywords, $description, $title ?> '/>
               <title> <?= $title ?> </title>
+//hope you like traits
