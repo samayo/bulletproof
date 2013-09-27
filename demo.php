@@ -12,7 +12,7 @@
         $result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->getContents($conn);
     }
 
-	var_dump($result);
+	var_dump($result); // you can see the result on the page, or Crtl+U
 ?>
 
 
