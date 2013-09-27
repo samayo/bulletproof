@@ -6,11 +6,10 @@
 
 	$SeoWrapper = new SeoWrapper();
 
+    $result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->currentPage($_SERVER['REQUEST_URI'], $_SERVER['PHP_SELF']);
 
     if($SeoWrapper->currentPage($_SERVER['REQUEST_URI'], $_SERVER['PHP_SELF']) === 'dynamic'){
         $result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->getContents($conn);
-    }else{
-		$result = ($SeoWrapper->hasErrors()) ? die('page not found') :  $SeoWrapper->currentPage($_SERVER['REQUEST_URI'], $_SERVER['PHP_SELF']);
     }
 
 	var_dump($result);
