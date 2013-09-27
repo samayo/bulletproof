@@ -15,26 +15,25 @@ class SeoWrapper  {
     public function currentPage($currentUrl, $PHP_SELF){
         $listOfStaticPages = array_keys(definePages()['staticPages']);
 
-		if(in_array($PHP_SELF, $listOfStaticPages)){
+	if(in_array($PHP_SELF, $listOfStaticPages)){
             $title = definePages()['staticPages'][$PHP_SELF]['title'];
             $keywords = myDefaultSettings()['keywords'][0];
             $description = definePages()['staticPages'][$PHP_SELF]['description'];
             return ['title'=>$title, 'keywords'=>$keywords, 'description'=>$description];
 
-		}else{
+	}else{
 
             if(isset($_GET) && !empty($_GET)){
                 return 'dynamic';
             }else{
-
                 $title = definePages()['dynamicPages']['title'];
                 $description = definePages()['dynamicPages']['description'];
                 $keywords = myDefaultSettings()['keywords'][0];
                 return ['title'=>$title, 'keywords'=>$keywords, 'description'=>$description];
             }
-		}
-
 	}
+
+   }
 
 
     /**
