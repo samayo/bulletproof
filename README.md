@@ -37,19 +37,18 @@ Assuming I have just answered your lousy question in StackOverflow, and the link
 ######" Static Vs Dynamic Pages "
 
 In short, Static pages are like your `contact.php` the things we are talking about now, .. title, keyword, description
-will always stay the same. However, in a dynamic page, one with `news.php?id=someInteger`
+will always stay the same on these pages. However, in a dynamic page, one with `news.php?id=someInteger`
 every one of those contents must change to be unique to that page id.
 
-
-<<<<<<< HEAD
+ 
 ##### Which file should I touch? oO
 The class has only two files, `confiMe.php` to apply your configuration, and `seowrapper.php` is the main class.
-All configuration takes in `configMe.php` ( [configMe.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/configMe.php) )
+All configuration takes place in `configMe.php` ( [configMe.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/configMe.php) )
 
 
 ###### Declaring static pages
 
-Static pages must be declared inside `definePages()` using this format:
+Static pages must be declared inside `definePages()` function using this format:
 
         '/contact.php'=> [
                          'title'=>'this is where you put title for your contact page',
@@ -67,13 +66,15 @@ these are default keywords for all your static page, but not! for dynamic pages
 
 Since we have said, dynamic pages with queries needs unique data for each query, then we have the table to get the data from,
 what to query in a page, and which rows to pull from database.
-        function databaseConfigs(){
-             return [
-                'tableName'=>'pages', //table name
-                'queryType'=>'id', //this is query of $_GET array, or in short $_GET['whatever-is-inside-here']
-                'dataToFetch'=>['title','keywords','description'] // which rows to fetch from tableName, so we can use this to map the metadata
-            ];
-        }
+
+        
+      function databaseConfigs(){
+       return [
+          'tableName'=>'pages', //table name
+          'queryType'=>'id', //this is query of $_GET array, or in short $_GET['whatever-is-inside-here']
+          'dataToFetch'=>['title','keywords','description'] // which rows to fetch from tableName
+      ];
+      }
 
 
 
@@ -83,9 +84,4 @@ All configuration is done here [StaticPages.php]( https://github.com/Eritrea/seo
 
 
 >>>>>>> 99ae680d139f1d5f7ac6ba8475ca69bf55275d62
-###### EXAMPLE: 
-
-              <meta name='description' content=' <?= $title, $description  ?> ' />
-              <meta name='keywords' content=' <?= $keywords, $description, $title ?> '/>
-              <title> <?= $title ?> </title>
-//hope you like traits
+ 
