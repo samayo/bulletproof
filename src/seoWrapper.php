@@ -61,7 +61,7 @@ class SeoWrapper  {
             array_combine(databaseConfigs()['dataToFetch'], $stmt->fetchAll(PDO::FETCH_NUM)[0]);
 
         }else{
-            return 'hi';
+            
             $title = definePages()['staticPages'][$_SERVER['REQUEST_URI']]['title'];
             $keywords = myDefaultSettings()['keywords'][0];
             $description = myDefaultSettings()['description'][0];
