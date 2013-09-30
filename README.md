@@ -59,21 +59,21 @@ As you can see, each static pages needs `title`, `description` if you are wander
         'keywords'=>[
                     'this, should, be, keywords, for, all, your, pages, seperated, by commas']
 
-these are default keywords for all your static page, but not! for dynamic pages
+these are default keywords for all your static page, not! for dynamic pages
 
 
 ###### Declaring Dynamic pages/things
 
-Since we have said, dynamic pages with queries needs unique data for each query, then we have the table to get the data from,
-what to query in a page, and which rows to pull from database.
+Since we have said dynamic pages with queries need unique data based on each query, then we have 
+to make query to database, which rows to pull from database.
 
         
       function databaseConfigs(){
-       return [
-          'tableName'=>'pages', //table name
-          'queryType'=>'id', //this is query of $_GET array, or in short $_GET['whatever-is-inside-here']
-          'dataToFetch'=>['title','keywords','description'] // which rows to fetch from tableName
-      ];
+         return [
+            'tableName'=>'pages', //table name
+            'queryType'=>'id', //this is query of $_GET array, or in short $_GET['whatever-is-inside-here']
+            'dataToFetch'=>['title','keywords','description'] // which rows to fetch from tableName
+        ];
       }
 
 
