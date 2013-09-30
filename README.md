@@ -43,7 +43,7 @@ every one of those contents must change to be unique to that page id.
  
 ##### Which file should I touch? oO
 The class has only two files, `confiMe.php` to apply your configuration, and `seowrapper.php` is the main class.
-All configuration takes place in `configMe.php` ( [configMe.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/configMe.php) )
+All configuration takes place in  ( [configMe.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/configMe.php) )
 
 
 ###### Declaring static pages
@@ -79,9 +79,4 @@ what to query in a page, and which rows to pull from database.
 
 
 =======
-###### Configuring Static Pages 
-All configuration is done here [StaticPages.php]( https://github.com/Eritrea/seoWrapper/blob/master/src/StaticPages.php)
-
-
->>>>>>> 99ae680d139f1d5f7ac6ba8475ca69bf55275d62
  
