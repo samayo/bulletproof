@@ -1,3 +1,5 @@
+This is a project to help me get used to git, github. Don't USE! 
+
 ###SeoWrapper
 ===========
 
