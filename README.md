@@ -1,7 +1,11 @@
-This is a project to help me get used to git, github. Don't USE! 
+This is a project to help me get used to git, github. 
+##Don't USE! 
+===========
+===========
 
 ###SeoWrapper
 ===========
+
 
 The objective it to give you the ultimate flexibility on what to display inside your meta tags!!
 
