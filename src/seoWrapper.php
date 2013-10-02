@@ -1,17 +1,11 @@
 <?php
 
-    include 'configMe.php';
+    require_once 'configMe.php';
 
 
 class SeoWrapper  {
     private $_errors = [];
 
-    /**
-     * method to validate existing URL and fetch metadata according to our settings
-     * @param $currentUrl - REQUEST_URI to check if page has query
-     * @param $PHP_SELF - to match query-less pages
-     * @return array|string return title, keyword, description for static pages, otherwise return text: dynamic
-     */
     public function currentPage($currentUrl, $PHP_SELF){
         $listOfStaticPages = array_keys(definePages()['staticPages']);
 
