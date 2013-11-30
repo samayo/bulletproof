@@ -56,5 +56,4 @@ if($_FILES){
 ````
 
 ### Why Static ?
-Because static methods are faster than objects (dynamic) classes. It's all about optimization.
-Since UNIT testing is irrelevant subject here, I couldn't find any reason not to use them.
+Because static methods provide global scopes and & are ~faster than objects (dynamic) classes.  It's all about optimization. Since UNIT testing is irrelevant subject here, I couldn't find any reason not to use them.
