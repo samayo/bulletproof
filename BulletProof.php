@@ -81,13 +81,13 @@ class BulletProof
          * output the corresponding errors. Damn I'm good!
          */
         return array(
-            UPLOAD_ERR_OK	        => "...",
-            UPLOAD_ERR_INI_SIZE 	=> "File is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE	=> "Files is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL 		=> "File could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE		=> "File is not found",
-            UPLOAD_ERR_NO_TMP_DIR	=> "Can't write to disk, as per server configuration",
-            UPLOAD_ERR_EXTENSION	=> "A PHP extension has halted this file upload process"
+                UPLOAD_ERR_OK           => "...",
+                UPLOAD_ERR_INI_SIZE     => "File is larger than the specified amount set by the server",
+                UPLOAD_ERR_FORM_SIZE    => "Files is larger than the specified amount specified by browser",
+                UPLOAD_ERR_PARTIAL      => "File could not be fully uploaded. Please try again later",
+                UPLOAD_ERR_NO_FILE      => "File is not found",
+                UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, as per server configuration",
+                UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
         );
     }
 
