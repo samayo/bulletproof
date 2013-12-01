@@ -111,14 +111,6 @@ class BulletProof
             return "Please make sure this is a valid directory, or php 'file_uploads' is turned on";
         }
 
-        /**
-         * Check http header to see if server accepts images
-         */
-        if(stripos('image', $_SERVER['HTTP_ACCEPT']) !== false)
-        {
-            return "This evil server does not seem to accept images";
-        }
-
 
         /**
          * Check if given directory has write permissions
