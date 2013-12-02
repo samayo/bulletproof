@@ -33,7 +33,7 @@ if($_FILES){
     echo $result; //345212631129223425311217529118879612810120122102746529cc1c8d909c1.40357962.jpg
 }
 ````
-Now with the above method, you have only made one global setting, i.e. the file type you are willing to accept (which is very important enought to be made global) after that, you can tell the script what to upload, when, how anytime you like anytime you access the `upload()`. method.  
+Now with the above method, you have only made one global setting, i.e. the file type you are willing to accept (which is very important enought to be made global) after that, you can tell the script what to upload, when, how anytime by accessing the `upload()`. method.  
 
 
 
