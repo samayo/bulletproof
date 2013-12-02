@@ -1,13 +1,16 @@
 ## BulletProof
 ============
-#### A 100% Free, Fast, Simple and Secure, image/file uploading class.
+#### A Free, Fast, Simple and Secure, image/file uploading class.
 
-You can upload any type of image/file although this class is preferably made for image upload.
-by doing simply as: 
+You can upload any type of image/file but I recommend you use it to upload only images for now, 
+as that is the reason why I made it, and tested it so far, even though it should upload any file.
+
+Simple uploading process id done by, first declaring your set of commands through the constructor and calling the 
+`upload()` method: 
 ````php
 $Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'), //accept only these type of files
                        array('max-height'=>150, 'max-width'=>150), //accept only dimensions specified here
-                       array('max-size'=>40000, 'min-size'=>1), //accept only in-between these file
+                       array('max-size'=>40000, 'min-size'=>1), //accept only in-between these file sizes
                        'uploads/'); //move all uploaded files into this directory. 
 
 if($_FILES){
@@ -16,10 +19,10 @@ if($_FILES){
 }
 ````
 Remember, if you omit the `$newName` argument from the `upload($fileName, $newName)` then, the class itself will 
-generate and return a `74` digit randome + unique name of the file, for you to make use of. 
+generate and return a `74` string long random number combined with unique id to avoid collision as the name of the file, for you to make use of. (store in db, echo ... whatever..)
 
 Another thing to remember is that, if you used the script as shown above, then all upload made by user will have to be
-as same as specified by the constructor, (image height, width, size, upload dir) all will be used for different uploads. If you don't want this, and need a seperate setting for another file upload on another page maybe, then you can do method-chaining wich will override any existing directives. Example:
+as same as specified by the constructor, (image height, width, size, upload dir) same settings will be used for different uploads. Sometimes this may not be the case, as you will only upload `100*100` for profile image, but `500*100` for a banner. SO,  If you don't want these restrictions, and need a seperate setting for another file upload on another page maybe, then you can do method-chaining wich will override any existing directives. Example:
 ````php
 $Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'));
 if($_FILES){
