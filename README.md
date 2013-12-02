@@ -1,59 +1,53 @@
 ## BulletProof
 ============
-#### A Fast, Simple and Secure PHP image-uploading class.
+#### A 100% Free, Fast, Simple and Secure, image/file uploading class.
 
 
-You can upload any type of image file securely by following these two simple steps.
-First call `BulletProof::options()` to set the file types, file max-width, max-size and directory where
-you want the uploaded file to go in. Here is the example:
+You can upload any type of image/file although this class is preferably made for image upload.
+by doing simply as: 
 ````php
-BulletProof::set(array('png', 'jpeg', 'gif', 'jpg'),
-                 array('max-width'=>150, 'max-height'=>150),
-                 30000,
-                 'pictures/'
-               );
-````
-Voila! I hope the arguments made sense to you. If not:
-````php
-array('png', 'jpeg', 'gif', 'jpg'), // is the types of file you are willing to accept.
-// BECAREFUL NOT TO ACCEPT EXECUTABLE FILES.
-array('max-width'=>150, 'max-height'=>150), // is the max width/size of the image you can accept.
-3000 // is the max file size.
-'pictures/' // is the directory/folder where you want the files to be uploaded into. Make sure you create it
-//before using it.
-````
-
-Ok, now after having placed that script in your php file. All you have to do now is call the upload method like this:
-````php
-BulletProof::upload($_FILES['profile_pic'], 'simon');
-````
-The first argument is the `$_FILES` array with its `name` attribute given in you HTML form. The second
-argument is the name you want to give your newly uploaded file. If you don't specify a name for it,
-a default unique Id will be given.
-
-### Example
-In Short, this is what you your entire script should look like .
-
-````php
-include_once 'BulletProof.php';
-
-BulletProof::set(array('png', 'jpeg', 'gif', 'jpg'),
-                 array('max-width'=>150, 'max-height'=>150),
-                 30000,
-                 'pictures/'
-                );
-
-
+$Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'), //accept only these type of files
+                       array('max-height'=>150, 'max-width'=>150), //accept only dimensions specified here
+                       array('max-size'=>40000, 'min-size'=>1), //accept only in-between these file
+                       'uploads/'); //move all uploaded files into this directory. 
 
 if($_FILES){
-   $upload =  BulletProof::upload($_FILES['profile_pic'], 'simon');
-
-   if($upload !== true)
-   {
-    echo "ERROR: ".$upload;
-   }
+   $result = $Obj->upload($_FILES['logo'], 'passport-pic'); //name the file/image as 'passport-pic'
+        echo $result; //passport_pic.jpg
 }
 ````
+Remember, if you omit the `$newName` argument from the `upload($fileName, $newName)` then, the class itself will 
+generate and return a `74` digit randome + unique name to identify/submit into your database. 
 
-### Why Static ?
-Because static methods provide global scopes and & are ~faster than objects (dynamic) classes.  It's all about optimization. Since UNIT testing is irrelevant subject here, I couldn't find any reason not to use them.
+Another thing to remember is that, if you used the script as show above, then all upload made by user will have to be
+as same as specified by the constructor, if you don't want this, and need a seperate setting for another file upload 
+on another page maybe, then you can do method-chaining wich will override any existing setting. Example:
+````php
+$Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'));
+if($_FILES){
+    $result = $Obj->setImageDimensions(array('max-height'=>150, 'max-width'=>150))
+        ->setFileSize(array('max-size'=>4000, 'min-size'=>1))
+        ->setUploadDir('uploads/')
+        ->upload($_FILES['logo']);
+    echo $result; //242i42923.jpg
+}
+````
+Now with the above method, you can tell the script what to upload, when, how anytime you like. 
+
+
+
+###What make this a bulletProof? 
+
+* It checks the for all errors thrown by the `$_FILES[]['error']` array. 
+* It uses the `splFileInfo::getExtension()` method to get the real file extension/Mime type, `$_FILES[]['type']` is a plus
+* Checks if file type exists inside what user is only willing to accept. `array('jpg', 'png', 'gif', 'jpeg')`
+* Checks `getimagesize($fileToUpload['tmp_name']);` to see the image has a width/height measurable in pixels. 
+* It uses `is_uploaded_file($fileToUpload['tmp_name'])` to check if file is uploaded through HTTP Post.(another way of security check)
+
+
+
+
+
+
+
+
