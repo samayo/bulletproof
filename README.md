@@ -37,7 +37,7 @@ Now with the above method, you have only made one global setting, i.e. the file 
 
 
 
-### What make this a bulletProof? 
+### What makes this a bulletProof? 
 
 * It checks the for all errors thrown by the `$_FILES[]['error']` array. 
 * It uses the `splFileInfo::getExtension()` method to get the real file extension/Mime type, `$_FILES[]['type']` is a plus
