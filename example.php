@@ -27,7 +27,7 @@ if($_FILES){
 
 
 /***************************************************************************
- *  EXAMPLE 1                                                              *
+ *  EXAMPLE 2                                                              *
  ***************************************************************************
  * This example allows you to set only one option, meaning whenever you use
  * `$Obj->upload()` all files to be uploaded must follow the global setting
