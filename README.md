@@ -45,4 +45,4 @@ Now with the above method, you have only made one global setting, i.e. the file 
 
 #####License ? 
 
-Screw licenses. I would any feedbacks though. 
+Screw licenses. I would love any feedbacks though. 
