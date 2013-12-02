@@ -11,7 +11,7 @@ class BulletProof
 {
     /**
      * Give user an option to specify all options only once like a
-     * a global setting, if not, they can use specify everything each time they call the upload method.
+     * a global setting, if not, they can  specify everything each time they call the upload method.
      * EXCEPT for the MIMEtype, which should be declared through the constructor.
      * @param array $allowedMimeTypes
      * @param array $allowedImageDimensions
