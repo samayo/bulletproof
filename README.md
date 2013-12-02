@@ -2,7 +2,6 @@
 ============
 #### A 100% Free, Fast, Simple and Secure, image/file uploading class.
 
-
 You can upload any type of image/file although this class is preferably made for image upload.
 by doing simply as: 
 ````php
@@ -45,9 +44,6 @@ Now with the above method, you can tell the script what to upload, when, how any
 * It uses `is_uploaded_file($fileToUpload['tmp_name'])` to check if file is uploaded through HTTP Post.(another way of security check)
 
 
+#####License ? 
 
-
-
-
-
-
+Screw licenses. I would any feedbacks though. 
