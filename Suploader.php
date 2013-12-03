@@ -96,7 +96,7 @@ class Suploader
      * @param null $newDirectory optional directory, if not specified this class will use tmp_name
      * @return string
      */
-    public function debugEnviroment($newDirectory = null)
+    public function debugEnvironment($newDirectory = null)
     {
         /**
          * If user has specified upload dir, check and debug it first otherwise,
@@ -266,7 +266,7 @@ class Suploader
              * If file upload has not worked for any reason, the debug the server environment and its
              * permissions, settings [more to be added] etc.. for possible errors.
              */
-            $checkServerForErrors = $this->debugEnviroment($this->uploadFolder);
+            $checkServerForErrors = $this->debugEnvironment($this->uploadFolder);
 
             /**
              * If error is found from the debugEnviroment() return the error, otherwise show any error as a last resort
