@@ -10,10 +10,10 @@
 class Suploader
 {
 
-    private $fileSize        = array("min"=>100, "max"=>30000);
-    private $fileType  = array("jpg", "png", "gif");
+    private $fileSize         = array("min"=>100, "max"=>30000);
+    private $fileType         = array("jpg", "png", "gif");
     private $imageDimensions  = array("max-height"=>1150, "max-width"=>1150);
-    private $uploadFolder    = "uploads/";
+    private $uploadFolder     = "uploads/";
 
 
     public  function setFileSize(array $setFileSize)
