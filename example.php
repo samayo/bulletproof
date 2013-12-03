@@ -25,9 +25,9 @@ $newImage = new ImageUploader();
 if($_FILES){
     $result = $Obj->setFileType(array("txt", "doc"))
                   ->setFileSize(array("min"=>1, "max"=>100))
-                  ->setImageDimensions(null) //Important if you don't this to be an image.
+                  ->setImageDimensions(null) //Important if you are not uploading images
                   ->setFolder('uploads/')
-                  ->upload($_FILES['logo']); //if you don't give a file name, a unique id will be generated
+                  ->upload($_FILES['logo']); //if you don't give it a new file name, a unique id will be generated
 
             echo $result; //98427398472334234234487248234823423.jpg
     }
