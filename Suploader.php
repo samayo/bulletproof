@@ -7,7 +7,7 @@
  */
 
 
-class BulletProof
+class Suploader
 {
     /**
      * Give user an option to specify all options only once like a
