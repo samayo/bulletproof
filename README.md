@@ -1,6 +1,7 @@
 ## Suploader
 ============
-#### A Free, Fast, Simple and Secure, image/file uploading class.
+DON'T USE YET! Still trying to improve/secure it more... 
+#### A Free, ~~Fast~~, Simple and Secure, image ~~/file~~ uploading class.
 
 You can upload any type of image/file but I recommend you use it to upload only images for now, 
 as that is the reason why I made it, and tested it so far, even though it should upload any file.
@@ -37,7 +38,7 @@ Now with the above method, you have only made one global setting, i.e. the file 
 
 
 
-### What makes this a bulletProof? 
+### What makes this Secure? 
 
 * It checks the for all errors thrown by the `$_FILES[]['error']` array. 
 * It uses the `splFileInfo::getExtension()` method to get the real file extension/Mime type, `$_FILES[]['type']` is a plus
