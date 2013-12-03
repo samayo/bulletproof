@@ -19,7 +19,6 @@ class Suploader
      * these values can be overridden later.
      * @var array
      */
-
     private $fileType            = array("jpg", "png", "gif");
     private $fileSize            = array("min"=>100, "max"=>30000);
     private $imageDimensions     = array("max-height"=>1150, "max-width"=>1150);
