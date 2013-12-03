@@ -1,24 +1,8 @@
 <?php
 
-/**
- * ImageUploader has default settings. like this:
- *
- * private $fileSize         = array("min"=>100, "max"=>30000);
- * private $fileExtensions   = array("jpg", "png", "gif");
- * private $imageDimensions  = array("max-height"=>1150, "max-width"=>1150);
- * private $uploadFolder     = "uploads/";
- *
- * Calling the function as seen below, will help you override the default settings.
- */
-
-
-
-
-/***************************************************************************
- *  Example: 1  Naming and uploading an image                              *
- ***************************************************************************
- * You'll be above to assign a name for each upload upload like this:
- */
+/*******************************************************************************
+ *  Example: 1  How to upload images, by assigning new names                   *
+ ********************************************************************************/
 
 include_once 'ImageUploader.php';
 
@@ -34,11 +18,9 @@ $newImage = new ImageUploader();
     }
 
 
-/***************************************************************************
- *  Example: 2  Uploading a non-image file, without assigning a new filename
- ***************************************************************************
- * You'll be above to assign a name for each upload upload like this:
- */
+/*******************************************************************************
+ *  Example: 1  How to upload files, without assigning new names               *
+ ********************************************************************************/
 
 if($_FILES){
     $result = $Obj->setFileType(array("txt", "doc"))
