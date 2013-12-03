@@ -161,29 +161,15 @@ class ImageUploader
         $splFileExtension  = $splFileInfo->getExtension();
 
 
-        /**
-         * Get rid of the 'image/' part from ex: 'image/gif' to get the extension
-         * so we can compare it with what is expected. ex: array('jpg','png',''gif)
-         */
-        $fileTypeExtension = substr($fileToUpload['type'], 6);
 
 
         /**
-         * Since 'SplFileInfo::getExtension()' and FILES[]['type'] give often different
-         * names even for the same file, ex: "jpeg vs jpg" ".doc vs application/msword"
-         * We can't really check if both results are identical, so the best bet is to check
-         * if they are both inside the $allowedMimeTypes.
+         * Check if the given extension exists in the settings.
          */
-        if(!in_array($fileTypeExtension, $this->fileExtensions) ||
-           !in_array($splFileExtension, $this->fileExtensions)){
+        if(!in_array($splFileExtension, $this->fileExtensions)){
             return "This is not allowed File type. Please only upload ("
                 . implode(' ,', $this->fileExtensions) .") file types";
         }
-
-        /**
-         * retain the real extension type, once the image/file is validated.
-         */
-        $realFileExtension = ".".$splFileExtension;
 
 
         /**
@@ -238,7 +224,7 @@ class ImageUploader
              * If a file name is set, then assign it and append the new extension obtained
              * from the SplFileInfo::getExtension();
              */
-            $newFileName = $newFileName.$realFileExtension;
+            $newFileName = $newFileName.".".$splFileExtension;;
         }else{
 
 
@@ -247,7 +233,7 @@ class ImageUploader
              * by combining random string + a unique id.
              */
             $uniqid = uniqid(str_shuffle(implode(range(1, 10))), true);
-            $newFileName = $uniqid.$realFileExtension;
+            $newFileName = $uniqid.".".$splFileExtension;;
         }
 
 
