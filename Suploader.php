@@ -1,4 +1,5 @@
 <?php
+namespace SecureUploader;
 /**
  * A small, secure & fast file uploader class, primarily meant for
  * image upload, such as jpg, gif, png and jpeg files.
@@ -96,7 +97,7 @@ class Suploader
      * @param null $newDirectory optional directory, if not specified this class will use tmp_name
      * @return string
      */
-    public function debugEnvironment($newDirectory = null)
+    public function debugEnviroment($newDirectory = null)
     {
         /**
          * If user has specified upload dir, check and debug it first otherwise,
@@ -266,7 +267,7 @@ class Suploader
              * If file upload has not worked for any reason, the debug the server environment and its
              * permissions, settings [more to be added] etc.. for possible errors.
              */
-            $checkServerForErrors = $this->debugEnvironment($this->uploadFolder);
+            $checkServerForErrors = $this->debugEnviroment($this->uploadFolder);
 
             /**
              * If error is found from the debugEnviroment() return the error, otherwise show any error as a last resort
