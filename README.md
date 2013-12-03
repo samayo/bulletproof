@@ -1,4 +1,4 @@
-## BulletProof
+## Suploader
 ============
 #### A Free, Fast, Simple and Secure, image/file uploading class.
 
@@ -8,7 +8,7 @@ as that is the reason why I made it, and tested it so far, even though it should
 Simple uploading process id done by, first declaring your set of commands through the constructor and calling the 
 `upload()` method: 
 ````php
-$Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'), //accept only these type of files
+$Obj = new Suploader(array('jpg', 'png', 'gif', 'jpeg'), //accept only these type of files
                        array('max-height'=>150, 'max-width'=>150), //accept only dimensions specified here
                        array('max-size'=>40000, 'min-size'=>1), //accept only in-between these file sizes
                        'uploads/'); //move all uploaded files into this directory. 
@@ -24,7 +24,7 @@ generate and return a `74` string long random number combined with unique id to 
 Another thing to remember is that, if you used the script as shown above, then all upload made by user will have to be
 as same as specified by the constructor, (image height, width, size, upload dir) same settings will be used for different uploads. Sometimes this may not be the case, as you will only upload `100*100` for profile image, but `900*85` for a banner. SO,  If you don't want these restrictions, and need a seperate setting for another file upload on another page maybe, then you can do method-chaining wich will override any existing directives. Example:
 ````php
-$Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'));
+$Obj = new Suploader(array('jpg', 'png', 'gif', 'jpeg'));
 if($_FILES){
     $result = $Obj->setImageDimensions(array('max-height'=>150, 'max-width'=>150))
         ->setFileSize(array('max-size'=>4000, 'min-size'=>1))
