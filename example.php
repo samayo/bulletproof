@@ -10,9 +10,9 @@
  */
 
 
-include 'BulletProof.php';
+include 'Suploader.php';
 
-$Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'));
+$Obj = new Suploader(array('jpg', 'png', 'gif', 'jpeg'));
 
 if($_FILES){
     $result = $Obj->setImageDimensions(array('max-height'=>150, 'max-width'=>150))
@@ -38,7 +38,7 @@ if($_FILES){
  */
 
 
-$Obj = new BulletProof(array('jpg', 'png', 'gif', 'jpeg'),
+$Obj = new Suploader(array('jpg', 'png', 'gif', 'jpeg'),
                        array('max-height'=>150, 'max-width'=>150),
                        array('max-size'=>4000, 'min-size'=>1),
                        'uploads/');
