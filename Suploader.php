@@ -9,26 +9,36 @@
 
 class Suploader
 {
-    /**
-     * Give user an option to specify all options only once like a
-     * a global setting, if not, they can  specify everything each time they call the upload method.
-     * EXCEPT for the MIMEtype, which should be declared through the constructor.
-     * @param array $allowedMimeTypes
-     * @param array $allowedImageDimensions
-     * @param array $allowedFileSize
-     * @param null $newDirectoryToUpload
-     */
-    public function __construct(array $allowedMimeTypes,
-                                array $allowedImageDimensions = null,
-                                array $allowedFileSize = null,
-                                      $newDirectoryToUpload = null)
+
+    private $fileSize        = array("min"=>100, "max"=>30000);
+    private $fileType  = array("jpg", "png", "gif");
+    private $imageDimensions  = array("max-height"=>1150, "max-width"=>1150);
+    private $uploadFolder    = "uploads/";
+
+
+    public  function setFileSize(array $setFileSize)
     {
-        $this->allowedMimeTypes         = $allowedMimeTypes;
-        $this->allowedImageDimensions   = $allowedImageDimensions;
-        $this->allowedFileSize          = $allowedFileSize;
-        $this->newDirectoryToUpload     = $newDirectoryToUpload;
+        $this->fileSize =  $setFileSize;
+        return $this;
     }
 
+    public function setFileType(array $setFileType)
+    {
+        $this->fileType = $setFileType;
+        return $this;
+    }
+
+    public function setImageDimensions(array $setDimensions)
+    {
+        $this->imageDimensions = $setDimensions;
+        return $this;
+    }
+
+    public function setFolder($folderName)
+    {
+        $this->uploadFolder = $folderName;
+        return $this;
+    }
 
 
     /**
@@ -53,44 +63,6 @@ class Suploader
     }
 
 
-
-    /**
-     * If user wants to specify different file-size, upload dir, image-dimension in different
-     * pages, then enable method-chaining to override the global settings passed
-     * through the constructor (if they are passed, if not then this still will work).
-     *
-     * Pass image dimensions as associative arrays
-     * @param array $setImageDimension
-     * @return $this
-     */
-    public function setImageDimension(array $setImageDimension)
-    {
-        $this->allowedImageDimensions = $setImageDimension;
-        return $this;
-    }
-
-    /**
-     * Pass Max & Min, file size as associative arrays
-     * @param array $setFileSize
-     * @return $this
-     */
-    public function setFileSize(array $setFileSize)
-    {
-        $this->allowedFileSize = $setFileSize;
-        return $this;
-    }
-
-    /**
-     * Specify the new directory to upload your files,
-     * if not specified, php will upload it to default tmp directory
-     * @param $setUploadDir
-     * @return $this
-     */
-    public function setUploadDir($setUploadDir)
-    {
-        $this->newDirectoryToUpload =$setUploadDir;
-        return $this;
-    }
 
 
     /**
@@ -169,27 +141,27 @@ class Suploader
          * We can't really check if both are same, so the best bet is to check
          * if they are both inside the $allowedMimeTypes set by the user
          */
-        if(!in_array($fileTypeExtension, $this->allowedMimeTypes) ||
-           !in_array($splFileExtension, $this->allowedMimeTypes))
+        if(!in_array($fileTypeExtension, $this->fileExtensions) ||
+           !in_array($splFileExtension, $this->fileExtensions))
         {
             return "This is not allowed File type. Please only upload ("
-                . implode(' ,', $this->allowedMimeTypes) .") file types";
+                . implode(' ,', $this->fileExtensions) .") file types";
         }
 
         /**
          * Once file is validated, retain the real extension for a later use
          */
-        $this->fileExtension = ".".$splFileExtension;
+        $realFileExtension = ".".$splFileExtension;
 
 
         /**
          * Check if file size is within the scope of what the user has defined.
          */
-        if($fileToUpload['size'] > $this->allowedFileSize['max-size'] ||
-            $fileToUpload['size'] < $this->allowedFileSize['min-size'])
+        if($fileToUpload['size'] > $this->fileSize['min'] ||
+            $fileToUpload['size'] < $this->fileSize['max'])
         {
             return "File size must be less than between
-                    ".(implode(",", $this->allowedFileSize))." kilobytes";
+                    ".(implode(",", $this->fileSize))." kilobytes";
         }
 
 
@@ -199,16 +171,16 @@ class Suploader
          * upload an image, that means we can validate the image size, if however $allowedFileDimensions is not
          * set, then we'll assume user want to upload other files, so image size is irrelevant here.
          */
-        if($this->allowedFileDimensions)
+        if($this->imageDimensions)
         {
             list($width, $height, $type, $attr) = getimagesize($fileToUpload['tmp_name']);
 
-            if($width > $this->allowedImageDimensions['max-width'] ||
-               $height > $this->allowedImageDimensions['min-width'])
+            if($width > $this->imageDimensions['max-width'] ||
+               $height > $this->imageDimensions['min-width'])
             {
                 return "Image must be less than "
-                        .$this->allowedImageDimensions['max-width']."pixels wide and"
-                        .$this->allowedImageDimensions['max-height']."pixels in height";
+                        .$this->imageDimensions['max-width']."pixels wide and"
+                        .$this->imageDimensions['max-height']."pixels in height";
             }
 
 
@@ -228,15 +200,15 @@ class Suploader
              * If given a file name, then assign it and append the new extension obtained
              * from the SplFileInfo::getExtension();
              */
-            $this->newFileName = $newFileName.$this->fileExtension;
+            $newFileName = $newFileName.$realFileExtension;
         }else{
 
             /**
-             * Hehehe, create a 74 digit length id for the file. not sure if this is bad implementation
+             * Hehehe, create a 54 digit length id for the file. not sure if this is bad implementation
              * If user has not provided any name, just generate a unique id
              */
-            $uniqid = uniqid(str_shuffle(implode(range(1, 30))), true);
-            $this->newFileName = $uniqid.$this->fileExtension;
+            $uniqid = uniqid(str_shuffle(implode(range(1, 10))), true);
+            $newFileName = $uniqid.$realFileExtension;
         }
 
 
@@ -250,8 +222,8 @@ class Suploader
          * Move the file to a new user-specified destination
          */
         $moveUploadFile = move_uploaded_file($fileToUpload['tmp_name'],
-                                            $this->directoryToUpload.'/'.
-                                            $this->newFileName);
+                                            $this->uploadFolder.'/'.
+                                            $newFileName);
 
 
         /**
@@ -260,7 +232,7 @@ class Suploader
          */
         if($checkSafeUpload && $moveUploadFile)
         {
-            return $this->newFileName;
+            return $newFileName;
         }
         else
         {
@@ -268,7 +240,7 @@ class Suploader
              * If file upload has not worked for any reason, the debug the server environment and it's
              * permission, settings etc.. for possible errors.
              */
-            $checkServerForErrors = $this->debugEnviroment($this->diretoryToUpload);
+            $checkServerForErrors = $this->debugEnviroment($this->uploadFolder);
 
             /**
              * If error is found from the debugEnviroment() return the error, otherwise show an error
