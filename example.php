@@ -19,7 +19,7 @@ $newImage = new ImageUploader();
 
 
 /*******************************************************************************
- *  Example: 1  How to upload files, without assigning new names               *
+ *  Example: 2  How to upload files, without assigning new names               *
  ********************************************************************************/
 
 if($_FILES){
