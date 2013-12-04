@@ -175,8 +175,8 @@ class ImageUploader
          * Check if the Min & Max file size is within the scope of what
          * is expected in the setFileSize() method.
          */
-        if ($fileToUpload['size'] < $this->fileSize['min'] ||
-            $fileToUpload['size'] > $this->fileSize['max']
+        if ($fileToUpload['size'] <= $this->fileSize['min'] ||
+            $fileToUpload['size'] >= $this->fileSize['max']
         ) {
             return "Min & Max file sizes must be less in-between
                     " . (implode(" to ", $this->fileSize)) . " kilobytes";
