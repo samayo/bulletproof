@@ -32,5 +32,7 @@ if($_FILES){
 
 Screw licenses. I would love any feedbacks though.
 
-#### Whats next ?
-If I am still enthusiastic about this for the next couple of days, I will add costume exception handler, to better handle errors, and watermarking capabilities for images. 
+###TODO? 
+* Option to force resize files
+* Option to watermark images
+* handle errors with exceptions 
