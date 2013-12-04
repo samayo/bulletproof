@@ -92,6 +92,7 @@ class ImageUploader
             UPLOAD_ERR_PARTIAL => "File could not be fully uploaded. Please try again later",
             UPLOAD_ERR_NO_FILE => "File is not found",
             UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, as per server configuration",
+            UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Introduced in PHP";
             UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload process"
         );
     }
