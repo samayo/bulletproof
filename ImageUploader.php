@@ -21,10 +21,10 @@ class ImageUploader
      * these settings can be overridden later through getters/setters
      * @var array
      */
-    private $fileType            = array("jpg", "png", "gif");
-    private $fileSize            = array("min"=>100, "max"=>30000);
-    private $imageDimensions     = array("max-height"=>1150, "max-width"=>1150);
-    private $uploadFolder        = "uploads/";
+    private $fileType = array("jpg", "png", "gif");
+    private $fileSize = array("min" => 100, "max" => 30000);
+    private $imageDimensions = array("max-height" => 1150, "max-width" => 1150);
+    private $uploadFolder = "uploads/";
 
 
     /**
@@ -32,9 +32,9 @@ class ImageUploader
      * @param array $setFileSize ex: array("min"=>100, "max"=>30000);
      * @return $this
      */
-    public  function setFileSize(array $setFileSize)
+    public function setFileSize(array $setFileSize)
     {
-        $this->fileSize =  $setFileSize;
+        $this->fileSize = $setFileSize;
         return $this;
     }
 
@@ -86,13 +86,13 @@ class ImageUploader
          * to call the corresponding error messages. Damn I'm good! :D
          */
         return array(
-            UPLOAD_ERR_OK           => "...",
-            UPLOAD_ERR_INI_SIZE     => "File is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE    => "Files is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL      => "File could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE      => "File is not found",
-            UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, as per server configuration",
-            UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
+            UPLOAD_ERR_OK => "...",
+            UPLOAD_ERR_INI_SIZE => "File is larger than the specified amount set by the server",
+            UPLOAD_ERR_FORM_SIZE => "Files is larger than the specified amount specified by browser",
+            UPLOAD_ERR_PARTIAL => "File could not be fully uploaded. Please try again later",
+            UPLOAD_ERR_NO_FILE => "File is not found",
+            UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, as per server configuration",
+            UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload process"
         );
     }
 
@@ -116,7 +116,7 @@ class ImageUploader
         /**
          * Check if the given upload folder, is a valid directory
          */
-        if(!is_dir($uploadFileTo)){
+        if (!is_dir($uploadFileTo)) {
             return "Please make sure this is a valid directory, or php 'file_uploads' is turned on";
         }
 
@@ -125,7 +125,7 @@ class ImageUploader
          * Still not sure how this is done. But, I am trying to check check if given
          * upload directory has write permissions
          */
-        if(!substr(sprintf('%o', fileperms($uploadFileTo)), -4) != 0777){
+        if (!substr(sprintf('%o', fileperms($uploadFileTo)), -4) != 0777) {
             return "Sorry, you don't have her majesty's permission to upload files on this server";
         }
 
@@ -146,7 +146,7 @@ class ImageUploader
          * $_FILES['name']['error'] is not '0'.  If so, then there is
          * an error thrown by the $_FILES array.
          */
-        if($fileToUpload['error']){
+        if ($fileToUpload['error']) {
             $errors = $this->commonFileUploadErrors();
             return $errors[$fileToUpload['error']];
         }
@@ -157,18 +157,16 @@ class ImageUploader
          * variations, we will double check the real type/extension
          * with the SplFileInfo::getExtension(); method.
          */
-        $splFileInfo       = new SplFileInfo($fileToUpload['name']);
-        $splFileExtension  = $splFileInfo->getExtension();
-
-
+        $splFileInfo = new SplFileInfo($fileToUpload['name']);
+        $splFileExtension = $splFileInfo->getExtension();
 
 
         /**
          * Check if the given extension exists in the settings.
          */
-        if(!in_array($splFileExtension, $this->fileExtensions)){
+        if (!in_array($splFileExtension, $this->fileExtensions)) {
             return "This is not allowed File type. Please only upload ("
-                . implode(' ,', $this->fileExtensions) .") file types";
+                . implode(' ,', $this->fileExtensions) . ") file types";
         }
 
 
@@ -176,10 +174,11 @@ class ImageUploader
          * Check if the Min & Max file size is within the scope of what
          * is expected in the setFileSize() method.
          */
-        if($fileToUpload['size'] < $this->fileSize['min'] ||
-            $fileToUpload['size'] > $this->fileSize['max']){
+        if ($fileToUpload['size'] < $this->fileSize['min'] ||
+            $fileToUpload['size'] > $this->fileSize['max']
+        ) {
             return "Min & Max file sizes must be less in-between
-                    ".(implode(" to ", $this->fileSize))." kilobytes";
+                    " . (implode(" to ", $this->fileSize)) . " kilobytes";
         }
 
 
@@ -190,42 +189,43 @@ class ImageUploader
          * and width for pixels. If value is set to NULL however, this class will
          * not check height/width. So, you can upload a normal file
          */
-        if($this->imageDimensions){
+        if ($this->imageDimensions) {
 
             /**
              * Get width and height of the image file for validation
              */
             list($width, $height, $type, $attr) = getimagesize($fileToUpload['tmp_name']);
 
-            if($width > $this->imageDimensions['max-width'] ||
-                $height > $this->imageDimensions['min-width']){
+            if ($width > $this->imageDimensions['max-width'] ||
+                $height > $this->imageDimensions['min-width']
+            ) {
                 return "Image must be less than "
-                    .$this->imageDimensions['max-width']."pixels wide and"
-                    .$this->imageDimensions['max-height']."pixels in height";
+                    . $this->imageDimensions['max-width'] . "pixels wide and"
+                    . $this->imageDimensions['max-height'] . "pixels in height";
             }
 
             /**
              * If height/width are smalled than 1, the image is unlikely to be valid.
              */
-            if($height <= 1 || $width <=1){
+            if ($height <= 1 || $width <= 1) {
                 return "This file is either too small or corrupted to be an image file";
             }
 
         }
 
 
-
         /**
          * check weather, a new name is assigned for this file, through the second argument.
          */
-        if($newFileName){
+        if ($newFileName) {
 
             /**
              * If a file name is set, then assign it and append the new extension obtained
              * from the SplFileInfo::getExtension();
              */
-            $newFileName = $newFileName.".".$splFileExtension;;
-        }else{
+            $newFileName = $newFileName . "." . $splFileExtension;
+            ;
+        } else {
 
 
             /**
@@ -233,7 +233,8 @@ class ImageUploader
              * by combining random string + a unique id.
              */
             $uniqid = uniqid(str_shuffle(implode(range(1, 10))), true);
-            $newFileName = $uniqid.".".$splFileExtension;;
+            $newFileName = $uniqid . "." . $splFileExtension;
+            ;
         }
 
 
@@ -247,16 +248,16 @@ class ImageUploader
         /**
          * Move the file to the new dir specified by user
          */
-        $moveUploadFile = move_uploaded_file($fileToUpload['tmp_name'], $this->uploadFolder.'/'.$newFileName);
+        $moveUploadFile = move_uploaded_file($fileToUpload['tmp_name'], $this->uploadFolder . '/' . $newFileName);
 
 
         /**
          * Check if every validation has gone as expected.
          * If true, return the new file name with its extension as a positive response.
          */
-        if($checkSafeUpload && $moveUploadFile){
+        if ($checkSafeUpload && $moveUploadFile) {
             return $newFileName;
-        }else{
+        } else {
 
             /**
              * If file upload has not worked for any reason, then debug the server environment/permission
