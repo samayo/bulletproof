@@ -104,7 +104,7 @@ class ImageUploader
      * @param null $newDirectory optional directory, if not specified this method  will use tmp_name
      * @return string
      */
-    public function debugEnviroment($newDirectory = null)
+    public function debugEnvironment($newDirectory = null)
     {
         /**
          * If given a new directory to upload the files, then check and debug it first
@@ -198,10 +198,10 @@ class ImageUploader
             list($width, $height, $type, $attr) = getimagesize($fileToUpload['tmp_name']);
 
             if($width > $this->imageDimensions['max-width'] ||
-               $height > $this->imageDimensions['min-width']){
+                $height > $this->imageDimensions['min-width']){
                 return "Image must be less than "
-                        .$this->imageDimensions['max-width']."pixels wide and"
-                        .$this->imageDimensions['max-height']."pixels in height";
+                    .$this->imageDimensions['max-width']."pixels wide and"
+                    .$this->imageDimensions['max-height']."pixels in height";
             }
 
             /**
@@ -257,14 +257,15 @@ class ImageUploader
         if($checkSafeUpload && $moveUploadFile){
             return $newFileName;
         }else{
-            /**
-             * If file upload has not worked for any reason, the debug the server environment and its
-             * permissions, settings [more to be added] etc.. for possible errors.
-             */
-            $checkServerForErrors = $this->debugEnviroment($this->uploadFolder);
 
             /**
-             * If error is found from the debugEnviroment() return the error, otherwise show any error as a last resort
+             * If file upload has not worked for any reason, then debug the server environment/permission
+             * and its settings  etc.. for possible errors.
+             */
+            $checkServerForErrors = $this->debugEnvironment($this->uploadFolder);
+
+            /**
+             * If error is found from the debugEnvironment() return the error, otherwise show any error as a last resort
              */
             return $checkServerForErrors ? $checkServerForErrors : "Unknown error occured, please try later";
         }
