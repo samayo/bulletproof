@@ -2,22 +2,24 @@
 #####A newbie-friendly php class to upload images, securely.
 ````php
 include 'ImageUpload.php';
-$Obj = new ImageUploader();
+$imageUploader = new ImageUploader();
 
 if($_FILES){
-    $result = $Obj->setFileType(array("jpg", "gif")) //mention only the type of files, to be uploaded.
-                  ->setFileSize(array("min"=>10, "max"=>30000)) //the file size in bytes. ! 30000 bytes = 30kb
-                  ->setImageDimensions("max-height"=>450, "max-width"=>550) //height and width of image in pixels
-                  ->setFolder('uploads/') //the directory upload the images into
-                  ->upload($_FILES['logo'], 'my_profile'); //the file to upload, and a new file name
-                echo $result; //my_profile.jpg
+    $result = $imageUploader
+            ->setFileType(array("jpg", "gif")) //mention only the type of files, to be uploaded.
+            ->setFileSize(array("min"=>10, "max"=>30000)) //the file size in bytes. ! 30000 bytes = 30kb
+            ->setImageDimensions("max-height"=>450, "max-width"=>550) //height and width of image in pixels
+            ->setFolder('uploads/') //the directory upload the images into
+            ->upload($_FILES['logo'], 'my_profile'); //the file to upload, and a new file name
+            
+            echo $result; //my_profile.jpg
 }
 ````
 
 
 
 
-#### What makes this Secure?
+#### What makes this secure?
 
 * Checks if there are any errors in  `$_FILES[]['error']`.
 * Uses `splFileInfo::getExtension()` method to get the *real* file extension/Mime type,
