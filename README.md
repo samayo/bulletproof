@@ -1,35 +1,34 @@
-## Suploader
-============
-DON'T USE YET! Still trying to improve/secure it more... 
+### ImageUploader
+#####A newbie-friendly php class to upload images, securely.
 ````php
-include 'Suploder.php';
+include 'ImageUpload.php';
+$Obj = new ImageUploader();
 
-$Obj = new Suploder;
 if($_FILES){
-      $result = $Obj->setFileType(array("jpg", "gif"))
-                    ->setFileSize(array("min"=>1, "max"=>100))
-                    ->setImageDimensions("max-height"=>450, "max-width"=>550)
-                    ->setFolder('uploads/')
-                    ->upload($_FILES['logo'], 'my_profile');
-                    echo $result; //my_profile.jpg
+    $result = $Obj->setFileType(array("jpg", "gif")) //mention only the type of files, to be uploaded.
+                  ->setFileSize(array("min"=>10, "max"=>30000)) //the file size in bytes. ! 30000 bytes = 30kb
+                  ->setImageDimensions("max-height"=>450, "max-width"=>550) //height and width of image in pixels
+                  ->setFolder('uploads/') //the directory upload the images into
+                  ->upload($_FILES['logo'], 'my_profile'); //the file to upload, and a new file name
+                echo $result; //my_profile.jpg
 }
 ````
 
 
 
 
-### What makes this Secure? 
+#### What makes this Secure?
 
-* It checks the for all errors thrown by the `$_FILES[]['error']` array. 
-* It uses the `splFileInfo::getExtension()` method to get the real file extension/Mime type, `$_FILES[]['type']` is a plus
-* Checks if the file/Mime type exists, inside the option given by you i.e. `array('jpg', 'png', 'gif', 'jpeg')`
-* Checks `getimagesize($fileToUpload['tmp_name']);` to see if the image has a width/height measurable in pixels, if not then it is unlikely to be an image. 
-* It uses `is_uploaded_file($fileToUpload['tmp_name'])` to check if file is uploaded through HTTP Post.(another way of security check)
+* Checks if there are any errors in  `$_FILES[]['error']`.
+* Uses `splFileInfo::getExtension()` method to get the *real* file extension/Mime type,
+* Checks if MIME type exists in the expected file types ie. `array('jpg', 'png', 'gif', 'jpeg')`
+* Checks `getimagesize();` to see if the image has a width/height measurable in pixels, only images have pixels
+* It uses `is_uploaded_file()`to check for secure upload HTTP Post method .(another way of security check)
 
 
-#### License ? 
+#### License ?
 
-Screw licenses. I would love any feedbacks though. 
+Screw licenses. I would love any feedbacks though.
 
-#### Whats next ? 
+#### Whats next ?
 If I am still enthusiastic about this for the next couple of days, I will add costume exception handler, to better handle errors, and watermarking capabilities for images. 
