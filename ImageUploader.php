@@ -224,7 +224,7 @@ class ImageUploader
              * from the SplFileInfo::getExtension();
              */
             $newFileName = $newFileName . "." . $splFileExtension;
-            ;
+            
         } else {
 
 
@@ -234,7 +234,7 @@ class ImageUploader
              */
             $uniqid = uniqid(str_shuffle(implode(range(1, 10))), true);
             $newFileName = $uniqid . "." . $splFileExtension;
-            ;
+            
         }
 
 
