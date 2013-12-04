@@ -111,7 +111,7 @@ class ImageUploader
          * If given a new directory to upload the files, then check and debug it first
          * otherwise, check the temporary default dir given by PHP i.e. 'tmp_name'
          */
-        $uploadFileTo = $newDirectory ? $newDirectory : init_get("file_uploads");
+        $uploadFileTo = $newDirectory ? $newDirectory : init_get("upload_tmp_dir");
 
 
         /**
