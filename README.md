@@ -30,10 +30,10 @@ $result = $newUpload
 if($_FILES){
 $result = $newUpload
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->resizeImage(array("height"=>100, "width"=>100)) // Forcibly crop/resize image to 100x100px
     ->fileSizeLimit(array("max"=>900000, "min"=>100))
+    ->resizeImage(array("height"=>100, "width"=>100)) // crop/resize image to 100x100px
     ->uploadTo('uploads/')
-    ->save($_FILES['logo']);
+    ->save($_FILES['logo']); //if no name is given a uniqe random name will be generated
         echo $result; //1118921069587715213410141132611529ff56cbb7e5.jpg
     }
 ````
