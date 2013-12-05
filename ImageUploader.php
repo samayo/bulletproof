@@ -1,6 +1,5 @@
 <?php
-
-namespace ImageUploader;
+namespace BulletProof;
 
 /**
  * ImageUploder: A simple and secure PHP Image uploader class.
@@ -13,63 +12,132 @@ namespace ImageUploader;
  */
 
 
+
 class ImageUploader
 {
 
     /**
-     * Create a set of default properties for image size, types, dimensions,
-     * these settings can be overridden later through getters/setters
+     * default image types
      * @var array
      */
-    private $fileType = array("jpg", "png", "gif");
-    private $fileSize = array("min" => 100, "max" => 30000);
-    private $imageDimensions = array("max-height" => 1150, "max-width" => 1150);
-    private $uploadFolder = "uploads/";
+    private $allowedFileTypes = array("gif", "jpg", "png");
+
+    /**
+     * Set a min & max file size in bytes. Remember: 30000bytes == 30kb
+     * @var array
+     */
+    private $allowedFileSize = array("min" => 100, "max" => 30000);
+
+    /**
+     * default image dimension size, in pixels.
+     * @var array
+     */
+    private $allowedImageDimensions = array();
+
+    /**
+     * folder to upload the files into.
+     * @var
+     */
+    private $allowedUploadDirectory;
+
+    /**
+     * Simple text to place on uploaded images
+     * @var
+     */
+    private $textToWatermark;
+
+    /**
+     * A png image to watermark uploaded images
+     * @var
+     */
+    private $imageToWatermark;
+
+    /**
+     * Force resizing images, to a fixed width&height by pixels.
+     * @var array
+     */
+    private $newImageResizeDimensions = array();
 
 
     /**
-     * Set file size (in bytes) by passing an array value with max and min sizes
-     * @param array $setFileSize ex: array("min"=>100, "max"=>30000);
+     * Pass file type that user must upload. ex: gif, png, tifff
+     * @param array $setFileTypes
      * @return $this
      */
-    public function setFileSize(array $setFileSize)
+    public function fileTypes(array $setFileTypes)
     {
-        $this->fileSize = $setFileSize;
+        $this->allowedFileTypes = $setFileTypes;
+        return $this;
+    }
+
+
+    /**
+     * Pass min & max file size to be uploaded, ex ['min-height'=>100, 'max-height'=>200]
+     * @param array $setFileSizes
+     * @return $this
+     */
+    public function fileSizeLimit(array $setFileSizes)
+    {
+        $this->allowedFileSize = $setFileSizes;
         return $this;
     }
 
     /**
-     * Set file MIME type you want users to upload
-     * @param array $setFileType ex: array("jpg", "png");
+     * Check uploaded images, again to what is set below.
+     * @param array $setImageDimensions
      * @return $this
      */
-    public function setFileType(array $setFileType)
+    public function imageDimension(array $setImageDimensions)
     {
-        $this->fileType = $setFileType;
+        $this->allowedImageDimensions = $setImageDimensions;
         return $this;
     }
 
+
     /**
-     * If this method set, then this class will assume every upload is
-     * an image type, and will try to check dimensions from it to validate
-     * it as an image. For uploading a non-image file, don't call this class.
-     * @param array $setDimensions
+     * Set if you need to tell PHP where to upload files/image into
+     * @param $folderToUpload
      * @return $this
      */
-    public function setImageDimensions(array $setDimensions)
+    public function uploadTo($folderToUpload)
     {
-        $this->imageDimensions = $setDimensions;
+        $this->allowedUploadDirectory = $folderToUpload;
         return $this;
     }
 
+
     /**
-     * Set a folder/directory to upload the files into.
-     * @param $folderName ex: 'uploads/'
+     * If set, it'll force shrink all images uploaded.
+     * @param array $imageResizeDimensions
      * @return $this
      */
-    public function setFolder($folderName)
+    public function resizeImage(array $imageResizeDimensions)
     {
-        $this->uploadFolder = $folderName;
+        $this->newImageResizeDimensions = $imageResizeDimensions;
+        return $this;
+    }
+
+
+    /**
+     * Pass a text to watermark every uploaded image
+     * @param $textToWrite
+     * @return $this
+     */
+    public function watermarkText($textToWrite)
+    {
+        $this->textToWatermark = $textToWrite;
+        return $this;
+    }
+
+
+    /**
+     * Pass a PNG image to watermark all uploaded images
+     * @param $imageToWatermark
+     * @return $this
+     */
+    public function watermarkImage($imageToWatermark)
+    {
+        $this->imageToWatermark = $imageToWatermark;
         return $this;
     }
 
@@ -92,7 +160,7 @@ class ImageUploader
             UPLOAD_ERR_PARTIAL => "File could not be fully uploaded. Please try again later",
             UPLOAD_ERR_NO_FILE => "File is not found",
             UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, as per server configuration",
-            UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Introduced in PHP";
+            UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Introduced in PHP",
             UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload process"
         );
     }
@@ -107,6 +175,7 @@ class ImageUploader
      */
     public function debugEnvironment($newDirectory = null)
     {
+
         /**
          * If given a new directory to upload the files, then check and debug it first
          * otherwise, check the temporary default dir given by PHP i.e. 'tmp_name'
@@ -129,23 +198,68 @@ class ImageUploader
         if (!substr(sprintf('%o', fileperms($uploadFileTo)), -4) != 0777) {
             return "Sorry, you don't have her majesty's permission to upload files on this server";
         }
+    }
 
+
+    /**
+     * For simple function call. This will check if pixels exists and are within the
+     * limit passed the the imageDimensions() method.
+     * @param $fileName
+     * @return string
+     */
+    public function findImagePixelErrors($fileName)
+    {
+
+        /**
+         * get width and height for validation.
+         */
+        list($width, $height, $type, $attr) = getimagesize($fileName);
+
+        $allowedMaxWidth = $this->allowedImageDimensions['max-width'];
+        $allowedMaxHeight = $this->allowedImageDimensions['max-height'];
+
+        /**
+         * Check if width and height do not surpass the limit already assigned.
+         */
+        if ($width > $allowedMaxWidth || $height > $allowedMaxHeight) {
+            return "Image must be less than " . $allowedMaxWidth . " pixels wide and " . $allowedMaxHeight . " pixels in height";
+        }
+
+        /**
+         * If 'image' has no pixels, then it is likely to be invalid or corrupt. Even at 1px
+         */
+        if ($height <= 1 || $width <= 1) {
+            return "This file is either too small or corrupted to be an image file";
+        }
     }
 
 
     /**
      * The final method that validates, renames and uploads the image/file.
-     * @param $fileToUpload ex: $_FILES['name'];
-     * @param $newFileName  ex: 'uploads/'
-     * @return bool|string
+     * @param $fileToUpload
+     * @param null $fileToRename
+     * @return string
      */
-    public function upload($fileToUpload, $newFileName = null)
+    public function save($fileToUpload, $fileToRename = null)
     {
 
         /**
-         * First let's start with the easiest method, by checking if
-         * $_FILES['name']['error'] is not '0'.  If so, then there is
-         * an error thrown by the $_FILES array.
+         * First get the real and reliable file extension with pathinfo();
+         */
+        $fileExtension = strtolower(pathinfo($fileToUpload['name'], PATHINFO_EXTENSION));
+
+
+        /**
+         * Check if file extension exists, in the defined list of $allowedFileTypes
+         */
+        if (!in_array($fileExtension, $this->allowedFileTypes)) {
+            return "This is not allowed File type. Please only upload ("
+                . implode(' ,', $this->allowedFileTypes) . ") file types";
+        }
+
+
+        /**
+         * Check if $_FILE[]['error'] is set, and echo the corresponding error messages.
          */
         if ($fileToUpload['error']) {
             $errors = $this->commonFileUploadErrors();
@@ -154,88 +268,87 @@ class ImageUploader
 
 
         /**
-         * Since the file type provided by $_FILES is unreliable due to system/browser
-         * variations, we will double check the real type/extension
-         * with the SplFileInfo::getExtension(); method.
+         * Check if file min & max sizes do not exceed the limit passed
          */
-        $splFileInfo = new SplFileInfo($fileToUpload['name']);
-        $splFileExtension = $splFileInfo->getExtension();
-
-
-        /**
-         * Check if the given extension exists in the settings.
-         */
-        if (!in_array($splFileExtension, $this->fileExtensions)) {
-            return "This is not allowed File type. Please only upload ("
-                . implode(' ,', $this->fileExtensions) . ") file types";
-        }
-
-
-        /**
-         * Check if the Min & Max file size is within the scope of what
-         * is expected in the setFileSize() method.
-         */
-        if ($fileToUpload['size'] <= $this->fileSize['min'] ||
-            $fileToUpload['size'] >= $this->fileSize['max']
+        if ($fileToUpload['size'] <= $this->allowedFileSize['min'] ||
+            $fileToUpload['size'] >= $this->allowedFileSize['max']
         ) {
-            return "Min & Max file sizes must be less in-between
-                    " . (implode(" to ", $this->fileSize)) . " kilobytes";
+            return "Files sizes must be in-between
+                    " . (implode(" to ", $this->allowedFileSize)) . " kilobytes";
         }
 
-
         /**
-         * Important!
-         * If a value is passed through setImageDimensions(); then, this class
-         * will validate the uploaded material as if it was an image, by checking the height
-         * and width for pixels. If value is set to NULL however, this class will
-         * not check height/width. So, you can upload a normal file
+         * If this variable is set, it means our script is trying to upload an image,
+         * thus, it is important to validate the image by a given pixel value
          */
-        if ($this->imageDimensions) {
+        if ($this->allowedImageDimensions) {
 
-            /**
-             * Get width and height of the image file for validation
-             */
-            list($width, $height, $type, $attr) = getimagesize($fileToUpload['tmp_name']);
+            $imageHasPixelError = $this->findImagePixelErrors($fileToUpload['tmp_name']);
 
-            if ($width > $this->imageDimensions['max-width'] ||
-                $height > $this->imageDimensions['min-width']
-            ) {
-                return "Image must be less than "
-                    . $this->imageDimensions['max-width'] . "pixels wide and"
-                    . $this->imageDimensions['max-height'] . "pixels in height";
-            }
+            if ($imageHasPixelError) {
 
-            /**
-             * If height/width are smalled than 1, the image is unlikely to be valid.
-             */
-            if ($height <= 1 || $width <= 1) {
-                return "This file is either too small or corrupted to be an image file";
+                return $imageHasPixelError;
+
             }
 
         }
 
 
         /**
-         * check weather, a new name is assigned for this file, through the second argument.
+         * If file name is passed as the second argument, use it as a name for this file,
+         * otherwise use a randome + uniqid as a nem
          */
-        if ($newFileName) {
-
-            /**
-             * If a file name is set, then assign it and append the new extension obtained
-             * from the SplFileInfo::getExtension();
-             */
-            $newFileName = $newFileName . "." . $splFileExtension;
-            
+        if (!$fileToRename) {
+            $newFileName = uniqid(str_shuffle(implode(range(1, 20)))) . "." . $fileExtension;
         } else {
+            $newFileName = $fileToRename . "." . $fileExtension;
+        }
 
 
-            /**
-             * If not, create a 54 digit length id for the file.
-             * by combining random string + a unique id.
-             */
-            $uniqid = uniqid(str_shuffle(implode(range(1, 10))), true);
-            $newFileName = $uniqid . "." . $splFileExtension;
-            
+        /**
+         * If a value for newResizeDimensions is passed, then we'll
+         * crop the image as indicated.
+         */
+        if ($this->newImageResizeDimensions) {
+            list($width, $height) = getimagesize($fileToUpload['tmp_name']);
+            $newWidth = ($height / $width) * $this->newImageResizeDimensions['width'];
+            $newHeight = ($height / $width) * $this->newImageResizeDimensions['height'];
+
+
+            /* read binary data from image file */
+            $imgString = file_get_contents($fileToUpload['tmp_name']);
+
+            /* create image from string */
+            $image = imagecreatefromstring($imgString);
+            $tmp = imagecreatetruecolor($newWidth, $newHeight);
+            imagecopyresampled(
+                $tmp,
+                $image,
+                0,
+                0,
+                0,
+                0,
+                $newWidth,
+                $newHeight,
+                $width,
+                $height
+            );
+            switch ($fileExtension) {
+                case 'jpeg':
+                case 'jpg':
+                    imagejpeg($tmp, $this->allowedUploadDirectory . $newFileName, 100);
+                    break;
+                case 'png':
+                    imagepng($tmp, $this->allowedUploadDirectory . $newFileName, 0);
+                    break;
+                case 'gif':
+                    imagegif($tmp, $this->allowedUploadDirectory . $newFileName);
+                    break;
+                default:
+                    exit;
+                    break;
+            }
+            return $this->allowedUploadDirectory;
         }
 
 
@@ -249,7 +362,11 @@ class ImageUploader
         /**
          * Move the file to the new dir specified by user
          */
-        $moveUploadFile = move_uploaded_file($fileToUpload['tmp_name'], $this->uploadFolder . '/' . $newFileName);
+        $moveUploadFile = move_uploaded_file(
+            $fileToUpload['tmp_name'],
+            $this->allowedUploadDirectory . '/' . $newFileName
+        );
+
 
 
         /**
@@ -257,22 +374,21 @@ class ImageUploader
          * If true, return the new file name with its extension as a positive response.
          */
         if ($checkSafeUpload && $moveUploadFile) {
-            return $newFileName;
+            return $this->allowedUploadDirectory;
         } else {
+
 
             /**
              * If file upload has not worked for any reason, then debug the server environment/permission
              * and its settings  etc.. for possible errors.
              */
-            $checkServerForErrors = $this->debugEnvironment($this->uploadFolder);
+            $checkServerForErrors = $this->debugEnvironment($this->allowedUploadDirectory);
+
 
             /**
              * If error is found from the debugEnvironment() return the error, otherwise show any error as a last resort
              */
             return $checkServerForErrors ? $checkServerForErrors : "Unknown error occured, please try later";
         }
-
-
     }
-
 }
