@@ -4,17 +4,15 @@ namespace BulletProof;
 /**
  * ImageUploder: A simple and secure PHP Image/File uploader class.
  *
- * This was/is being built for a personal project, but I wanted to share it 
+ * This was/is being built for a personal project, but I wanted to share it
  * with everyone else to improve the code and make it secure. Therefore, pls
- * use at your own risk, and help by poiting out some bugs/flaws as much as 
- * possible. 
- * 
- * The purpose of the script is mainly to upload images with best security 
- * in mind. I recommend you use other libraries for files, and leave this 
- * for image upload only. 
- * 
+ * use at your own risk, and help by poiting out some bugs/flaws as much as
+ * possible. The purpose of the script is mainly to upload images with best security
+ * in mind. I recommend you use other libraries for files, and leave this
+ * for image upload only.
+ *
  * @author     Simon _eQ <https://github.com/simon-eQ>
- * @Version    0.1 
+ * @Version    0.1
  * @license    Public domain. No Licence.
  */
 
@@ -118,7 +116,7 @@ class ImageUploader
      * @param $textToWrite
      * @return $this
      */
-    public function watermarkText($textToWrite)
+    public function textWaterMark($textToWrite)
     {
         $this->textToWatermark = $textToWrite;
         return $this;
@@ -129,7 +127,7 @@ class ImageUploader
      * @param $imageToWatermark
      * @return $this
      */
-    public function watermarkImage($imageToWatermark)
+    public function imageWatermark($imageToWatermark)
     {
         $this->imageToWatermark = $imageToWatermark;
         return $this;
