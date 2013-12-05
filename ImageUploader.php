@@ -2,13 +2,19 @@
 namespace BulletProof;
 
 /**
- * ImageUploder: A simple and secure PHP Image uploader class.
+ * ImageUploder: A simple and secure PHP Image/File uploader class.
  *
- * You may upload any files too, but for best performance, use this class
- * to upload images only. As, it is best made for checking & validating
- * images, such as the jpg, gif, png types/variations.
+ * This was/is being built for a personal project, but I wanted to share it 
+ * with everyone else to improve the code and make it secure. Therefore, pls
+ * use at your own risk, and help by poiting out some bugs/flaws as much as 
+ * possible. 
+ * 
+ * The purpose of the script is mainly to upload images with best security 
+ * in mind. I recommend you use other libraries for files, and leave this 
+ * for image upload only. 
  * 
  * @author     Simon _eQ <https://github.com/simon-eQ>
+ * @Version    0.1 
  * @license    Public domain. No Licence.
  */
 
