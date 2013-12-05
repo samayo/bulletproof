@@ -21,43 +21,49 @@ class ImageUploader
 {
 
     /**
-     * default image types
+     * Set a group of default files types to upload.
      * @var array
      */
     private $allowedFileTypes = array("gif", "jpg", "png");
+
     /**
-     * Set a min & max file size in bytes. Remember: 30000bytes == 30kb
+     * Set the min & max file upload size in bytes. Remember: 30000bytes == 30kb
      * @var array
      */
     private $allowedFileSize = array("min" => 100, "max" => 30000);
+
     /**
-     * default image dimension size, in pixels.
+     * Set the default image dimensions, in pixels. ex: 100*100
      * @var array
      */
     private $allowedImageDimensions = array();
+
     /**
-     * folder to upload the files into.
+     * Set a folder to upload all files into.
      * @var
      */
     private $allowedUploadDirectory;
+
     /**
-     * Simple text to place on uploaded images
+     * Simple text to write/stick on each uploaded images
      * @var
      */
     private $textToWatermark;
+
     /**
-     * A png image to watermark uploaded images
+     * Set an image to use as a water mark for each image uploads.
      * @var
      */
     private $imageToWatermark;
+
     /**
-     * Force resizing images, to a fixed width&height by pixels.
+     * Give size dimension to force change / resize all images during upload.
      * @var array
      */
     private $newImageResizeDimensions = array();
 
     /**
-     * Pass file type that user must upload. ex: gif, png, tifff
+     * Set file types that must be uploaded. Becarefull not to give .exe ..
      * @param array $setFileTypes
      * @return $this
      */
@@ -68,7 +74,7 @@ class ImageUploader
     }
 
     /**
-     * Pass min & max file size to be uploaded, ex ['min-height'=>100, 'max-height'=>200]
+     * Set min & max file size for each files. ex ['min-height'=>100, 'max-height'=>200]
      * @param array $setFileSizes
      * @return $this
      */
@@ -79,7 +85,7 @@ class ImageUploader
     }
 
     /**
-     * Check uploaded images, again to what is set below.
+     * Check uploaded image's dimension to what is set here.
      * @param array $setImageDimensions
      * @return $this
      */
@@ -90,7 +96,7 @@ class ImageUploader
     }
 
     /**
-     * Set if you need to tell PHP where to upload files/image into
+     * Tell PHP where to put all the uploaded files into. ex: 'uploads/'
      * @param $folderToUpload
      * @return $this
      */
@@ -101,7 +107,7 @@ class ImageUploader
     }
 
     /**
-     * If set, it'll force shrink all images uploaded.
+     * Give width*height dimension to force resize/crop all images.
      * @param array $imageResizeDimensions
      * @return $this
      */
@@ -112,7 +118,7 @@ class ImageUploader
     }
 
     /**
-     * Pass a text to watermark every uploaded image
+     * Pass the text to put on images as a watermark.
      * @param $textToWrite
      * @return $this
      */
@@ -123,7 +129,7 @@ class ImageUploader
     }
 
     /**
-     * Pass a PNG image to watermark all uploaded images
+     * Pass a PNG image use as a watermark all uploaded images
      * @param $imageToWatermark
      * @return $this
      */
