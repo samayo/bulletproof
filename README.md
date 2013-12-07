@@ -1,53 +1,44 @@
 ### ImageUploader
 ###A newbie-friendly php class to upload images, securely.
 
+As usuall, first simply require the file, and instantiate the class. 
 ````php
-/**
- * As usuall, first simply require the file, and instantiate the class. 
- */
 require_once 'ImageUploader.php';
 $newUpload = new BulletProof\ImageUploader();
 ````
-
+Example 1: Upload images with specific width and height only. 
 ````php
-/**
- * Example 1: Upload images with specific width and height only. 
- */
 if($_FILES){
 $result = $newUpload
-    ->fileTypes(array("jpg", "gif")) //file types to accept.
-    ->fileSizeLimit(array("min"=>10, "max"=>30000)) //min - max file size in bytes
-    ->imageDimension("max-height"=>450, "max-width"=>550) //height vs width of file in pixels
-    ->uploadTo('uploads/') //the folder to upload the file
-    ->save($_FILES['logo'], 'my_profile'); //the file to upload, and a new file name
-        echo $result;  //my_profile.gif
+    ->fileTypes(array("jpg", "gif")) #file types to accept.
+    ->fileSizeLimit(array("min"=>10, "max"=>30000)) #min - max file size to accept (in bytes)
+    ->imageDimension("max-height"=>450, "max-width"=>550) #height & width of file in pixels
+    ->uploadTo('uploads/') #the folder to upload the file
+    ->save($_FILES['logo'], 'my_profile'); #the file to upload, and a new file name
+        echo $result;  #my_profile.gif
 }
 ````
+Example 2: Crop/Resize images before uploading. 
 ````php
-/**
- * Example 2: Crop/Resize images before uploading. 
- */
 if($_FILES){
 $result = $newUpload
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
     ->fileSizeLimit(array("max"=>900000, "min"=>100))
-    ->resizeImage(array("height"=>100, "width"=>100)) // crop/resize image to 100x100px
+    ->resizeImage(array("height"=>100, "width"=>100)) # crop/resize image to 100x100px
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); //if no name is given a uniqe random name will be generated
-        echo $result; //1118921069587715213410141132611529ff56cbb7e5.jpg
+        echo $result; #1118921069587715213410141132611529ff56cbb7e5.jpg
     }
 ````
+Example 3: Upload non image files. ex: .mp3
 ````php
-/**
- * Example 3: Upload non image files. ex: .mp3
- */
 if($_FILES){
 $result = $newUpload
     ->fileTypes(array("mp3")) //chose file type 
     ->fileSizeLimit(array("max"=>900000, "min"=>100))
     ->uploadTo('uploads/')
-    ->save($_FILES['mp3']);
-        echo $result; //1613101516119211154412082387197529ff52d2fa04.mp3
+    ->save($_FILES['mp3'], 'my_song');
+        echo $result; #my_song.mp3
     }
 ````
 
