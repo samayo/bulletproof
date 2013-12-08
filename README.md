@@ -10,12 +10,12 @@ Example 1: Upload images with specific width and height only.
 ````php
 if($_FILES){
 $result = $newUpload
-    ->fileTypes(array("jpg", "gif")) #file types to accept.
-    ->fileSizeLimit(array("min"=>10, "max"=>30000)) #min - max file size to accept (in bytes)
+    ->fileTypes(array("jpg", "gif"))  
+    ->fileSizeLimit(array("min"=>10, "max"=>30000))  
     ->imageDimension("max-height"=>450, "max-width"=>550) #height & width of file in pixels
-    ->uploadTo('uploads/') #the folder to upload the file
-    ->save($_FILES['logo'], 'my_profile'); #the file to upload, and a new file name
-        echo $result;  #my_profile.gif
+    ->uploadTo('uploads/')  
+    ->save($_FILES['logo'], 'new_name'); 
+        echo $result;  #new_name.gif
 }
 ````
 Example 2: Crop/Resize images before uploading. 
