@@ -20,26 +20,30 @@ $result = $newUpload
 ````
 Example 2: Crop/Resize images before uploading. 
 ````php
-if($_FILES){
 $result = $newUpload
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
     ->fileSizeLimit(array("max"=>900000, "min"=>100))
     ->resizeImage(array("height"=>100, "width"=>100)) # crop/resize image to 100x100px
     ->uploadTo('uploads/')
-    ->save($_FILES['logo']); //if no name is given a uniqe random name will be generated
+    ->save($_FILES['logo']); 
         echo $result; #1118921069587715213410141132611529ff56cbb7e5.jpg
-    }
 ````
 Example 3: Upload non image files. ex: .mp3
 ````php
-if($_FILES){
 $result = $newUpload
     ->fileTypes(array("mp3")) //chose file type 
     ->fileSizeLimit(array("max"=>900000, "min"=>100))
     ->uploadTo('uploads/')
     ->save($_FILES['mp3'], 'my_song');
         echo $result; #my_song.mp3
-    }
+````
+Remember, the `save()` method accepts two arguments. i.e. `->save($fileToUpload, $renameFile = null)`
+depending on your needs, you may rename or leave the file to be rename as shown in the two examples.
+````php
+->save($_FILES['fileName'], 'cheeez') #Uploaded file will be renamed 'cheeez' .jpg/.png/.gif ..
+````
+````php
+->save($_FILES['fileName']) #file will be named automatically ex '1118921069587715213410141132611529ff56cbb7e5.jpg'
 ````
 
 #### What makes this secure?
