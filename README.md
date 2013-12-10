@@ -1,6 +1,6 @@
 ### ImageUploader
 ###A newbie-friendly php class to upload images, securely.
-
+---- a work in progress ----    
 As usuall, first simply require the file, and instantiate the class. 
 ````php
 require_once 'ImageUploader.php';
