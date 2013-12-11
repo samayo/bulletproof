@@ -59,3 +59,13 @@ depending on your needs, you may rename or leave the file to be rename as shown 
 * <del>Option to force resize files</del> Done!
 * Option to watermark images
 * handle errors with exceptions 
+
+
+
+
+![FORK](http://i.imm.io/1m2WW.png)
+
+
+
+##License 
+[Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/)
