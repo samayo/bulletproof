@@ -1,6 +1,10 @@
 ### ImageUploader
 ###A newbie-friendly php class to upload images, securely.
----- a work in progress ----    
+
+
+---- READ: This is a work in progress, It works like a charm, but it is far from achieving its goal. So, comeback later for more updates.  ----       
+
+
 As usuall, first simply require the file, and instantiate the class. 
 ````php
 require_once 'ImageUploader.php';
@@ -57,7 +61,8 @@ depending on your needs, you may rename or leave the file to be rename as shown 
 
 ###What is next? 
 * <del>Option to force resize files</del> Done!
-* Option to watermark images
+* <del>Option to watermark images<del> Done! 
+* apply text watermark to images
 * handle errors with exceptions 
 
 
