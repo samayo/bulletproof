@@ -75,7 +75,7 @@ depending on your needs, you may rename or leave the file to be rename as shown 
 
 ###What is next? 
 * <del>Option to force resize files</del> Done!
-* <del>Option to watermark images<del> Done! 
+* <del>Option to watermark images Done! <del>
 * apply text watermark to images
 * handle errors with exceptions 
 
