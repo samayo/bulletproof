@@ -74,10 +74,10 @@ $result = $newUpload
 
 
 ###What is next? 
-* <del>Allow file resizing</del> Done!
+* <del>Allow image resizing</del> Done!
 * <del>Allow image watermarking</del> Done! 
-* apply text watermark to images
-* handle errors with exceptions 
+* Allow text watermarking
+* Handle errors with exceptions 
 
 
 
