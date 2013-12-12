@@ -1,18 +1,15 @@
 <?php
 namespace BulletProof;
-
 /**
- * ImageUploder: A simple and secure PHP Image/File uploader class.
+ * BulletProof ImageUploder:
+ * With this class, you can Resize, add Watermarks and Upload images with best security.
  *
- * This was/is being built for a personal project, but I wanted to share it
- * with everyone else to improve the code and make it secure. Therefore, pls
- * use at your own risk, and help by poiting out some bugs/flaws as much as
- * possible. The purpose of the script is mainly to upload images with best security
- * in mind. I recommend you use other libraries for files, and leave this
- * for image upload only.
+ * Development is still on going to add more features. You can upload files too, but
+ * the class is best made for image uploads, Therefore, pls
+ * use at your own risk, and help by positing out some bugs/flaws as much as
+ * possible.
  *
  * @author     Simon _eQ <https://github.com/simon-eQ>
- * @Version    0.1
  * @license    Public domain. No Licence.
  */
 
@@ -24,120 +21,319 @@ class ImageUploader
      * Set a group of default files types to upload.
      * @var array
      */
-    private $allowedFileTypes = array("gif", "jpg", "png");
+    private $setFileTypes = array("gif", "jpg", "png");
 
     /**
-     * Set the min & max file upload size in bytes. Remember: 30000bytes == 30kb
+     * Set the min & max file upload size in bytes. Remember: ~30kb === 30000bytes
      * @var array
      */
-    private $allowedFileSize = array("min" => 100, "max" => 30000);
+    private $setFileSize = array("min" => 100, "max" => 30000);
 
     /**
      * Set the default image dimensions, in pixels. ex: 100*100
      * @var array
      */
-    private $allowedImageDimensions = array();
+    private $setImageDimensions = array();
 
     /**
      * Set a folder to upload all files into.
      * @var
      */
-    private $allowedUploadDirectory;
-
-    /**
-     * Simple text to write/stick on each uploaded images
-     * @var
-     */
-    private $textToWatermark;
+    private $setUploadDirectory;
 
     /**
      * Set an image to use as a water mark for each image uploads.
      * @var
      */
-    private $imageToWatermark;
+    private $setImageToWatermark;
 
     /**
-     * Give size dimension to force change / resize all images during upload.
+     * Watermark position ex: top-right, top-left, center, bottom-right or bottom-left
+     * @var
+     */
+    private $setWatermarkPosition = 'bottom-left';
+
+    private $watermarkDimension = array();
+
+    /**
+     * Set new size to crop/resize the image. ex: array('width'=>100, 'height'=>100);
      * @var array
      */
-    private $newImageResizeDimensions = array();
+    private $setImageDimensionsForResizing = array();
 
     /**
-     * Set file types that must be uploaded. Becarefull not to give .exe ..
-     * @param array $setFileTypes
+     * Store the real file extension for multiple call/use
+     * @var
+     */
+    private $getRealFileExtension;
+
+
+    /**
+     * Set file types that must be uploaded. ex: array('png', 'gif', 'jpg').
+     * @param array $fileTypes
      * @return $this
      */
-    public function fileTypes(array $setFileTypes)
+    public function setFileTypes(array $fileTypes)
     {
-        $this->allowedFileTypes = $setFileTypes;
+        $this->setFileTypes = $fileTypes;
         return $this;
     }
 
     /**
-     * Set min & max file size for each files. ex ['min-height'=>100, 'max-height'=>200]
-     * @param array $setFileSizes
+     * Set min & max file size in pixels. ex ['min'=>500, 'max'=>500]
+     * @param array $fileSize
      * @return $this
      */
-    public function fileSizeLimit(array $setFileSizes)
+    public function setSizeLimit(array $fileSize)
     {
-        $this->allowedFileSize = $setFileSizes;
+        $this->setFileSize = $fileSize;
         return $this;
     }
 
     /**
-     * Check uploaded image's dimension to what is set here.
+     * Pass Width & Height of images for uploading
      * @param array $setImageDimensions
      * @return $this
      */
-    public function imageDimension(array $setImageDimensions)
+    public function setImageSize(array $setImageDimensions)
     {
-        $this->allowedImageDimensions = $setImageDimensions;
+        $this->setImageDimensions = $setImageDimensions;
         return $this;
     }
 
     /**
-     * Tell PHP where to put all the uploaded files into. ex: 'uploads/'
+     * Tell PHP where to put all the uploaded files into. ex: 'pictures/'
      * @param $folderToUpload
      * @return $this
      */
     public function uploadTo($folderToUpload)
     {
-        $this->allowedUploadDirectory = $folderToUpload;
+        $this->setUploadDirectory = $folderToUpload;
         return $this;
     }
 
     /**
-     * Give width*height dimension to force resize/crop all images.
-     * @param array $imageResizeDimensions
+     * Set width * height in pixels to  resize/crop all images accordingly.
+     * @param array $imageDimensions
      * @return $this
      */
-    public function resizeImage(array $imageResizeDimensions)
+    public function resizeImageTo(array $imageDimensions)
     {
-        $this->newImageResizeDimensions = $imageResizeDimensions;
+        $this->setImageDimensionsForResizing = $imageDimensions;
         return $this;
     }
 
     /**
-     * Pass the text to put on images as a watermark.
-     * @param $textToWrite
+     * Function to set the watermark and the position.
+     * @param $imageToWatermark - image to use as watermark
+     * @param $watermarkPosition - where the watermark should appear ex: 'center'
      * @return $this
      */
-    public function textWaterMark($textToWrite)
+    public function imageToWatermark($imageToWatermark, $watermarkPosition)
     {
-        $this->textToWatermark = $textToWrite;
+        $this->setImageToWatermark = $imageToWatermark;
+        $this->setWatermarkPosition = $watermarkPosition;
+        $this->watermarkDimension = $this->getImagePixels($imageToWatermark);
         return $this;
     }
 
     /**
-     * Pass a PNG image use as a watermark all uploaded images
+     * We can call this function multiple times to get file extensions
+     * @param $fileName
+     * @return string
+     */
+    protected function getFileExtension($fileName)
+    {
+        return strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    }
+
+
+    /**
+     * Encapsulate this help to call it multiple times, instead of using
+     * getImageSize() function various times, from within other methods.
+     * @param $imageName
+     * @return array
+     */
+    private function getImagePixels($imageName)
+    {
+        list($width, $height) = getImageSize($imageName);
+        return array($width, $height);
+    }
+
+
+    /**
+     * Create a costume array for each possible error that may be
+     * thrown by the $_FILES[] array.
+     * @return array
+     */
+    public function commonFileUploadErrors()
+    {
+        /**
+         * We can use those keys as identifiers of the $_FILES[]['error'] value
+         * to call the corresponding error messages. Damn I'm good! :D
+         */
+        return array(
+            UPLOAD_ERR_OK => "...",
+            UPLOAD_ERR_INI_SIZE => "File is larger than the specified amount set by the server",
+            UPLOAD_ERR_FORM_SIZE => "Files is larger than the specified amount specified by browser",
+            UPLOAD_ERR_PARTIAL => "File could not be fully uploaded. Please try again later",
+            UPLOAD_ERR_NO_FILE => "File is not found",
+            UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, as per server configuration",
+            UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Introduced in PHP",
+            UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload"
+        );
+    }
+
+
+    /**
+     * Get image width and height for validation.
+     * @param $fileName
+     * @return string
+     */
+    private function validateImagePixels($fileName)
+    {
+        /**
+         * get width and height for validation.
+         */
+        list($width, $height) = $this->setImageDimensions;
+        list($allowedWidth, $allowedHeight) = $this->getImagePixels($fileName);
+
+        /**
+         * Check if width and height do not surpass the limit already assigned.
+         */
+        if ($width >= $allowedWidth || $height >= $allowedHeight) {
+            return "Image must be less than " .
+                       $allowedHeight . " pixels height and ".
+                       $allowedWidth . " pixels in wide";
+        }
+
+        /**
+         * If 'image' has no pixels, then it is likely to be invalid or corrupt. Even at 1px
+         */
+        if ($width <= 1 || $height <= 1) {
+            return "This file is either too small or corrupted to be an image file";
+        }
+
+        return false;
+    }
+
+
+    /**
+     * If file name is passed as the second argument, use it as a name for this file,
+     * otherwise use a randome + uniqid as a nem
+     */
+    private function newFileName($isNameProvided){
+        if($isNameProvided){
+            return $isNameProvided.".".$this->getRealFileExtension;
+        }
+
+        return uniqid(str_shuffle(implode(range(1, 20)))).".".$this->getRealFileExtension;
+    }
+
+
+
+
+
+/**
+     * The objective is to let position of watermark be passed in words ex:
+     * 'center', 'right-top', 'bottom-left', etc... for that to happen, little
+     * maths coding is required here.
+     * @param $position
+     * @param $getImageSize
+     * @return array
+     */
+    private function calculateWatermarkPosition($position, $getImageSize)
+    {
+
+        $imageWidth = $getImageSize['0'];
+        $imageHeight = $getImageSize['1'];
+        //list($imageHeight, $imageWidth) = $getImageSize;
+
+        list($watermarkHeight, $watermarkWidth) = $this->watermarkDimension;
+        var_dump($this->watermarkDimension);
+
+
+        switch ($position) {
+            case 'center':
+                $bottomPosition = ($imageHeight / 2) - $watermarkHeight;
+                $rightPosition = ($imageWidth / 2) - $watermarkWidth;
+                break;
+
+            case 'bottom-left':
+                $bottomPosition = 0;
+                $rightPosition = $imageWidth - $watermarkWidth;
+                break;
+
+            case 'top-left':
+                $bottomPosition = $imageHeight - $watermarkHeight;
+                $rightPosition = $imageWidth - $watermarkWidth;
+                break;
+
+            case 'top-right':
+                $bottomPosition = $imageHeight - $watermarkHeight;
+                $rightPosition = 0;
+                break;
+
+            default:
+                $bottomPosition = 0;
+                $rightPosition = 0;
+                break;
+        }
+
+        return array($bottomPosition, $rightPosition);
+
+
+    }
+
+    /**
+     * Apply watermark.
      * @param $imageToWatermark
-     * @return $this
+     * @param $watermarkPosition
+     * @param $newName
      */
-    public function imageWatermark($imageToWatermark)
+    private function applyWatermark($imageToWatermark, $watermarkPosition, $newName)
     {
-        $this->imageToWatermark = $imageToWatermark;
-        return $this;
+
+        $watermark = $this->setImageToWatermark;
+        list($marginBottom, $marginRight) = $watermarkPosition;
+
+        $imageType = $this->getFileExtension($imageToWatermark);
+
+        $stamp = imagecreatefrompng($watermark);
+
+        switch ($imageType) {
+            case 'jpg':
+            case 'jpeg':
+                $createImage = imagecreatefromjpeg($imageToWatermark);
+                break;
+
+            case 'png':
+                $createImage = imagecreatefrompng($imageToWatermark);
+                break;
+
+            case 'gif':
+                $createImage = imagecreatefromgif($imageToWatermark);
+                break;
+
+            default:
+                $createImage = imagecreatefromjpeg($imageToWatermark);
+                break;
+        }
+
+
+        $sx = imagesx($stamp);
+        $sy = imagesy($stamp);
+        imagecopy($createImage,
+                    $stamp,
+                    imagesx($createImage) - $sx - $marginRight,
+                    imagesy($createImage) - $sy - $marginBottom,
+                    0,
+                    0,
+                    imagesx($stamp),
+                    imagesy($stamp));
+        imagepng($createImage, $this->setUploadDirectory . $newName);
     }
+
 
     /**
      * The final method that validates, renames and uploads the image/file.
@@ -151,17 +347,16 @@ class ImageUploader
         /**
          * First get the real and reliable file extension with pathinfo();
          */
-        $fileExtension = strtolower(pathinfo($fileToUpload['name'], PATHINFO_EXTENSION));
-
+        $this->getRealFileExtension = $this->getFileExtension($fileToUpload['name']);
 
         /**
          * Check if file extension exists, in the defined list of $allowedFileTypes
          */
-        if (!in_array($fileExtension, $this->allowedFileTypes)) {
+        if (!in_array($this->getRealFileExtension, $this->setFileTypes)) {
             return "This is not allowed File type. Please only upload ("
-                . implode(' ,', $this->allowedFileTypes) . ") file types";
-        }
+                . implode(' ,', $this->setFileTypes) . ") file types";
 
+        }
 
         /**
          * Check if $_FILE[]['error'] is set, and echo the corresponding error messages.
@@ -175,47 +370,35 @@ class ImageUploader
         /**
          * Check if file min & max sizes do not exceed the limit passed
          */
-        if ($fileToUpload['size'] <= $this->allowedFileSize['min'] ||
-            $fileToUpload['size'] >= $this->allowedFileSize['max']
+        if ($fileToUpload['size'] <= $this->setFileSize['min'] ||
+            $fileToUpload['size'] >= $this->setFileSize['max']
         ) {
             return "Files sizes must be in-between
-                    " . (implode(" to ", $this->allowedFileSize)) . " kilobytes";
+                    " . (implode(" to ", $this->setFileSize)) . " kilobytes";
         }
 
         /**
          * If this variable is set, it means our script is trying to upload an image,
          * thus, it is important to validate the image by a given pixel value
          */
-        if ($this->allowedImageDimensions) {
-
-            $imageHasPixelError = $this->findImagePixelErrors($fileToUpload['tmp_name']);
-
+        if ($this->setImageDimensions) {
+            $imageHasPixelError = $this->validateImagePixels($fileToUpload['tmp_name']);
             if ($imageHasPixelError) {
-
                 return $imageHasPixelError;
-
             }
-
         }
 
-        /**
-         * If file name is passed as the second argument, use it as a name for this file,
-         * otherwise use a randome + uniqid as a nem
-         */
-        if (!$fileToRename) {
-            $newFileName = uniqid(str_shuffle(implode(range(1, 20)))) . "." . $fileExtension;
-        } else {
-            $newFileName = $fileToRename . "." . $fileExtension;
-        }
+        $newFileName = $this->newFileName($fileToRename);
+
 
         /**
          * If a value for newResizeDimensions is passed, then we'll
          * crop the image as indicated.
          */
-        if ($this->newImageResizeDimensions) {
+        if ($this->setImageDimensionsForResizing) {
             list($width, $height) = getimagesize($fileToUpload['tmp_name']);
-            $newWidth = ($height / $width) * $this->newImageResizeDimensions['width'];
-            $newHeight = ($height / $width) * $this->newImageResizeDimensions['height'];
+            $newWidth = ($height / $width) * $this->setImageDimensionsForResizing['width'];
+            $newHeight = ($height / $width) * $this->setImageDimensionsForResizing['height'];
 
             /**
              * Read the binary data from the image file
@@ -243,16 +426,16 @@ class ImageUploader
             /**
              * Get image type to create image acordingly.
              */
-            switch ($fileExtension) {
+            switch ($this->getFileExtension) {
                 case 'jpeg':
                 case 'jpg':
-                    imagejpeg($tmp, $this->allowedUploadDirectory . $newFileName, 100);
+                    imagejpeg($tmp, $this->setUploadDirectory . $newFileName, 100);
                     break;
                 case 'png':
-                    imagepng($tmp, $this->allowedUploadDirectory . $newFileName, 0);
+                    imagepng($tmp, $this->setUploadDirectory . $newFileName, 0);
                     break;
                 case 'gif':
-                    imagegif($tmp, $this->allowedUploadDirectory . $newFileName);
+                    imagegif($tmp, $this->setUploadDirectory . $newFileName);
                     break;
                 default:
                     exit;
@@ -264,26 +447,39 @@ class ImageUploader
 
         /**
          * According the the PHP manual, is_uploaded_file() is mandatory to check if file was
-         * posted from HTTP POST metho,  as an additional security check.
+         * posted from HTTP POST method,  as an additional security check.
          */
         $checkSafeUpload = is_uploaded_file($fileToUpload['tmp_name']);
 
 
-        /**
-         * Move the file to the new dir specified by user
-         */
-        $moveUploadFile = move_uploaded_file(
-            $fileToUpload['tmp_name'],
-            $this->allowedUploadDirectory . '/' . $newFileName
-        );
+        if ($this->setImageToWatermark) {
+            $imageSize = $this->getImagePixels($fileToUpload['tmp_name']);
+            var_dump($imageSize);
+            $getWatermarkPosition = $this->calculateWatermarkPosition($this->setWatermarkPosition, $imageSize);
+            $this->applyWatermark($fileToUpload['tmp_name'], $getWatermarkPosition, $newFileName);
 
+            $moveUploadFile = move_uploaded_file(
+                __DIR__ . $newFileName,
+                $this->setUploadDirectory . '/' . $newFileName
+            );
+        } else {
+
+
+            /**
+             * Move the file to the new dir specified by user
+             */
+            $moveUploadFile = move_uploaded_file(
+                $fileToUpload['tmp_name'],
+                $this->allowedUploadDirectory . '/' . $newFileName
+            );
+        }
 
         /**
          * Check if every validation has gone as expected.
          * If true, return the new file name with its extension as a positive response.
          */
-        if ($checkSafeUpload && $moveUploadFile) {
-            return $this->allowedUploadDirectory;
+        if ($checkSafeUpload) {
+            return $this->setUploadDirectory . $newFileName;
         } else {
 
 
@@ -291,7 +487,7 @@ class ImageUploader
              * If file upload has not worked for any reason, then debug the server environment/permission
              * and its settings  etc.. for possible errors.
              */
-            $checkServerForErrors = $this->debugEnvironment($this->allowedUploadDirectory);
+            $checkServerForErrors = $this->debugEnvironment($this->setUploadDirectory);
 
 
             /**
@@ -301,61 +497,6 @@ class ImageUploader
         }
     }
 
-    /**
-     * Create a costume array for each possible error that may be
-     * thrown by the $_FILES[] array.
-     * @return array
-     */
-    public function commonFileUploadErrors()
-    {
-        /**
-         * We can use those keys as identifiers of the $_FILES[]['error'] value
-         * to call the corresponding error messages. Damn I'm good! :D
-         */
-        return array(
-            UPLOAD_ERR_OK => "...",
-            UPLOAD_ERR_INI_SIZE => "File is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE => "Files is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL => "File could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE => "File is not found",
-            UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, as per server configuration",
-            UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Introduced in PHP",
-            UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload process"
-        );
-    }
-
-    /**
-     * For simple function call. This will check if pixels exists and are within the
-     * limit passed the the imageDimensions() method.
-     * @param $fileName
-     * @return string
-     */
-    public function findImagePixelErrors($fileName)
-    {
-
-        /**
-         * get width and height for validation.
-         */
-        list($width, $height, $type, $attr) = getimagesize($fileName);
-
-        $allowedMaxWidth = $this->allowedImageDimensions['max-width'];
-        $allowedMaxHeight = $this->allowedImageDimensions['max-height'];
-
-        /**
-         * Check if width and height do not surpass the limit already assigned.
-         */
-        if ($width > $allowedMaxWidth || $height > $allowedMaxHeight) {
-            return "Image must be less than " . $allowedMaxWidth . " pixels wide and
-                   " . $allowedMaxHeight . " pixels in height";
-        }
-
-        /**
-         * If 'image' has no pixels, then it is likely to be invalid or corrupt. Even at 1px
-         */
-        if ($height <= 1 || $width <= 1) {
-            return "This file is either too small or corrupted to be an image file";
-        }
-    }
 
     /**
      * There are many reasons for a file upload not work, other than from the information
