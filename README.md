@@ -5,49 +5,63 @@
 ---- READ: This is a work in progress, It works like a charm, but it is far from achieving its goal. So, comeback later for more updates.  ----       
 
 
-As usuall, first simply require the file, and instantiate the class. 
+#### Including / Instanciating the class 
 ````php
+/** As usuall, first simply require the file, and instantiate the class.  */ 
 require_once 'ImageUploader.php';
 $newUpload = new BulletProof\ImageUploader();
 ````
-Example 1: Upload images with specific width and height only. 
+
+#### Example 1: Uploading images with defalt settings. (Less code) 
 ````php
+/** This will upload only (jpg, gif, png, jpeg) files with size between 100bytes t0 30kb **/ 
 if($_FILES){
 $result = $newUpload
-    ->fileTypes(array("jpg", "gif"))  
-    ->fileSizeLimit(array("min"=>10, "max"=>30000))  
-    ->imageDimension("max-height"=>450, "max-width"=>550) #height & width of file in pixels
     ->uploadTo('uploads/')  
-    ->save($_FILES['logo'], 'new_name'); 
-        echo $result;  #new_name.gif
+    ->save($_FILES['logo']); 
 }
 ````
-Example 2: Crop/Resize images before uploading. 
+#### Example 2: Uploading images with specific size/type/dimensions (Moaarr code)
 ````php
+/** Will upload filestypes, size and image size as specified here. **/
 $result = $newUpload
-    ->fileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->fileSizeLimit(array("max"=>900000, "min"=>100))
-    ->resizeImage(array("height"=>100, "width"=>100)) # crop/resize image to 100x100px
+    ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
+    ->setSizeLimit(array("min"=>1000, "min"=>100000))
+    ->setImageSize(array("height"=>100, "width"=>100))
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
-        echo $result; #1118921069587715213410141132611529ff56cbb7e5.jpg
 ````
-Example 3: Upload non image files. ex: .mp3
+#### Example 3: Croping/resizing images and upload 
+
 ````php
+/** the resizeImageTo() method resizes any image to what is specified here ie. (100px 200px) **/
 $result = $newUpload
-    ->fileTypes(array("mp3")) //chose file type 
-    ->fileSizeLimit(array("max"=>900000, "min"=>100))
+    ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
+    ->setSizeLimit(array("min"=>1000, "min"=>100000))
+    ->resizeImageTo(array("height"=>100, "width"=>200))
     ->uploadTo('uploads/')
-    ->save($_FILES['mp3'], 'my_song');
-        echo $result; #my_song.mp3
+    ->save($_FILES['logo']); 
 ````
-Remember, the `save()` method accepts two arguments. i.e. `->save($fileToUpload, $renameFile = null)`
+#### Example 4: Upload images after adding watermarks
+````php
+/** the watermark() method accepts image/text to watermark and position (where to watermark it) **/
+$result = $newUpload
+    ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
+    ->setSizeLimit(array("min"=>1000, "min"=>100000))
+    ->watermark('watermark.png', 'bottom-right'))
+    ->uploadTo('uploads/')
+    ->save($_FILES['logo']); 
+````
+
+#### Things to notice
+
+* The `save()` method accepts two arguments. i.e. `->save($fileToUpload, $renameFile = null)`
 depending on your needs, you may rename or leave the file to be rename as shown in the two examples.
 ````php
 ->save($_FILES['fileName'], 'cheeez') #Uploaded file will be renamed 'cheeez' .jpg/.png/.gif ..
 ````
 ````php
-->save($_FILES['fileName']) #file will be named automatically ex '1118921069587715213410141132611529ff56cbb7e5.jpg'
+->save($_FILES['fileName']) #file will be named ex '1118921069587715213410141132611529ff56cbb7e5.jpg'
 ````
 
 #### What makes this secure?
