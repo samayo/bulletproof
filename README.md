@@ -13,13 +13,14 @@ $newUpload = new BulletProof\ImageUploader();
 #### Example 1: Uploading images with default settings. (Less code) 
 ````php
 /**
- *  This will use the default settings of the class and will let you upload only
- *  (jpg, gif, png, jpeg) images with file size of in-between min 0.1kb to max 30kb 
+ *  This will use the default settings of the class and will upload only
+ *  (jpg, gif, png, jpeg) images with size of between min 0.1kb to max 30kbs 
  */ 
 if($_FILES){
 $result = $newUpload
     ->uploadTo('uploads/')  
     ->save($_FILES['logo']); 
+    echo $result; /** this will give you the file name to store/echo using <img> tag. 
 }
 ````
 #### Example 2: Upload images with specific size/type/dimensions (Moaarr code)
@@ -57,9 +58,9 @@ $result = $newUpload
  The `save()` method accepts two arguments. First is the file, second (optional) is a new name for the file
  If you provide a name, file will be named accordingly, if not a unique name will be generated. 
 ````php
-/** Uploaded file will be renamed 'cheeez' but file extension will be still reserved. **/
+/** Uploaded file will be renamed 'cheeez' plus the file extension **/
 ->save($_FILES['fileName'], 'cheeez'); 
-/** file will be named ex '1118921069587715213410141132611529ff56cbb7e5 plus file extension**/
+/** file will be named ex '1118921069587715213410141132611529ff56cbb7e5' plus the file extension **/
 ->save($_FILES['fileName']); 
 ````
 
@@ -73,8 +74,8 @@ $result = $newUpload
 
 
 ###What is next? 
-* <del>Option to force resize files</del> Done!
-* <del>Option to watermark images </del> Done! 
+* <del>Allow file resizing</del> Done!
+* <del>Allow image watermarking</del> Done! 
 * apply text watermark to images
 * handle errors with exceptions 
 
