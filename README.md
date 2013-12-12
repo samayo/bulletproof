@@ -1,8 +1,6 @@
-### ImageUploader
-###A newbie-friendly php class to upload images, securely.
+###  Secure PHP Image & File Uploader. 
 
-
----- READ: This is a work in progress, It works like a charm, but it is far from achieving its goal. So, comeback later for more updates.  ----       
+---- READ: This is still in progres, although works like a charm; it is far from achieving its goal. So, watch for more updates.----       
 
 
 #### Including / Instanciating the class 
@@ -12,18 +10,21 @@ require_once 'ImageUploader.php';
 $newUpload = new BulletProof\ImageUploader();
 ````
 
-#### Example 1: Uploading images with defalt settings. (Less code) 
+#### Example 1: Uploading images with default settings. (Less code) 
 ````php
-/** This will upload only (jpg, gif, png, jpeg) files with size between 100bytes t0 30kb **/ 
+/**
+ *  This will use the default settings of the class and will let you upload only
+ *  (jpg, gif, png, jpeg) images with file size of in-between min 0.1kb to max 30kb 
+ */ 
 if($_FILES){
 $result = $newUpload
     ->uploadTo('uploads/')  
     ->save($_FILES['logo']); 
 }
 ````
-#### Example 2: Uploading images with specific size/type/dimensions (Moaarr code)
+#### Example 2: Upload images with specific size/type/dimensions (Moaarr code)
 ````php
-/** Will upload filestypes, size and image size as specified here. **/
+/** Will upload given filestypes, size and image size as shown here. **/
 $result = $newUpload
     ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
     ->setSizeLimit(array("min"=>1000, "min"=>100000))
@@ -31,10 +32,9 @@ $result = $newUpload
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
 ````
-#### Example 3: Croping/resizing images and upload 
-
+#### Example 3: Upload images after resizing 
 ````php
-/** the resizeImageTo() method resizes any image to what is specified here ie. (100px 200px) **/
+/** the resizeImageTo() method resizes any image to what is specified. **/
 $result = $newUpload
     ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
     ->setSizeLimit(array("min"=>1000, "min"=>100000))
@@ -42,7 +42,7 @@ $result = $newUpload
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
 ````
-#### Example 4: Upload images after adding watermarks
+#### Example 4: Upload images after adding watermark
 ````php
 /** the watermark() method accepts image/text to watermark and position (where to watermark it) **/
 $result = $newUpload
@@ -54,14 +54,13 @@ $result = $newUpload
 ````
 
 #### Things to notice
-
-* The `save()` method accepts two arguments. i.e. `->save($fileToUpload, $renameFile = null)`
-depending on your needs, you may rename or leave the file to be rename as shown in the two examples.
+ The `save()` method accepts two arguments. First is the file, second (optional) is a new name for the file
+ If you provide a name, file will be named accordingly, if not a unique name will be generated. 
 ````php
-->save($_FILES['fileName'], 'cheeez') #Uploaded file will be renamed 'cheeez' .jpg/.png/.gif ..
-````
-````php
-->save($_FILES['fileName']) #file will be named ex '1118921069587715213410141132611529ff56cbb7e5.jpg'
+/** Uploaded file will be renamed 'cheeez' but file extension will be still reserved. **/
+->save($_FILES['fileName'], 'cheeez'); 
+/** file will be named ex '1118921069587715213410141132611529ff56cbb7e5 plus file extension**/
+->save($_FILES['fileName']); 
 ````
 
 #### What makes this secure?
@@ -75,7 +74,7 @@ depending on your needs, you may rename or leave the file to be rename as shown 
 
 ###What is next? 
 * <del>Option to force resize files</del> Done!
-* <del>Option to watermark images Done! <del>
+* <del>Option to watermark images </del> Done! 
 * apply text watermark to images
 * handle errors with exceptions 
 
@@ -83,9 +82,9 @@ depending on your needs, you may rename or leave the file to be rename as shown 
 
 
 
-![FORK](http://i.imm.io/1m7EN.jpeg)
+![FORK](http://i.imm.io/1m7EN.jpeg)     
+Incase you have missed it. It means, you should not call methods like `->setImageSize()` or `resizeImageTo()` when you are uploading non-image files, such as .txt .mp3 files ... (As I have done that once..)
 
 
-
-##License 
+###License  
 [Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/)
