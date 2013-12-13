@@ -35,10 +35,10 @@ class ImageUploader
      */
     private $setImageDimensions = array();
 
-	/**
-	 * Getting width/height of the watermark helps calculate its footprint position
-	 *@var
-	 */
+    /**
+     * Getting width/height of the watermark helps calculate its footprint position
+     * @var
+     */
     private $getWatermarkDimension = array();
 
     /**
@@ -46,7 +46,7 @@ class ImageUploader
      * @var array
      */
     private $setImageDimensionsForResizing = array();
-	
+
     /**
      * Set a folder to upload all files into.
      * @var
@@ -59,18 +59,18 @@ class ImageUploader
      */
     private $setImageToWatermark;
 
-	/**
+    /**
      * Set a text to use as a watermark (alternative to image watermarking)
      * @var
      */
     private $setTextToWatermark;
 
     /**
-     * Set a position for watermark in words ex: top-right, top-left, center, bottom-right... 
+     * Set a position for watermark in words ex: top-right, top-left, center, bottom-right...
      * @var
      */
     private $setWatermarkPosition;
-	
+
     /**
      * Store the real file extension for multiple call/re-use inside methods..
      * @var
@@ -133,35 +133,37 @@ class ImageUploader
         return $this;
     }
 
+
     /**
      * Function to set the watermark and the position.
-     * @param $imageToWatermark - image to use as watermark
-     * @param $watermarkPosition - where the watermark should appear ex: 'center'
+     * @param $imageOrTextToWatermark
+     * @param $watermarkPosition
      * @return $this
+     * @throws \ErrorException
      */
     public function watermark($imageOrTextToWatermark, $watermarkPosition)
     {
-		/**
-		 * no file security check is needed, as the logo is always in your server
-		 * we'll check if file exists only to determine if watermark is text/image 
+        /**
+         * no file security check is needed, as the logo is always in your server
+         * we'll check if file exists only to determine if watermark is text/image
          * MAKE sure to put a valid image in your folder
-		 */		 
-		if(file_exists($imageOrTextToWatermark)){
-			$this->setImageToWatermark = $imageOrTextToWatermark; 
-			$this->watermarkDimension = $this->getImagePixels($imageOrTextToWatermark);
-			$this->setWatermarkPosition = $watermarkPosition;
-			return $this; 
-		}
-		
-		/** if no file is found, treat the argument as if a text to be watermarked **/
-		if(is_int($imageOrTextToWatermark) || is_string($imageOrTextToWatermark)){
-			$this->setTextToWatermark = $imageOrTextToWatermark; 
-			$this->watermakDimension = array(10, 10); 
-			$this->setWatermarkPosition = $watermarkPosition;
-			return $this; 
-		}
+         */
+        if (file_exists($imageOrTextToWatermark)) {
+            $this->setImageToWatermark = $imageOrTextToWatermark;
+            $this->getWatermarkDimension = $this->getImagePixels($imageOrTextToWatermark);
+            $this->setWatermarkPosition = $watermarkPosition;
+            return $this;
+        }
 
-		throw new \ErrorException("Method ".__FUNCTION__." called without passing a valid image/string to watermark");
+        /** if no file is found, treat the argument as if a text to be watermarked **/
+        if (is_int($imageOrTextToWatermark) || is_string($imageOrTextToWatermark)) {
+            $this->setTextToWatermark = $imageOrTextToWatermark;
+            $this->getWatermarkDimension = array(10, 10);
+            $this->setWatermarkPosition = $watermarkPosition;
+            return $this;
+        }
+
+        throw new \ErrorException("Method " . __FUNCTION__ . " called without passing a valid image/string to watermark");
     }
 
     /**
@@ -226,8 +228,8 @@ class ImageUploader
          */
         if ($width >= $allowedWidth || $height >= $allowedHeight) {
             return "Image must be less than " .
-                       $allowedHeight . " pixels height and ".
-                       $allowedWidth . " pixels in wide";
+                $allowedHeight . " pixels height and " .
+                $allowedWidth . " pixels in wide";
         }
 
         /**
@@ -245,35 +247,31 @@ class ImageUploader
      * If file name is passed as the second argument, use it as a name for this file,
      * otherwise use a randome + uniqid as a nem
      */
-    private function newFileName($isNameProvided){
-        if($isNameProvided){
-            return $isNameProvided.".".$this->getRealFileExtension;
+    private function newFileName($isNameProvided)
+    {
+        if ($isNameProvided) {
+            return $isNameProvided . "." . $this->getRealFileExtension;
         }
 
-        return uniqid(str_shuffle(implode(range(1, 20)))).".".$this->getRealFileExtension;
+        return uniqid(str_shuffle(implode(range(1, 20)))) . "." . $this->getRealFileExtension;
     }
 
 
-
-
-
-	/**
+    /**
      * The objective is to let position of watermark be passed in words ex:
-     * 'center', 'right-top', 'bottom-left', etc... for that to happen, little
-     * maths coding is required here.
-     * @param $position
+     * 'center', 'right-top', 'bottom-left', etc.. and then calculate the
+     * position of the watermark
      * @param $getImageSize
      * @return array
      */
     private function calculateWatermarkPosition($getImageSize)
     {
-		$size = $this->getImagePixels($getImageSize);
-		$position = $this->setWatermarkPosition;
-        $imageWidth = $size['0'];
-        $imageHeight = $size['1'];
+        $size = $this->getImagePixels($getImageSize);
+        $position = $this->setWatermarkPosition;
+        $imageWidth = $size['1'];
+        $imageHeight = $size['0'];
 
-        list($watermarkHeight, $watermarkWidth) = $this->watermarkDimension;
-       
+        list($watermarkHeight, $watermarkWidth) = $this->getWatermarkDimension;
 
 
         switch ($position) {
@@ -347,13 +345,13 @@ class ImageUploader
         $sx = imagesx($stamp);
         $sy = imagesy($stamp);
         imagecopy($createImage,
-                    $stamp,
-                    imagesx($createImage) - $sx - $marginRight,
-                    imagesy($createImage) - $sy - $marginBottom,
-                    0,
-                    0,
-                    imagesx($stamp),
-                    imagesy($stamp));
+            $stamp,
+            imagesx($createImage) - $sx - $marginRight,
+            imagesy($createImage) - $sy - $marginBottom,
+            0,
+            0,
+            imagesx($stamp),
+            imagesy($stamp));
         imagepng($createImage, $this->setUploadDirectory . $newName);
     }
 
@@ -384,7 +382,7 @@ class ImageUploader
         /**
          * Check if $_FILE[]['error'] is set, and echo the corresponding error messages.
          */
-		if ($fileToUpload['error']) {
+        if ($fileToUpload['error']) {
             return ($this->commonFileUploadErrors()[$fileToUpload['error']]);
         }
 
@@ -475,7 +473,7 @@ class ImageUploader
 
 
         if ($this->setImageToWatermark) {
-        
+
             $getWatermarkPosition = $this->calculateWatermarkPosition($fileToUpload['tmp_name']);
             $this->applyWatermark($fileToUpload['tmp_name'], $getWatermarkPosition, $newFileName);
 
