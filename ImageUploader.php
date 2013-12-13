@@ -21,7 +21,7 @@ class ImageUploader
      * Set a group of default files types to upload.
      * @var array
      */
-    private $setFileTypes = array("gif", "jpg", "png");
+    private $setFileTypes = array("gif", "jpg", "png", "jpeg");
 
     /**
      * Set the min & max file upload size in bytes. Remember: ~30kb === 30000bytes
@@ -30,11 +30,23 @@ class ImageUploader
     private $setFileSize = array("min" => 100, "max" => 30000);
 
     /**
-     * Set the default image dimensions, in pixels. ex: 100*100
+     * Store width/height image dimensions, in pixels. ex: 100*100
      * @var array
      */
     private $setImageDimensions = array();
 
+	/**
+	 * Getting width/height of the watermark helps calculate its footprint position
+	 *@var
+	 */
+    private $getWatermarkDimension = array();
+
+    /**
+     * Set new size to crop/resize the image. ex: array('width'=>100, 'height'=>100);
+     * @var array
+     */
+    private $setImageDimensionsForResizing = array();
+	
     /**
      * Set a folder to upload all files into.
      * @var
@@ -42,27 +54,25 @@ class ImageUploader
     private $setUploadDirectory;
 
     /**
-     * Set an image to use as a water mark for each image uploads.
+     * Set an image to use as a watermark/stamp on top of other images
      * @var
      */
     private $setImageToWatermark;
 
-    /**
-     * Watermark position ex: top-right, top-left, center, bottom-right or bottom-left
+	/**
+     * Set a text to use as a watermark (alternative to image watermarking)
      * @var
      */
-    private $setWatermarkPosition = 'bottom-left';
-
-    private $watermarkDimension = array();
+    private $setTextToWatermark;
 
     /**
-     * Set new size to crop/resize the image. ex: array('width'=>100, 'height'=>100);
-     * @var array
+     * Set a position for watermark in words ex: top-right, top-left, center, bottom-right... 
+     * @var
      */
-    private $setImageDimensionsForResizing = array();
-
+    private $setWatermarkPosition;
+	
     /**
-     * Store the real file extension for multiple call/use
+     * Store the real file extension for multiple call/re-use inside methods..
      * @var
      */
     private $getRealFileExtension;
@@ -129,12 +139,29 @@ class ImageUploader
      * @param $watermarkPosition - where the watermark should appear ex: 'center'
      * @return $this
      */
-    public function imageToWatermark($imageToWatermark, $watermarkPosition)
+    public function watermark($imageOrTextToWatermark, $watermarkPosition)
     {
-        $this->setImageToWatermark = $imageToWatermark;
-        $this->setWatermarkPosition = $watermarkPosition;
-        $this->watermarkDimension = $this->getImagePixels($imageToWatermark);
-        return $this;
+		/**
+		 * no file security check is needed, as the logo is always in your server
+		 * we'll check if file exists only to determine if watermark is text/image 
+         * MAKE sure to put a valid image in your folder
+		 */		 
+		if(file_exists($imageOrTextToWatermark)){
+			$this->setImageToWatermark = $imageOrTextToWatermark; 
+			$this->watermarkDimension = $this->getImagePixels($imageOrTextToWatermark);
+			$this->setWatermarkPosition = $watermarkPosition;
+			return $this; 
+		}
+		
+		/** if no file is found, treat the argument as if a text to be watermarked **/
+		if(is_int($imageOrTextToWatermark) || is_string($imageOrTextToWatermark)){
+			$this->setTextToWatermark = $imageOrTextToWatermark; 
+			$this->watermakDimension = array(10, 10); 
+			$this->setWatermarkPosition = $watermarkPosition;
+			return $this; 
+		}
+
+		throw new \ErrorException("Method ".__FUNCTION__." called without passing a valid image/string to watermark");
     }
 
     /**
@@ -166,13 +193,9 @@ class ImageUploader
      * thrown by the $_FILES[] array.
      * @return array
      */
-    public function commonFileUploadErrors()
+    private function commonFileUploadErrors()
     {
-        /**
-         * We can use those keys as identifiers of the $_FILES[]['error'] value
-         * to call the corresponding error messages. Damn I'm good! :D
-         */
-        return array(
+        return [
             UPLOAD_ERR_OK => "...",
             UPLOAD_ERR_INI_SIZE => "File is larger than the specified amount set by the server",
             UPLOAD_ERR_FORM_SIZE => "Files is larger than the specified amount specified by browser",
@@ -181,7 +204,7 @@ class ImageUploader
             UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, as per server configuration",
             UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Introduced in PHP",
             UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload"
-        );
+        ];
     }
 
 
@@ -234,7 +257,7 @@ class ImageUploader
 
 
 
-/**
+	/**
      * The objective is to let position of watermark be passed in words ex:
      * 'center', 'right-top', 'bottom-left', etc... for that to happen, little
      * maths coding is required here.
@@ -242,15 +265,15 @@ class ImageUploader
      * @param $getImageSize
      * @return array
      */
-    private function calculateWatermarkPosition($position, $getImageSize)
+    private function calculateWatermarkPosition($getImageSize)
     {
-
-        $imageWidth = $getImageSize['0'];
-        $imageHeight = $getImageSize['1'];
-        //list($imageHeight, $imageWidth) = $getImageSize;
+		$size = $this->getImagePixels($getImageSize);
+		$position = $this->setWatermarkPosition;
+        $imageWidth = $size['0'];
+        $imageHeight = $size['1'];
 
         list($watermarkHeight, $watermarkWidth) = $this->watermarkDimension;
-        var_dump($this->watermarkDimension);
+       
 
 
         switch ($position) {
@@ -361,9 +384,8 @@ class ImageUploader
         /**
          * Check if $_FILE[]['error'] is set, and echo the corresponding error messages.
          */
-        if ($fileToUpload['error']) {
-            $errors = $this->commonFileUploadErrors();
-            return $errors[$fileToUpload['error']];
+		if ($fileToUpload['error']) {
+            return ($this->commonFileUploadErrors()[$fileToUpload['error']]);
         }
 
 
@@ -426,7 +448,7 @@ class ImageUploader
             /**
              * Get image type to create image acordingly.
              */
-            switch ($this->getFileExtension) {
+            switch ($this->getRealFileExtension) {
                 case 'jpeg':
                 case 'jpg':
                     imagejpeg($tmp, $this->setUploadDirectory . $newFileName, 100);
@@ -441,7 +463,7 @@ class ImageUploader
                     exit;
                     break;
             }
-            return $this->allowedUploadDirectory;
+            return $this->setUploadDirectory;
         }
 
 
@@ -453,9 +475,8 @@ class ImageUploader
 
 
         if ($this->setImageToWatermark) {
-            $imageSize = $this->getImagePixels($fileToUpload['tmp_name']);
-            var_dump($imageSize);
-            $getWatermarkPosition = $this->calculateWatermarkPosition($this->setWatermarkPosition, $imageSize);
+        
+            $getWatermarkPosition = $this->calculateWatermarkPosition($fileToUpload['tmp_name']);
             $this->applyWatermark($fileToUpload['tmp_name'], $getWatermarkPosition, $newFileName);
 
             $moveUploadFile = move_uploaded_file(
@@ -470,7 +491,7 @@ class ImageUploader
              */
             $moveUploadFile = move_uploaded_file(
                 $fileToUpload['tmp_name'],
-                $this->allowedUploadDirectory . '/' . $newFileName
+                $this->setUploadDirectory . '/' . $newFileName
             );
         }
 
