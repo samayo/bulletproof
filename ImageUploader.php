@@ -163,7 +163,7 @@ class ImageUploader
             return $this;
         }
 
-        throw new \ErrorException("Method " . __FUNCTION__ . " called without passing a valid image/string to watermark");
+        return "Method " . __FUNCTION__ . " called without passing a valid image/string to watermark"; 
     }
 
     /**
