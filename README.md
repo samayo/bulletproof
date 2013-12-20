@@ -19,7 +19,7 @@ if($_FILES){
 $result = $newUpload
     ->uploadTo('uploads/')  
     ->save($_FILES['logo']); 
-    echo $result; /** this will give you the file name to store/echo using <img> tag. 
+    echo $result; /** this will give you the file name to store/echo using <img> tag. **/
 }
 ````
 #### Example 2: Upload images with specific size/type/dimensions (Moaarr code)
