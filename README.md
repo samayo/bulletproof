@@ -32,7 +32,7 @@ $result = $newUpload
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
 ````
-#### Example 3: Upload images after resizing 
+#### Example 3: Upload images and resize
 ````php
 /** the resizeImageTo() method resizes any image to what is specified. **/
 $result = $newUpload
