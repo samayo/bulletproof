@@ -83,7 +83,7 @@ $result = $newUpload
 
 
 ![FORK](http://i.imm.io/1m7EN.jpeg)     
-Incase you have missed it. It means, you should not call methods like `->setImageSize()` or `resizeImageTo()` when you are uploading non-image files, such as .txt .mp3 files ... (As I have done that once..)
+Incase you have missed it. It means, you should not call methods like `->watermark()` or `resizeImageTo()` when you are uploading non-image files, such as .txt .mp3 files ... (As I have done that once..)
 
 
 ###License  
