@@ -10,7 +10,7 @@ namespace BulletProof;
  * possible.
  *
  * @author     Simon _eQ <https://github.com/simon-eQ>
- * @license    Public domain. No Licence.
+ * 
  */
 
 
