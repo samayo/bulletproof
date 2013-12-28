@@ -13,7 +13,7 @@ $newUpload = new BulletProof\ImageUploader();
 ````php
 /**
  *  This will use the default settings of the class and will upload only
- *  (jpg, gif, png, jpeg) images with size of between min 0.1kb to max 30kbs 
+ *  (jpg, gif, png, jpeg) images with size of from 0.1kb to max 30kbs 
  */ 
 if($_FILES){
 $result = $newUpload
