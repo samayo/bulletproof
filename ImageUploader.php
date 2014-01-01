@@ -5,7 +5,7 @@ namespace BulletProof;
  * With this class, you can Resize, add Watermarks and Upload images with best security.
  *
  * Development is still on going to add more features. You can upload files too, but
- * the class is best made for image uploads, Therefore, pls
+ * the class is made for image uploads, Therefore, pls
  * use at your own risk, and help by positing out some bugs/flaws as much as
  * possible.
  *
@@ -21,7 +21,7 @@ class ImageUploader
      * Set a group of default files types to upload.
      * @var array
      */
-    private $setFileTypes = array("gif", "jpg", "png", "jpeg");
+    private $setFileTypes = array("gif", "jpg", "png", "jpeg", "tiff");
 
     /**
      * Set the min & max file upload size in bytes. Remember: ~30kb === 30000bytes
