@@ -63,6 +63,8 @@ $result = $newUpload
 ->save($_FILES['fileName']); 
 ````
 
+Image resizing is done by calculating the ratio of the given width and height. ex: `resizeImageTo(['height'=>100, 'width'=>100])` will not crop as specified, but will make sure the dimention of the image remain below the indicated size. If you upload an image with 800 x 400 it would be changed into 80x40 because those are below 100x100 ...
+
 #### What makes this secure?
 * It checks & handles any errors thrown by `$_FILES[]['error']`.
 * It uses `pathinfo($fileName, PATHINFO_EXTENSION)` method to get the *real* file extension/Mime type,
