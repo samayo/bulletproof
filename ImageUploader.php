@@ -10,7 +10,7 @@ namespace BulletProof;
  * possible.
  *
  * @author     Simon _eQ <https://github.com/simon-eQ>
- * 
+ *
  */
 
 
@@ -27,7 +27,7 @@ class ImageUploader
      * Set the min & max file upload size in bytes. Remember: ~30kb === 30000bytes
      * @var array
      */
-    private $setFileSize = array("min" => 100, "max" => 30000);
+    private $setFileSize = array();
 
     /**
      * Store width/height image dimensions, in pixels. ex: 100*100
@@ -112,13 +112,18 @@ class ImageUploader
     }
 
     /**
-     * Tell PHP where to put all the uploaded files into. ex: 'pictures/'
+     * Tell PHP where to put all the uploaded files into. ex: 'pictures/'. Create if doesn't exists.
      * @param $folderToUpload
      * @return $this
      */
     public function uploadTo($folderToUpload)
     {
         $this->setUploadDirectory = $folderToUpload;
+
+        if (!is_dir($this->setUploadDirectory) && !file_exists($this->setUploadDirectory)) {
+            mkdir($this->setUploadDirectory, 0777, true);
+        }
+
         return $this;
     }
 
@@ -163,7 +168,7 @@ class ImageUploader
             return $this;
         }
 
-        return "Method " . __FUNCTION__ . " called without passing a valid image/string to watermark"; 
+        return "Method " . __FUNCTION__ . " called without passing a valid image/string to watermark";
     }
 
     /**
@@ -390,8 +395,8 @@ class ImageUploader
         /**
          * Check if file min & max sizes do not exceed the limit passed
          */
-        if ($fileToUpload['size'] <= $this->setFileSize['min'] ||
-            $fileToUpload['size'] >= $this->setFileSize['max']
+        if (isset($this->setFileSize['min']) && $fileToUpload['size'] <= $this->setFileSize['min'] ||
+            isset($this->setFileSize['max']) && $fileToUpload['size'] >= $this->setFileSize['max']
         ) {
             return "Files sizes must be in-between
                     " . (implode(" to ", $this->setFileSize)) . " kilobytes";
