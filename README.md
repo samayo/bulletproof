@@ -27,7 +27,7 @@ $result = $newUpload
 /** Will upload given filestypes, size and image size as shown here. **/
 $result = $newUpload
     ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->setSizeLimit(array("min"=>1000, "min"=>100000))
+    ->setSizeLimit(array("min"=>1000, "max"=>100000))
     ->setImageSize(array("height"=>100, "width"=>100))
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
@@ -37,7 +37,7 @@ $result = $newUpload
 /** the resizeImageTo() method resizes any image to what is specified. **/
 $result = $newUpload
     ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->setSizeLimit(array("min"=>1000, "min"=>100000))
+    ->setSizeLimit(array("min"=>1000, "max"=>100000))
     ->resizeImageTo(array("height"=>100, "width"=>200))
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
@@ -47,7 +47,7 @@ $result = $newUpload
 /** the watermark() method accepts image/text to watermark and position (where to watermark it) **/
 $result = $newUpload
     ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->setSizeLimit(array("min"=>1000, "min"=>100000))
+    ->setSizeLimit(array("min"=>1000, "max"=>100000))
     ->watermark('watermark.png', 'bottom-right'))
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
