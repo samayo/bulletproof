@@ -1,4 +1,6 @@
 <?php
+class BulletProofException extends Exception{}
+
 namespace BulletProof;
 /**
  * BulletProof ImageUploder:
