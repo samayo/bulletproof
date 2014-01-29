@@ -1,20 +1,19 @@
 <?php
-class BulletProofException extends Exception{}
-
 namespace BulletProof;
 /**
  * BulletProof ImageUploder:
  * With this class, you can Resize, add Watermarks and Upload images with best security.
  *
  * Development is still on going to add more features. You can upload files too, but
- * the class is made for image uploads, Therefore, pls
+ * the class is best made for image uploads, Therefore, pls
  * use at your own risk, and help by positing out some bugs/flaws as much as
  * possible.
  *
  * @author     Simon _eQ <https://github.com/simon-eQ>
- *
+ * @license    Public domain. No Licence.
  */
 
+class BulletProofException extends \Exception{}
 
 class ImageUploader
 {
