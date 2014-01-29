@@ -28,7 +28,7 @@ $result = $newUpload
 $result = $newUpload
     ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
     ->setSizeLimit(array("min"=>1000, "max"=>100000))
-    ->setImageSize(array("height"=>100, "width"=>100))
+    ->resizeImageTo(array("height"=>100, "width"=>100))
     ->uploadTo('uploads/')
     ->save($_FILES['logo']); 
 ````
