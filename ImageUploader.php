@@ -229,7 +229,7 @@ class ImageUploader
     
             $height = $this->setImageDimensions['height'];
             $width = $this->setImageDimensions['height'];
-        list($allowedWidth['1'], $allowedHeight['0']) = $this->getImagePixels($fileName);
+             list($allowedWidth['1'], $allowedHeight['0']) = $this->getImagePixels($fileName);
 
         /**
 * Check if width and height do not surpass the limit already assigned.
@@ -469,7 +469,7 @@ class ImageUploader
                     exit;
                     break;
             }
-            return $this->setUploadDirectory;
+            return $newFileName.$this->setUploadDirectory;
         }
 
 
