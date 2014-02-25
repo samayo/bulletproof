@@ -1,6 +1,5 @@
 ###  Secure PHP Image & File Uploader. 
-#####
-Working on a new release. Don't download this yet. Wait a little more   
+#### Don't download this yet. Wait a little more   
 
 
 #### Including / Instanciating the class 
