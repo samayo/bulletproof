@@ -1,7 +1,11 @@
 ###  Secure PHP Image & File Uploader. 
-#### Don't download this yet. Wait a little more   
+#### Please, Don't download this yet. Wait a little more   for a better release. 
+I've almost finished a more optimized, and precice crop/resizing & watermarking script. 
+
+Just add this repo on your watch list, I promise before 15 of March, I will release another version
 
 
+=====
 #### Including / Instanciating the class 
 ````php
 /** As usuall, first simply require the file, and instantiate the class.  */ 
