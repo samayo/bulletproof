@@ -1,22 +1,23 @@
-###  Secure PHP Image uploader
+##  Secure PHP Image uploader
 This class allows you to do two things.
 First is to **upload image while** cropping/shrinking and watermarking the image
 The second is, to do the same as above but without uploading.
 It means, you can crop/resize/watermark any image any time.
-Please check examples.php for a complete guide. 
+Please check examples.php for a complete guide.
 
 
 =====
-#### Requiring / Instantiating the class.
+#### INCLUDING / INSTANTIATING THE CLASS>
 ````php
 /** Just do as below, and you are good to go */
+
 require_once "imageUploader.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
 #### SCENARIO 1: Uploading images with default settings. (Less code)
 ````php
-/**
+/*
  *  This will use the default settings of the class and will upload only
  *  (jpg, gif, png, jpeg) images with size of from 0.1kb to max 30kbs
  *  It will also create a folder called "uploads" if it does not exist.
@@ -28,7 +29,7 @@ if($_FILES){
 
 #### SCENARIO 2: Upload images with specific size/type/dimensions (Moaarr code)
 ````php
-/**
+/*
  * fileTypes() - What type of images to upload
  * limitSize() - Set the min and max image size limit (in bytes)
  * limitDimension() - Set the max height and width of image  (in pixels)
@@ -47,8 +48,8 @@ echo $bulletProof
 
 #### SCENARIO 3: Upload images and resize
 ````php
-/**
- * shrink() - will shrink the image to the given dimension
+/*
+ * shrink() - will shrink/resize the image to the given dimension
  */
 $bulletProof
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
@@ -59,7 +60,7 @@ $bulletProof
 
 #### SCENARIO 4: Upload images and watermark
 ````php
-/**
+/*
  * watermark() - will accept two arguments.
  *   First is the the image to use as watermark. (best to use PNG)
  *   second is the location where to put your watermark on the image.
@@ -73,9 +74,9 @@ $bulletProof
 ````
 
 
-#### SCENARIO 4: Croping images
+#### SCENARIO 4: Cropping images
 ````php
-/**
+/*
  * crop() - array of width and height of pixels to crop the image
  * crop is not like shrink, it simply will trim/crop the image
  * and return what is left.
