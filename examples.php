@@ -30,9 +30,9 @@ try{
  *  ex: '9729117325181114111460111302586531cfab37d225.jpg'
  */
 
-// if($_FILES){
-//    echo $bulletProof->upload($_FILES['picture']);
-// }
+//if($_FILES){
+//   echo $bulletProof->upload($_FILES['picture']);
+//}
 
 
 
@@ -48,9 +48,9 @@ try{
 
 // if($_FILES){
 // 	echo $bulletProof
-// 		->fileTypes(array('gif')) # upload only gif files
-//     	->folder("foo") # upload to 'my_pictures' folder, if it does not exit create it!
-// 		->upload($_FILES["picture"], "awesome"); # rename file/image to "awesome"
+//      ->folder("foo") # upload to 'my_pictures' folder, if it does not exit create it!
+//      ->fileTypes(array('gif', "jpg", "jpeg")) # upload only gif files
+//      ->upload($_FILES["picture"], "awesome"); # rename file/image to "awesome"
 // }
 
 
@@ -69,8 +69,8 @@ try{
 
 // if($_FILES){
 // 	echo $bulletProof
-// 		->fileTypes(array("png"))
-// 		->limitSize(array("min"=>1, "max"=>22000))
+// 		->fileTypes(array("png", "jpeg"))
+// 		->limitSize(array("min"=>1, "max"=>42000))
 // 		->upload($_FILES['picture'], "passport_pic");
 // 	}
 
@@ -177,7 +177,7 @@ try{
 /**
  * DELETING/REMOVING A IMAGE/FILE
  */
-//$delete = $bulletProof->deleteFile("shrinked_images/1531e6a564521f_IJLPKONFQMEGH.png");
+$delete = $bulletProof->deleteFile("batman/1531e6a564521f_IJLPKONFQMEGH.png");
 
 
 
@@ -185,9 +185,9 @@ try{
  * CROP IMAGES
  */
 // $crop = $bulletProof
-// 	->folder("croped_images")
+// 	->folder("my_folder")
 // 	->crop(array("height"=>10, "width"=>10))
-// 	->change("crop", "my_pictures/awesome.gif");
+// 	->change("crop", "1531e894e1665e_JGKIQFLEONMHP.jpeg");
 
 
 

@@ -167,6 +167,7 @@ class BulletProof
      */
     public function getMimeType($imageName)
     {
+
         if(!file_exists($imageName)){
             throw new ImageUploaderException("File " . $imageName . " does not exist");
         }
@@ -691,7 +692,6 @@ class BulletProof
         // Upload the file
         $filePath = $this->fileUploadDirectory . "/" . $newFileName;
         $moveUploadedFile = move_uploaded_file( $fileToUpload["tmp_name"], $filePath);
-
 
         if ($checkSafeUpload && $moveUploadedFile) {
             return $filePath; 
