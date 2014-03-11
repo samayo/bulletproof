@@ -177,7 +177,7 @@ try{
 /**
  * DELETING/REMOVING A IMAGE/FILE
  */
-$delete = $bulletProof->deleteFile("batman/1531e6a564521f_IJLPKONFQMEGH.png");
+#$delete = $bulletProof->deleteFile("images/1531e6a564521f_IJLPKONFQMEGH.png");
 
 
 
