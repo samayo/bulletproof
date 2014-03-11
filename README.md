@@ -1,4 +1,4 @@
-###  Secure PHP Image & File Uploader. 
+###  Secure PHP Image uploader
 #### Please, Don't download this yet. Wait a little more   for a better release. 
 I've almost finished a more optimized, and precice crop/resizing & watermarking script. 
 
