@@ -36,7 +36,7 @@ if($_FILES){
  * folder() - set a folder to store the uplands. It will be created automatically.
  * upload() - the final method that checkes everything and uploads the file
  *    NOW, the $result will contain the folder/name of the file.
- *    So, you can simply store it in db or echo it like echo "<img src='$result' />";
+ *    So, you can simply store it in db or echo it like  <img src='$result' />;
  */
 echo $bulletProof
         ->fileTypes(array("png", "jpeg"))
