@@ -107,9 +107,7 @@ The `change()` method is different from `upload()` and should not be mixed.
 The `change()` will allow you to directly crop/resize/watermark an image that is already uploaded.
 
 ```php
-/*
- * With the change method, you can manipulate your images directly by using the image name
- */
+// The change method will allow you to manipulate any image any time.
 
 //CROP IMAGES
 $crop = $bulletProof
@@ -119,12 +117,12 @@ $crop = $bulletProof
 // WATERMARK IMAGES
 $crop = $bulletProof
  	->watermark("logo.png", "center")
- 	->change("watermark", "my_pictures/awesome.gif");
+ 	->change("watermark", "my_pictures/passport.gif");
 
 // SHRINK IMAGES
 $crop = $bulletProof
  	->shrink(array("height"=>30, "width"=>50))
- 	->change("shrink", "my_pictures/awesome.gif");
+ 	->change("shrink", "my_pictures/paris.jpg");
 ````
 
 ### What makes this secure?
@@ -140,6 +138,7 @@ $crop = $bulletProof
 * <del>Allow image resizing</del> Done!
 * <del>Allow image watermarking</del> Done! 
 *  Allow text watermarking <-- discontinued!
+* <del> Allow image cropping </del>
 * <del> Handle errors with exceptions </del> Done!
 
 
