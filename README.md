@@ -1,77 +1,110 @@
 ###  Secure PHP Image uploader
-#### Please, Don't download this yet. Wait a little more   for a better release. 
-I've almost finished a more optimized, and precice crop/resizing & watermarking script. 
-
-Just add this repo on your watch list, I promise before 15 of March, I will release another version
+This class allows you to do two things.
+First is to **upload image while** cropping/shrinking and watermarking the image
+The second is, to do the same as above but without uploading.
+It means, you can crop/resize/watermark any image any time.
+Please check examples.php for a complete guide. 
 
 
 =====
-#### Including / Instanciating the class 
+#### Requiring / Instantiating the class.
 ````php
-/** As usuall, first simply require the file, and instantiate the class.  */ 
-require_once 'ImageUploader.php';
-$newUpload = new BulletProof\ImageUploader();
+/** Just do as below, and you are good to go */
+require_once "imageUploader.php";
+$bulletProof = new ImageUploader\BulletProof;
 ````
 
-#### Example 1: Uploading images with default settings. (Less code) 
+#### SCENARIO 1: Uploading images with default settings. (Less code)
 ````php
 /**
  *  This will use the default settings of the class and will upload only
- *  (jpg, gif, png, jpeg) images with size of from 0.1kb to max 30kbs 
+ *  (jpg, gif, png, jpeg) images with size of from 0.1kb to max 30kbs
+ *  It will also create a folder called "uploads" if it does not exist.
  */ 
 if($_FILES){
-$result = $newUpload
-    ->uploadTo('uploads/')  
-    ->save($_FILES['logo']); 
-    echo $result; /** this will give you the file name to store/echo using <img> tag. **/
-}
+    echo $bulletProof->upload($_FILES['picture']);
+ }
 ````
-#### Example 2: Upload images with specific size/type/dimensions (Moaarr code)
+
+#### SCENARIO 2: Upload images with specific size/type/dimensions (Moaarr code)
 ````php
-/** Will upload given filestypes, size and image size as shown here. **/
-$result = $newUpload
-    ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->setSizeLimit(array("min"=>1000, "max"=>100000))
-    ->resizeImageTo(array("height"=>100, "width"=>100))
-    ->uploadTo('uploads/')
-    ->save($_FILES['logo']); 
+/**
+ * fileTypes() - What type of images to upload
+ * limitSize() - Set the min and max image size limit (in bytes)
+ * limitDimension() - Set the max height and width of image  (in pixels)
+ * folder() - set a folder to store the uplands. It will be created automatically.
+ * upload() - the final method that checkes everything and uploads the file
+ *    NOW, the $result will contain the folder/name of the file.
+ *    So, you can simply store it in db or echo it like echo "<img src='$result' />";
+ *
+echo $bulletProof
+        ->fileTypes(array("png", "jpeg"))
+        ->limitSize(array("min"=>1000, "max"=>100000))
+        ->limitDimension(array("height"=>100, "width"=>100));
+        ->folder("my_pictures")
+        ->upload($_FILES['picture']);
 ````
-#### Example 3: Upload images and resize
+
+#### SCENARIO 3: Upload images and resize
 ````php
-/** the resizeImageTo() method resizes any image to what is specified. **/
-$result = $newUpload
-    ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->setSizeLimit(array("min"=>1000, "max"=>100000))
-    ->resizeImageTo(array("height"=>100, "width"=>200))
-    ->uploadTo('uploads/')
-    ->save($_FILES['logo']); 
+/**
+ * shrink() - will shrink the image to the given dimension
+ */
+$bulletProof
+    ->fileTypes(array("jpg", "gif", "png", "jpeg"))
+    ->shrink(array("height"=>100, "width"=>200))
+    ->folder("shrinked_images")
+    ->upload($_FILES["pictures"]);
 ````
-#### Example 4: Upload images after adding watermark
+
+#### SCENARIO 4: Upload images and watermark
 ````php
-/** the watermark() method accepts image/text to watermark and position (where to watermark it) **/
-$result = $newUpload
-    ->setFileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->setSizeLimit(array("min"=>1000, "max"=>100000))
+/**
+ * watermark() - will accept two arguments.
+ *   First is the the image to use as watermark. (best to use PNG)
+ *   second is the location where to put your watermark on the image.
+ *   You can use: 'center', 'bottom-right', 'bottom-left', 'top-left'...
+ */
+$bulletProof
+    ->fileTypes(array("jpeg"))
     ->watermark('watermark.png', 'bottom-right'))
-    ->uploadTo('uploads/')
-    ->save($_FILES['logo']); 
+    ->folder("watermarked")
+    ->upload($_FILES['logo']);
 ````
+
+
+#### SCENARIO 4: Croping images
+````php
+/**
+ * crop() - array of width and height of pixels to crop the image
+ * crop is not like shrink, it simply will trim/crop the image
+ * and return what is left.
+ */
+$bulletProof
+    ->fileTypes(array("jpeg"))
+    ->crop(array("height"=>40, "width"=>50))
+    ->folder("croped_folder")
+    ->upload($_FILES['logo']);
+````
+
+Please check the examples.php for more functions and all tested examples.
+
 
 #### Things to notice
- The `save()` method accepts two arguments. First is the file, second (optional) is a new name for the file
- If you provide a name, file will be named accordingly, if not a unique name will be generated. 
+ The `upload()` method accepts two arguments. First is the image, second (optional) is a new name for the image
+ If you provide a name, the image will be named accordingly, if not a unique name will be generated.
 ````php
-/** Uploaded file will be renamed 'cheeez' plus the file extension **/
-->save($_FILES['fileName'], 'cheeez'); 
-/** file will be named ex '1118921069587715213410141132611529ff56cbb7e5' plus the file extension **/
-->save($_FILES['fileName']); 
+// Uploaded file will be renamed 'cheeez' plus the file mime type.
+->upload($_FILES['fileName'], 'cheeez');
+
+// file will be named ex '1531e4b0e3bc82_EHIOLMPKQNJGF' plus the mime type
+->upload($_FILES['fileName']);
 ````
 
-Image resizing is done by calculating the ratio of the given width and height. ex: `resizeImageTo(['height'=>100, 'width'=>100])` will not crop as specified, but will make sure the dimention of the image remain below the indicated size. If you upload an image with 800 x 400 it would be changed into 80x40 because those are below 100x100 ...
 
 #### What makes this secure?
 * It checks & handles any errors thrown by `$_FILES[]['error']`.
-* It uses `pathinfo($fileName, PATHINFO_EXTENSION)` method to get the *real* file extension/Mime type,
+* It uses `exif_imagetype()` method to get the *real* file extension/Mime type,
 * Verify if MIME type exists in the expected file types ie. `array('jpg', 'png', 'gif', 'jpeg')`
 * Checks `getimagesize();` to see if the image has a valid width/height measurable in pixels.
 * It uses `is_uploaded_file()` to check for secure upload HTTP Post method .(extra security check)
@@ -81,15 +114,9 @@ Image resizing is done by calculating the ratio of the given width and height. e
 ###What is next? 
 * <del>Allow image resizing</del> Done!
 * <del>Allow image watermarking</del> Done! 
-* Allow text watermarking
-* Handle errors with exceptions 
+*  Allow text watermarking <-- discontinued!
+* <del> Handle errors with exceptions </del> Done!
 
-
-
-
-
-![FORK](http://i.imm.io/1m7EN.jpeg)     
-Incase you have missed it. It means, you should not call methods like `->watermark()` or `resizeImageTo()` when you are uploading non-image files, such as .txt .mp3 files ... (As I have done that once..)
 
 
 ###License  
