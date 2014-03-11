@@ -175,7 +175,7 @@ try{
  ----------------------------------------------------------------------------*/
 
 /**
- * DELETING/REMOVING A FILE YOUR FOLDER
+ * DELETING/REMOVING A IMAGE/FILE
  */
 //$delete = $bulletProof->deleteFile("shrinked_images/1531e6a564521f_IJLPKONFQMEGH.png");
 
