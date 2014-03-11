@@ -6,7 +6,7 @@ The second is, to do the same as above but without uploading.
 It means, you can crop/resize/watermark any image any time.
 Please check examples.php for a complete guide.
 
-**Enable** `php_exif` extension in your php.ini before using this class.   
+##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
 ##### INCLUDING / INSTANTIATING THE CLASS
 ````php
