@@ -16,12 +16,12 @@ require_once "BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
-##### SCENARIO 1: Uploading images with default the setting. (Less code)
+##### SCENARIO 1: Uploading images with the default setting. (Less code)
 ````php
 /*
  *   This will use the default settings of the class and will upload only
- *   (jpg, gif, png, jpeg) images with size of from 0.1kb to max 30kbs
- *   It will also create a folder called "uploads" if it does not exist.
+ *   (jpg, gif, png, jpeg) images with sizes ranging from 0.1kb to max 30kbs
+ *   It will also create a folder called "uploads" with chmod 0777 if it does not exist.
  */ 
 if($_FILES){
     echo $bulletProof->upload($_FILES['picture']);
