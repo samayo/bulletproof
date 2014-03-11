@@ -167,22 +167,18 @@ class BulletProof
      */
     public function getMimeType($imageName)
     {
-
         if(!file_exists($imageName)){
             throw new ImageUploaderException("File " . $imageName . " does not exist");
         }
-
         $listOfMimeTypes = [
         1 => "gif", "jpeg", "png",  "swf", "psd",
              "bmp", "tiff", "tiff", "jpc", "jp2",
              "jpx", "jb2",  "swc",  "iff", "wbmp",
              "xmb", "ico"
         ];
-
         if(isset($listOfMimeTypes[ exif_imagetype($imageName) ])){
             return $listOfMimeTypes[ exif_imagetype($imageName) ];
         }
-
     }
 
 
