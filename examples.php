@@ -25,7 +25,7 @@ try{
  *   It it does not exist, it will create the folder and upload the images.
  *
  * NAME: 
- * - If you don't pass a second argument for the 'save()' method (as 
+ * - If you don't pass a second argument for the 'change()' method (as
  *   shown in the second example) a random name will be generated instead. 
  *  ex: '9729117325181114111460111302586531cfab37d225.jpg'
  */
@@ -214,7 +214,7 @@ try{
  */
 // $crop = $bulletProof
 // 	->folder("croped_images")
-// 	->crop(array("height"=>30, "width"=>50))
+// 	->shrink(array("height"=>30, "width"=>50))
 // 	->change("shrink", "my_pictures/awesome.gif");
 
 
