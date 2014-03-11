@@ -7,9 +7,9 @@ Please check examples.php for a complete guide.
 
 
 =====
-#### INCLUDING / INSTANTIATING THE CLASS>
+##### INCLUDING / INSTANTIATING THE CLASS
 ````php
-/** Just do as below, and you are good to go */
+/** As usual: Require and call the class only */
 
 require_once "imageUploader.php";
 $bulletProof = new ImageUploader\BulletProof;
@@ -37,7 +37,7 @@ if($_FILES){
  * upload() - the final method that checkes everything and uploads the file
  *    NOW, the $result will contain the folder/name of the file.
  *    So, you can simply store it in db or echo it like echo "<img src='$result' />";
- *
+ */
 echo $bulletProof
         ->fileTypes(array("png", "jpeg"))
         ->limitSize(array("min"=>1000, "max"=>100000))
@@ -46,7 +46,7 @@ echo $bulletProof
         ->upload($_FILES['picture']);
 ````
 
-#### SCENARIO 3: Upload images and resize
+#### SCENARIO 3: uploading + shrink
 ````php
 /*
  * shrink() - will shrink/resize the image to the given dimension
@@ -58,7 +58,7 @@ $bulletProof
     ->upload($_FILES["pictures"]);
 ````
 
-#### SCENARIO 4: Upload images and watermark
+#### SCENARIO 4: uploading + watermark
 ````php
 /*
  * watermark() - will accept two arguments.
@@ -74,7 +74,7 @@ $bulletProof
 ````
 
 
-#### SCENARIO 4: Cropping images
+#### SCENARIO 4: uploading + crop
 ````php
 /*
  * crop() - array of width and height of pixels to crop the image
