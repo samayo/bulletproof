@@ -139,6 +139,7 @@ $change = $bulletProof
 * <del>Allow image watermarking</del> Done!
 * <del> Allow image cropping </del> Done!
 * <del> Handle errors with exceptions </del> Done!
+* Backward compatability for PHP 5.3
 * Allow text watermarking <-- discontinued!
 
 
