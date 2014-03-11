@@ -47,7 +47,7 @@ echo $bulletProof
         ->upload($_FILES['picture']);
 ````
 
-##### SCENARIO 3: uploading + shrink
+##### SCENARIO 3: Shrink and upload image
 ````php
 /*
  * shrink() - will shrink/resize the image to the given dimension
@@ -59,7 +59,7 @@ $bulletProof
     ->upload($_FILES["pictures"]);
 ````
 
-##### SCENARIO 4: uploading + watermark
+##### SCENARIO 4: Watermark and update image
 ````php
 /*
  * watermark() - will accept two arguments.
@@ -75,12 +75,12 @@ $bulletProof
 ````
 
 
-##### SCENARIO 5: uploading + crop
+##### SCENARIO 5: Crop and upload image
 ````php
 /*
- * crop() - array of width and height of pixels to crop the image
+ * crop() -width and height (in pixels) to crop the image.
  * crop is not like shrink, it simply will trim/crop the image
- * and return what is left.
+ * and return what is left, whereas shrink will not trim the image.
  */
 $bulletProof
     ->fileTypes(array("jpeg"))
@@ -93,7 +93,7 @@ Please check the examples.php for more functions and all tested examples.
 
 
 #### NOTE:
- The `upload()` method accepts two arguments. First is the image, second (optional) is a new name for the image
+ The `upload()` method accepts two arguments. First is the image, second (optional) is a new name for the image.
  If you provide a name, the image will be named accordingly, if not a unique name will be generated.
 ````php
 // Uploaded file will be renamed 'cheeez' plus the file mime type.
@@ -110,25 +110,25 @@ The `change()` will allow you to directly crop/resize/watermark an image that is
 // The change method will allow you to manipulate any image any time.
 
 //CROP IMAGES
-$crop = $bulletProof
+$change = $bulletProof
  	->crop(array("height"=>10, "width"=>10))
  	->change("crop", "my_pictures/awesome.gif");
 
 // WATERMARK IMAGES
-$crop = $bulletProof
+$change = $bulletProof
  	->watermark("logo.png", "center")
  	->change("watermark", "my_pictures/passport.gif");
 
 // SHRINK IMAGES
-$crop = $bulletProof
+$change = $bulletProof
  	->shrink(array("height"=>30, "width"=>50))
  	->change("shrink", "my_pictures/paris.jpg");
 ````
 
 ### What makes this secure?
 * It checks & handles any errors thrown by `$_FILES[]['error']`.
-* It uses `exif_imagetype()` method to get the *real* file mime/image type,
-* Checks if MIME type exists in the expected file types ie. `array('jpg', 'png', 'gif', 'jpeg')`
+* It uses `exif_imagetype()` method to get the *real* mime/image type,
+* Checks if MIME type exists in the expected image types ie. `array('jpg', 'png', 'gif', 'jpeg')`
 * Checks `getimagesize();` to see if the image has a valid width/height measurable in pixels.
 * It uses `is_uploaded_file()` to check for secure upload HTTP Post method .(extra security check)
 
@@ -138,7 +138,7 @@ $crop = $bulletProof
 * <del>Allow image resizing</del> Done!
 * <del>Allow image watermarking</del> Done! 
 *  Allow text watermarking <-- discontinued!
-* <del> Allow image cropping </del>
+* <del> Allow image cropping </del> Done!
 * <del> Handle errors with exceptions </del> Done!
 
 
