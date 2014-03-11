@@ -63,8 +63,8 @@ $bulletProof
 ````php
 /*
  *   watermark() - will accept two arguments.
- *     First is the the image to use as watermark. (best to use PNG).
- *     Second is the location where to put your watermark on the image.
+ *     First: The image to use as watermark. (best to use PNG).
+ *     Second: The Location where to put your watermark on the image.
  *     Location: 'center', 'bottom-right', 'bottom-left', 'top-left'...
  */
 $bulletProof
@@ -93,7 +93,7 @@ Please check the examples.php for more functions and all tested examples.
 
 
 #### NOTE:
- The `upload()` method accepts two arguments. First is the image, second (optional) is a new name for the image.
+ The `upload()` method accepts two arguments. First the Image, and second [optional], a new name for the image.
  If you provide a name, that name will be used for renaming, if not a unique name will be generated.
 ````php
 // Uploaded file will be renamed 'cheeez' plus the file mime type.
