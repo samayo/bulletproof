@@ -41,9 +41,9 @@ if($_FILES){
  */
 echo $bulletProof
         ->fileTypes(array("png", "jpeg"))
+        ->folder("my_pictures")
         ->limitSize(array("min"=>1000, "max"=>100000))
         ->limitDimension(array("height"=>100, "width"=>100));
-        ->folder("my_pictures")
         ->upload($_FILES['picture']);
 ````
 
@@ -54,8 +54,8 @@ echo $bulletProof
  */
 $bulletProof
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->shrink(array("height"=>100, "width"=>200))
     ->folder("shrinked_images")
+    ->shrink(array("height"=>100, "width"=>200))
     ->upload($_FILES["pictures"]);
 ````
 
@@ -69,8 +69,8 @@ $bulletProof
  */
 $bulletProof
     ->fileTypes(array("jpeg"))
-    ->watermark('watermark.png', 'bottom-right'))
     ->folder("watermarked")
+    ->watermark('watermark.png', 'bottom-right'))
     ->upload($_FILES['logo']);
 ````
 
@@ -84,8 +84,8 @@ $bulletProof
  */
 $bulletProof
     ->fileTypes(array("jpeg"))
+    ->folder("watermarked")
     ->crop(array("height"=>40, "width"=>50))
-    ->folder("croped_folder")
     ->upload($_FILES['logo']);
 ````
 
