@@ -1,6 +1,6 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
-This class allows you to do **2** things!
+This class allows you to do **two** things!
 First is to **upload images while** cropping, resizing and watermarking the image.
 The second is, to do the same as above but without uploading.
 It means, you can crop/resize/watermark any image any time.
@@ -130,7 +130,7 @@ $change = $bulletProof
 * It uses `exif_imagetype()` method to get the **real** mime/image type,
 * Checks if MIME type exists in the expected image types ie. `array('jpg', 'png', 'gif', 'jpeg')`
 * Checks `getimagesize();` to see if the image has a valid width/height measurable in pixels.
-* It uses `is_uploaded_file()` to check for secure upload HTTP Post method .(extra security check)
+* Uses `is_uploaded_file()` to check for a secure upload HTTP Post method, (extra security check).
 
 
 
