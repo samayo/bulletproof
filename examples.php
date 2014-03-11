@@ -15,19 +15,18 @@ try{
 
 /**
  * SIMPLE & DEFAULT UPLOAD
- * - This will use the default settings of the upload class, 
+ * - This minimal method uploads using the default settings of the class. 
  *
  * FILE TYPE AND SIZE
- * - This will upload a jpg, jpeg, png or gif files, between 1 to 30kb
+ * - This will upload a jpg, jpeg, png or gif files, between image sizes of 1 to 30kb
  *
  * DIRECTORY: 
  * - It will try to upload those files into a folder called "uploads"
- *   It it does not exist, it will create the folder and upload the images.
+ *   If the folder does not exist, it will created and the image will be uploaded into it. 
  *
  * NAME: 
- * - If you don't pass a second argument for the 'change()' method (as
- *   shown in the second example) a random name will be generated instead. 
- *  ex: '9729117325181114111460111302586531cfab37d225.jpg'
+ * - If you don't pass a second argument for the 'upload()' method  a randomname will 
+ *  be generated instead.  ex: '9729117325181114111460111302586531cfab37d225.mimetype'
  */
 
 //if($_FILES){
@@ -40,16 +39,17 @@ try{
 
 
 /**
- * UPLOAD SPECIFIC FILE + CUSTOM NAME + CUSTOM UPLOAD DIRECTORY
+ * UPLOAD SPECIFIC IMAGE + CUSTOM NAME + CUSTOM UPLOAD DIRECTORY
  * 
  * This will upload ONLY the file/image types specified in the 'fileTypes()' method.
- * In this case, the image to be uploaded will be 'gif' only. named 'awesome'
+ * In this case, the image to be uploaded will be 'gif', it will be uploaded 
+ * a folder called 'my_pictures' and will be named 'awesome'
  */
 
 // if($_FILES){
 // 	echo $bulletProof
 //      ->folder("foo") # upload to 'my_pictures' folder, if it does not exit create it!
-//      ->fileTypes(array('gif', "jpg", "jpeg")) # upload only gif files
+//      ->fileTypes(array('gif')) # upload only gif files
 //      ->upload($_FILES["picture"], "awesome"); # rename file/image to "awesome"
 // }
 
@@ -59,11 +59,11 @@ try{
 
 
 /**
- * SPECIFIC SIZE LIMIT
+ * UPLOAD WITH A SPECIFIC SIZE 
  * 
- * This will add file size check specified in the 'sizeLimit()' method.
- * only pass values in bytes, and don't forget "min", "max". 
- * remember. 1KB ~ 1000bytes. 
+ * This will check the size of the image, as specified in the 'limitSize()' method.
+ * Pass values in bytes, and don't forget "min", "max". 
+ * remember. 1 kb ~ 1000 bytes. 
  *
  */
 
@@ -81,10 +81,10 @@ try{
 
 
 /**
- * ADD WATERMARK TO IMAGE
+ * ADD A WATERMARK TO IMAGE
  * 
  * This will add a watermark specified in the 'watermark()' method. 
- * The first argument should always be the image (png) and the second
+ * The first argument should always be the image and the second
  * the position. You can only pass 4 positions: 
  * top-right, bottom-right, center, 'top-left', 'bottom-left'
  * 
@@ -93,9 +93,9 @@ try{
 // if($_FILES){
 // 	echo $bulletProof
 // 		->fileTypes(array("gif", "jpg", "jpeg", "png"))
-// 		->limitSize(array("min"=>1, "max"=>52000))
-// 		->watermark("logo.png", "center")
 // 		->folder("batman")
+// 		->limitSize(array("min"=>1, "max"=>52000))
+// 		->watermark("logo.png", "bottom-left")
 // 		->upload($_FILES['picture']);
 // 	}
 
@@ -113,7 +113,7 @@ try{
  * If you have an image with 100px * 100px, if you want to crop it to 120px * 120px 
  * you can't and you shouldn't. 
  *
- * The script will calculate the ratio and crop the image always from the center. 
+ * The script will calculate the ratio and crop the image always from the center of the image. 
  * 
  */
 
@@ -121,7 +121,6 @@ try{
 // 	echo $bulletProof
 // 		->fileTypes(array("gif", "jpg", "jpeg", "png"))
 // 		->limitSize(array("min"=>1, "max"=>1122000))
-// 		->folder("new_folder")
 // 		->crop(array("width"=>100, "height"=>100))
 // 		->upload($_FILES['picture']);
 // }
@@ -134,19 +133,12 @@ try{
 
 /**
  * RESIZE IMAGES BY PIXELS. 
- * 
- * This will crop all images as specified in the 'crop()' method. 
- * Unless the the crop size is bigger than the actual image. In other words: 
- * If you have an image with 100px * 100px, if you want to crop it to 120px * 120px 
- * you can't and you shouldn't. 
  *
- * The script will calculate the ratio and crop the image always from the center. 
- * 
+ * This simply will shrink the image, to the given size in the 'shrink()' method 
  */
 
 // if($_FILES){
 // 	echo $bulletProof
-// 		->folder("shrinked_images")
 // 		->fileTypes(array("gif", "jpg", "jpeg", "png"))
 // 		->limitSize(array("min"=>1, "max"=>1122000))
 // 		->shrink(array("width"=>30, "height"=>30))
@@ -166,7 +158,7 @@ try{
 
 
 /*---------------------------------------------------------------------------
- |	                 SOME WORKING EXAMPLES: 					             |
+ |	                 SOME WORKING EXAMPLES: 					                       |
  |																             | 
  |	          ################# READ PLEASE  ###################	         |
  |       The below functions allow you to delete/crop/shrink/watermak        |
