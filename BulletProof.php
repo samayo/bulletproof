@@ -238,16 +238,16 @@ class BulletProof
      */
     private function commonFileUploadErrors()
     {
-        return [
-            UPLOAD_ERR_OK           => "...",
-            UPLOAD_ERR_INI_SIZE     => "File is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE    => "File is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL      => "File could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE      => "File is not found",
-            UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, due to server configuration",
-            UPLOAD_ERR_CANT_WRITE   => "Failed to write file to disk. Please check you file permissions",
-            UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
-        ];
+        return $array(
+            "...",    //UPLOAD_ERR_OK
+            "File is larger than the specified amount set by the server",    //UPLOAD_ERR_INI_SIZE
+            "Files is larger than the specified amount specified by browser",    //UPLOAD_ERR_FORM_SIZE
+            "File could not be fully uploaded. Please try again later",    //UPLOAD_ERR_PARTIAL
+            "File is not found",    //UPLOAD_ERR_NO_FILE
+            "Can't write to disk, as per server configuration",    //UPLOAD_ERR_NO_TMP_DIR
+            "Failed to write file to disk. Introduced in PHP",    //UPLOAD_ERR_CANT_WRITE
+            "A PHP extension has halted this file upload"   //UPLOAD_ERR_EXTENSION
+        );
     }
 
 
@@ -649,7 +649,8 @@ class BulletProof
 
         // Check if any errors are thrown by the FILES[] array
         if ($fileToUpload['error']) {
-            throw new ImageUploaderException("ERROR " . $this->commonFileUploadErrors()[$fileToUpload['error']]);
+            $temp = $this->commonFileUploadErrors();
+            throw new ImageUploaderException("ERROR " . $temp[$fileToUpload['error']]);
         }
 
         // Check if size (in bytes) of the image is above or below of defined in 'sizeLimit()' 
