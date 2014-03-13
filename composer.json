@@ -2,7 +2,7 @@
     "name": "bullet-proof/image-uploader",
     "type": "library",
     "description": "Image Upload, Crop, Watermark, Reisize tool",
-    "keywords": ["Image Uploader","PHP Image Watermark, Crop"],
+    "keywords": ["ImageUploader","ImageWatermark,ImageCrop"],
     "homepage": "http://github.com/Simon_eQ/BulletProof",
     "license": "free",
     "authors": [
