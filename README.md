@@ -12,7 +12,7 @@ Please check examples.php for a complete guide.
 ````php
 /** As usual: Require and call the class only */
 
-require_once "BulletProof.php";
+require_once "ImageUploader\BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
