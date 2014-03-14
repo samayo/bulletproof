@@ -651,8 +651,11 @@ class BulletProof
             throw new ImageUploaderException("This file is either too small or corrupted to be an image file");
         }
 
-        if($pixel["height"] > $this->imageDimension["height"] || $pixel["width"] > $this->imageDimension["width"]){
-            throw new ImageUploaderException("Image pixels/size must be below ". implode(", ", $this->imageDimension). " pixels");
+        if($pixel["height"] > $this->imageDimension["height"] || 
+            $pixel["width"] > $this->imageDimension["width"])
+        {
+            throw new ImageUploaderException("Image pixels/size must be below ". 
+                implode(", ", $this->imageDimension). " pixels");
         }
 
         // Assign given name or generate a new one.
