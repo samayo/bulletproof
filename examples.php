@@ -1,6 +1,5 @@
 <?php
-
-require_once "bulletProof.php";
+require_once "ImageUploader/BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 
 
@@ -29,11 +28,10 @@ try{
  *  be generated instead.  ex: '9729117325181114111460111302586531cfab37d225.mimetype'
  */
 
-//if($_FILES){
-//   echo $bulletProof->upload($_FILES['picture']);
-//}
-
-
+if($_FILES){
+  $bulletProof
+  	->upload($_FILES['picture']);
+}
 
 
 
@@ -48,7 +46,7 @@ try{
 
 // if($_FILES){
 // 	echo $bulletProof
-//      ->folder("foo") # upload to 'my_pictures' folder, if it does not exit create it!
+//      ->uploadDir("foo") # upload to 'my_pictures' folder, if it does not exit create it!
 //      ->fileTypes(array('gif')) # upload only gif files
 //      ->upload($_FILES["picture"], "awesome"); # rename file/image to "awesome"
 // }
@@ -93,7 +91,7 @@ try{
 // if($_FILES){
 // 	echo $bulletProof
 // 		->fileTypes(array("gif", "jpg", "jpeg", "png"))
-// 		->folder("batman")
+// 		->uploadDir("batman")
 // 		->limitSize(array("min"=>1, "max"=>52000))
 // 		->watermark("logo.png", "bottom-left")
 // 		->upload($_FILES['picture']);
@@ -148,15 +146,6 @@ try{
 
 
 
-
-
-
-
-
-
-
-
-
 /*---------------------------------------------------------------------------
  |	                 SOME WORKING EXAMPLES: 					                       |
  |																             | 
@@ -169,7 +158,7 @@ try{
 /**
  * DELETING/REMOVING A IMAGE/FILE
  */
-#$delete = $bulletProof->deleteFile("images/1531e6a564521f_IJLPKONFQMEGH.png");
+#$delete = $bulletProof->deleteFile("uploads/c.jpeg");
 
 
 
@@ -177,9 +166,8 @@ try{
  * CROP IMAGES
  */
 // $crop = $bulletProof
-// 	->folder("my_folder")
-// 	->crop(array("height"=>10, "width"=>10))
-// 	->change("crop", "1531e894e1665e_JGKIQFLEONMHP.jpeg");
+// 	->crop(array("height"=>110, "width"=>110))
+// 	->change("crop", "uploads/wind_power.jpg");
 
 
 
@@ -190,10 +178,9 @@ try{
 /**
  * WATERMARK IMAGES
  */
-// $crop = $bulletProof
-// 	->folder("croped_images")
+// $watermark = $bulletProof
 // 	->watermark("logo.png", "center")
-// 	->change("watermark", "my_pictures/awesome.gif");
+// 	->change("watermark", "uploads/oldtimer.jpg");
 
 
 
@@ -204,13 +191,9 @@ try{
 /**
  * SHRINK IMAGES
  */
-// $crop = $bulletProof
-// 	->folder("croped_images")
-// 	->shrink(array("height"=>30, "width"=>50))
-// 	->change("shrink", "my_pictures/awesome.gif");
-
-
-
+// $shrink = $bulletProof
+// 	->shrink(array("height"=>130, "width"=>150))
+// 	->change("shrink", "uploads/narcissus.jpg");
 
 
 
@@ -225,7 +208,7 @@ try{
 
 
 <form method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="MAX_FILE_SIZE" value="11111000" />
+    <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
     <input name="picture" type="file" />
     <input type="submit" value="submit" id="submit" />
 </form>

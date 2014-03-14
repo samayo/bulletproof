@@ -1,0 +1,24 @@
+{
+    "name": "BulletProof/ImageUploader",
+    "type": "library",
+    "description": "Image Upload, Crop, Watermark, Reisize tool",
+    "keywords": ["Image Uploader","PHP Image Watermark, Crop"],
+    "homepage": "http://github.com/Simon_eQ/BulletProof",
+    "license": "free",
+    "authors": [
+        {
+            "name": "Simon_Equbazghi",
+            "email": "me@simons.co.de",
+            "homepage": "http://simons.co.de",
+            "role": "comic relief"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ImageUploader":"."
+        }
+    }
+}

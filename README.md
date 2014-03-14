@@ -35,7 +35,7 @@ if($_FILES){
  *   limitSize() - Set the min and max image size limit (in bytes)
  *   limitDimension() - Set the max height and width of image upload  (in pixels)
  *   folder() - set a folder to store the uploads. It will be created automatically.
- *   upload() - the final method that checks everything and uploads the file.
+ *   upload() - the final method that checks everything and uploads the image.
  *     The variable $bulletProof will contain the path/image from the upload,
  *     So, you can simply store it in db or echo it like  <img src='$bulletProof' />;
  */
@@ -94,7 +94,7 @@ Please check the examples.php for more functions and all tested examples.
 
 #### NOTE:
  The `upload()` method accepts two arguments. First the Image, and second [optional], a new name for the image.
- If you provide a name, that name will be used for renaming, if not a unique name will be generated.
+ If you provide a name the image will be renamed, if not a unique name will be generated.
 ````php
 // Uploaded file will be renamed 'cheeez' plus the file mime type.
 ->upload($_FILES['fileName'], 'cheeez');
