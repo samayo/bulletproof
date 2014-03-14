@@ -1,6 +1,6 @@
 <?php
 
-require_once "bulletProof.php";
+require_once "ImageUploader\BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 
 

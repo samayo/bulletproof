@@ -639,7 +639,7 @@ class BulletProof
     public function upload($fileToUpload, $isNameProvided = null)
     {
         // First get the real file extension
-        $this->getMimeType = $this->getMimeType($fileToUpload["name"]);
+        $this->getMimeType = $this->getMimeType($fileToUpload["tmp_name"]);
 
         // Check if this file type is allowed for upload
         if (!in_array($this->getMimeType, $this->fileTypesToUpload)) {
