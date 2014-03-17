@@ -67,6 +67,8 @@ class BulletProof
      */
     private $getMimeType;
 
+    private $jpgQuality = 75;
+
 
 
     /*--------------------------------------------------------------------------
@@ -373,7 +375,7 @@ class BulletProof
         switch ($imageType) {
             case "jpeg":
             case "jpg":
-                 imagejpeg($createImage, $imageToUpload);
+                 imagejpeg($createImage, $imageToUpload, $this->jpgQuality);
                 break;
 
             case "png":
@@ -451,7 +453,7 @@ class BulletProof
         switch ($mimeType) {
             case "jpeg":
             case "jpg":
-                imagejpeg($tmp, $fileToUpload, 100);
+                imagejpeg($tmp, $fileToUpload, $this->jpgQuality);
                 break;
             case "png":
                 imagepng($tmp, $fileToUpload, 0);
@@ -555,7 +557,7 @@ class BulletProof
         if (!$temp) {
             throw new ImageUploaderException("Failed to crop image. Please pass the right parameters");
         } else {
-            imagejpeg($temp, $tmp_name);
+            imagejpeg($temp, $tmp_name, $this->jpgQuality);
         }
 
     }
