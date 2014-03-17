@@ -448,7 +448,7 @@ class BulletProof
             $height
         );
 
-        $mimeType = $this->getMimeType($fileName);
+        $mimeType = $this->getMimeType($fileToUpload);
 
         switch ($mimeType) {
             case "jpeg":
@@ -501,7 +501,7 @@ class BulletProof
             return;
         }
 
-        $mimeType = $this->getMimeType($imageName);
+        $mimeType = $this->getMimeType($tmp_name);
 
         switch ($mimeType) {
             case "jpg":
@@ -663,7 +663,7 @@ class BulletProof
         }
 
         // check if image is valid pixel-wise.
-        list($imgWidth, $imgHeight) = $this->getImagePixels($fileToUpload["name"]);
+        list($imgWidth, $imgHeight) = $this->getImagePixels($fileToUpload['tmp_name']);
         if($imgWidth < 1 || $imgHeight < 1){
             throw new ImageUploaderException("This file is either too small or corrupted to be an image file");
         }
