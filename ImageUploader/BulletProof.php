@@ -690,17 +690,10 @@ class BulletProof
         $moveUploadedFile = move_uploaded_file( $fileToUpload["tmp_name"], $filePath);
 
         if ($checkSafeUpload && $moveUploadedFile) {
-            return $filePath; 
-        }else{
+            return $filePath;
+        }
+        else {
             throw new ImageUploaderException(" File could not be uploaded. Unknown error occurred. ");
         }
     }
-
-
 }
-
-
-
-
-
-
