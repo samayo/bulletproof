@@ -3,11 +3,18 @@ require_once "ImageUploader/BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 
 
-/*---------------------------------------------------------------
- |	                 SOME WORKING EXAMPLES: 					 |
- |															     |
- |       Uncoment any block of code you want and give it a try   |
- ---------------------------------------------------------------*/
+
+	/*
+	|--------------------------------------------------------------------------
+	| 			SIMPLE WORRKING EXAMPLES.
+	|--------------------------------------------------------------------------
+	|
+	| This are some default codes made to demostrate some usages of the class.
+	| Uncomment one you like and give it a try.   
+	| leave the try/catch as is to handle errors. 
+	|
+	*/
+
 
 
 try{
@@ -28,10 +35,10 @@ try{
  *  be generated instead.  ex: '9729117325181114111460111302586531cfab37d225.mimetype'
  */
 
-if($_FILES){
-  $bulletProof
-  	->upload($_FILES['picture']);
-}
+// if($_FILES){
+//   $bulletProof
+//   	->upload($_FILES['picture']);
+// }
 
 
 
@@ -91,7 +98,7 @@ if($_FILES){
 // if($_FILES){
 // 	echo $bulletProof
 // 		->fileTypes(array("gif", "jpg", "jpeg", "png"))
-// 		->uploadDir("batman")
+// 		->uploadDir("watermark")
 // 		->limitSize(array("min"=>1, "max"=>52000))
 // 		->watermark("logo.png", "bottom-left")
 // 		->upload($_FILES['picture']);
@@ -146,14 +153,18 @@ if($_FILES){
 
 
 
-/*---------------------------------------------------------------------------
- |	                 SOME WORKING EXAMPLES: 					                       |
- |																             | 
- |	          ################# READ PLEASE  ###################	         |
- |       The below functions allow you to delete/crop/shrink/watermak        |
- |       an image only that has already been UPLOADED, maybe a minute        |
- |       ago or a year ago, in short its like physically checking an image   |
- ----------------------------------------------------------------------------*/
+/*
+|--------------------------------------------------------------------------
+| 			SIMPLE WORRKING EXAMPLES.
+|--------------------------------------------------------------------------
+|
+| The below functions allow you to delete/crop/shrink/watermak   
+| an image only that has already been UPLOADED, maybe a minute    
+| ago or a year ago, in short its like physically checking an image 
+|
+*/
+
+
 
 /**
  * DELETING/REMOVING A IMAGE/FILE
