@@ -31,13 +31,13 @@ if($_FILES){
 ````php
 /*
  *   fileTypes() - What type of images to upload. ex: jpg, gif, png..
- *   folder() - Create/Assing a folder name to store the uploads.
+ *   uploadDir() - Create/Assing a folder name to store the uploads.
  *   limitSize() - Set a limit on the min and max image size for uploads (in bytes)
  *   limitDimension() - Set the MAX height and width of image upload  (in pixels)
  */
 echo $bulletProof
         ->fileTypes(array("png", "jpeg"))
-        ->folder("my_pictures")
+        ->uploadDir("my_pictures")
         ->limitSize(array("min"=>1000, "max"=>100000))
         ->limitDimension(array("height"=>100, "width"=>100));
         ->upload($_FILES['picture']);
@@ -55,7 +55,7 @@ echo $bulletProof
  */
 $bulletProof
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
-    ->folder("shrinked_images")
+    ->uploadDir("shrinked_images")
     ->shrink(array("height"=>100, "width"=>200))
     ->upload($_FILES["pictures"]);
 ````
@@ -70,7 +70,7 @@ $bulletProof
  */
 $bulletProof
     ->fileTypes(array("jpeg"))
-    ->folder("watermarked")
+    ->uploadDir("watermarked")
     ->watermark('watermark.png', 'bottom-right'))
     ->upload($_FILES['logo']);
 ````
@@ -85,7 +85,7 @@ $bulletProof
  */
 $bulletProof
     ->fileTypes(array("jpeg"))
-    ->folder("watermarked")
+    ->uploadDir("watermarked")
     ->crop(array("height"=>40, "width"=>50))
     ->upload($_FILES['logo']);
 ````
@@ -144,7 +144,7 @@ $change = $bulletProof
 * <del> Handle Errors with Exceptions </del> Done!
 * <del> Backward compatability for PHP 5.3 </del> Done!
 * Allow text watermarking <-- discontinued!
-* Make it SOLID & SRP compliant <-- ehh, gimme a break :)
+
 
 
 
