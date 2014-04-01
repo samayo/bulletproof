@@ -621,6 +621,12 @@ class BulletProof
     public function upload($fileToUpload, $isNameProvided = null)
     {
        
+       ini_set('php_exif', 'on');
+       if(!function_exists('exif_imagetype')){
+        throw new ImageUploaderException("Function 'exif_imagetype' Not found. Please enable \"php_exif\" in your PHP.ini ");
+       }
+
+
          // Check if any errors are thrown by the FILES[] array
         if ($fileToUpload["error"]) {
             throw new ImageUploaderException($this->commonUploadErrors($fileToUpload["error"]));
