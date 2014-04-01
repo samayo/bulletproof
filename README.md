@@ -1,17 +1,16 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
 This class allows you to do **two** things!
-First is to **upload images while** cropping, resizing and watermarking the image.
+First is to **upload images while** cropping, resizing and watermarking it.
 The second is, to do the same as above but without uploading.
 It means, you can crop/resize/watermark any image any time.
 Please check examples.php for a complete guide.
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
-##### THE START: Include & Instantiate the class.
+##### THE START: requiring and instantiating the class.
 ````php
 /** As usual: Require and call the class only */
-
 require_once "ImageUploader\BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
@@ -28,16 +27,13 @@ if($_FILES){
  }
 ````
 
-##### SCENARIO 2: Upload images with specific size/type/dimension (Moaarr code)
+##### SCENARIO 2: Upload images with different size/type/dimension (Moaarr code)
 ````php
 /*
  *   fileTypes() - What type of images to upload. ex: jpg, gif, png..
- *   limitSize() - Set the min and max image size limit (in bytes)
- *   limitDimension() - Set the max height and width of image upload  (in pixels)
- *   folder() - set a folder to store the uploads. It will be created automatically.
- *   upload() - the final method that checks everything and uploads the image.
- *     The variable $bulletProof will contain the path/image from the upload,
- *     So, you can simply store it in db or echo it like  <img src='$bulletProof' />;
+ *   folder() - Create/Assing a folder name to store the uploads.
+ *   limitSize() - Set a limit on the min and max image size for uploads (in bytes)
+ *   limitDimension() - Set the MAX height and width of image upload  (in pixels)
  */
 echo $bulletProof
         ->fileTypes(array("png", "jpeg"))
@@ -45,12 +41,17 @@ echo $bulletProof
         ->limitSize(array("min"=>1000, "max"=>100000))
         ->limitDimension(array("height"=>100, "width"=>100));
         ->upload($_FILES['picture']);
+
+/*  Always, use try/Catch to handle errors, if there are no errors the variable
+ *   $bulletProof will contain the path/image of the uploaded image.
+ *   So, you can simply store it in db or echo it like  <img src='$bulletProof' />;        
+ */
 ````
 
-##### SCENARIO 3: Shrink and upload image.
+##### SCENARIO 3: Shrink/Resize and upload image.
 ````php
 /*
- *   shrink() - will shrink/resize the image to the given dimensions
+ *   shrink() - will shrink/resize the image according to the given dimensions (in pixels)
  */
 $bulletProof
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
@@ -63,9 +64,9 @@ $bulletProof
 ````php
 /*
  *   watermark() - will accept two arguments.
- *     First: The image to use as watermark. (best to use PNG).
+ *     First: The image to use as watermark. (best to use a PNG).
  *     Second: The Location where to put your watermark on the image.
- *     Location: 'center', 'bottom-right', 'bottom-left', 'top-left'...
+ *     Location can be a string 'center', 'bottom-right', 'bottom-left', 'top-left'...
  */
 $bulletProof
     ->fileTypes(array("jpeg"))
@@ -93,10 +94,10 @@ Please check the examples.php for more functions and all tested examples.
 
 
 #### NOTE:
- The `upload()` method accepts two arguments. First the Image, and second [optional], a new name for the image.
- If you provide a name the image will be renamed, if not a unique name will be generated.
+ The `upload()` method accepts two arguments. First the Image, and second (optional), a new name for the image.
+ If you provide a name, it will be used as a new name for the upload, if not a unique name will be generated.
 ````php
-// Uploaded file will be renamed 'cheeez' plus the file mime type.
+// Uploaded file will be renamed 'cheeez' plus the file mime type i.e (jpg/png/gif...).
 ->upload($_FILES['fileName'], 'cheeez');
 
 // file will be named ex '1531e4b0e3bc82_QPIJLMPKQNJGF' plus the mime type
@@ -105,10 +106,12 @@ Please check the examples.php for more functions and all tested examples.
 
 The `change()` method is different from `upload()` and should not be mixed.
 The `change()` will allow you to directly crop/resize/watermark an image that is already uploaded.
+Think of it like this: you have a buch of images on your server, you would like to watermark, then 
+you can simply do a loop over them using glob() or watever, and watermark/crop/shrink all or 
+a specific one. 
 
 ```php
 // The change method is like accessing any file physically and making change to it. 
-
 //CROP IMAGES
 $change = $bulletProof
  	->crop(array("height"=>10, "width"=>10))
@@ -126,7 +129,7 @@ $change = $bulletProof
 ````
 
 ### What makes this secure?
-* It checks & handles any errors thrown by `$_FILES[]['error']`.
+* It checks and handles any errors thrown from `$_FILES[]['error']`.
 * It uses `exif_imagetype()` method to get the **real** mime/image type,
 * Checks if MIME type exists in the expected image types ie. `array('jpg', 'png', 'gif', 'jpeg')`
 * Checks `getimagesize();` to see if the image has a valid width/height measurable in pixels.
@@ -135,12 +138,13 @@ $change = $bulletProof
 
 
 #### Whats next?
-* <del>Allow image resizing</del> Done!
-* <del>Allow image watermarking</del> Done!
-* <del> Allow image cropping </del> Done!
-* <del> Handle errors with exceptions </del> Done!
-* Backward compatability for PHP 5.3
+* <del> Allow Image Resizing</del> Done!
+* <del> Allow Image Watermarking</del> Done!
+* <del> Allow Image Cropping </del> Done!
+* <del> Handle Errors with Exceptions </del> Done!
+* <del> Backward compatability for PHP 5.3 </del> Done!
 * Allow text watermarking <-- discontinued!
+* Make it SOLID & SRP compliant <-- ehh, gimme a break :)
 
 
 
