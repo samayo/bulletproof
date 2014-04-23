@@ -223,7 +223,7 @@ class BulletProof
     public function uploadDir($directoryName)
     {
         if (!file_exists($directoryName) && !is_dir($directoryName)) {
-            $createFolder = mkdir("" . $directoryName, 0777);
+            $createFolder = mkdir("" . $directoryName, 0666);
             if (!$createFolder) {
                 throw new ImageUploaderException("Folder " . $directoryName . " could not be created");
             }
