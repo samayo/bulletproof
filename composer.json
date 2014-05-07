@@ -1,22 +1,18 @@
 {
-    "name": "bivoc/BulletProof",
-    "type": "library",
-    "description": "Image Upload, Crop, Watermark, Reisize tool",
+    "name": "bivoc/bullet-proof",
+    "description": "PHP Secure Image Uploader, Cropper, Watermark, and Image Reisizing tool",
     "keywords": ["image", "upload","watermark", "crop"],
     "homepage": "http://github.com/bivoc/BulletProof",
-    "license": "free",
+    "license": "public domain",
     "authors": [
         {
             "name": "Simon_eQ",
-            "role": "comic relief"
         }
     ],
     "require": {
         "php": ">=5.3.0"
     },
     "autoload": {
-        "psr-0": {
-            "ImageUploader":"."
-        }
+            "ImageUploader":"lib/bulletproof.php"
     }
 }
