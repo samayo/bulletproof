@@ -1,5 +1,5 @@
 {
-    "name": "bivoc/bullet-proof",
+    "name": "bivoc/bulletproof",
     "description": "PHP Secure Image Uploader, Cropper, Watermark, and Image Reisizing tool",
     "keywords": ["image", "upload","watermark", "crop"],
     "homepage": "http://github.com/bivoc/BulletProof",
