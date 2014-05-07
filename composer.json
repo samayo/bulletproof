@@ -1,15 +1,13 @@
 {
-    "name": "BulletProof/ImageUploader",
+    "name": "bivoc/BulletProof",
     "type": "library",
     "description": "Image Upload, Crop, Watermark, Reisize tool",
     "keywords": ["image", "upload","watermark", "crop"],
-    "homepage": "http://github.com/Simon_eQ/BulletProof",
+    "homepage": "http://github.com/bivoc/BulletProof",
     "license": "free",
     "authors": [
         {
-            "name": "Simon_Equbazghi",
-            "email": "me@simons.co.de",
-            "homepage": "http://simons.co.de",
+            "name": "Simon_eQ",
             "role": "comic relief"
         }
     ],
