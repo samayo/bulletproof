@@ -11,7 +11,7 @@ Please check examples.php for a complete guide.
 ##### THE START: requiring and instantiating the class.
 ````php
 /** As usual: Require and call the class only */
-require_once "ImageUploader\BulletProof.php";
+require_once "lib\bulletproof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
