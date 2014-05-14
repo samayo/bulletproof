@@ -144,6 +144,7 @@ $change = $bulletProof
 * <del> Handle Errors with Exceptions </del> Done!
 * <del> Backward compatability for PHP 5.3 </del> Done!
 * Allow text watermarking <-- discontinued!
+* Rebuild class abiding to the [SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle)
 
 
 
