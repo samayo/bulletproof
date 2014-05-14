@@ -1,5 +1,5 @@
 <?php
-require_once "ImageUploader/BulletProof.php";
+require_once "lib/BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 
 
