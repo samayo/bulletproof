@@ -83,6 +83,20 @@ class BulletProof
     private $shrinkImageTo = array();
 
     /**
+     * Whether or not to keep the ratio of the original image while resizing
+     *
+     * @var boolean
+     */
+    private $shrinkRatio;
+
+    /**
+     * Whether or not to allow upsizing of an image when applying the shrink command.
+     *
+     * @var boolean
+     */
+    private $shrinkUpsize;
+
+    /**
      * New image dimensions for image cropping ex: array("height"=>100, "width"=>100)
      *
      * @var array
@@ -197,7 +211,54 @@ class BulletProof
         return array("width"=>$width, "height"=>$height);
     }
 
+    /**
+     * Calculate the new size of the image.
+     *
+     * Has the ability to keep the original ratio of the image. Can prevent upsizing of an image.
+     *
+     * @param array $oldImage
+     * @return array
+     */
+    private function getNewImageSize($oldImage)
+    {
 
+        // If the ratio needs to be kept.
+        if ($this->ratio) {
+            $width = $this->shrinkImageTo["width"];
+            // First, calculate the height.
+            $height = intval($width / $oldImage["width"] * $oldImage["height"]);
+
+            // If the height is too large, set it to the maximum height and calculate the width.
+            if ($height > $this->shrinkImageTo["height"]) {
+
+                $height = $this->shrinkImageTo["height"];
+                $width = intval($height / $oldImage["height"] * $oldImage["width"]);
+            }
+
+            // If we don't allow upsizing check if the new width or height are too big.
+            if (! $this->shrinkUpsize) {
+                // If the given width is larger then the image height, then resize it.
+                if ($width > $oldImage["width"]) {
+                    $width = $oldImage["width"];
+                    $height = intval($width / $oldImage["width"] * $oldImage["height"]);
+                }
+
+                // If the given height is larger then the image height, then resize it.
+                if ($height > $oldImage["height"]) {
+                    $height = $oldImage["height"];
+                    $width = intval($height / $oldImage["height"] * $oldImage["width"]);
+                }
+            }
+        } else {
+            $width = $this->shrinkImageTo["width"];
+            $height = $this->shrinkImageTo["height"];
+        }
+
+        return array(
+            "width" => $width,
+            "height" => $height
+        );
+    }
     /**
      * Rename file either from method or by generating a random one.
      *
@@ -399,9 +460,11 @@ class BulletProof
      * @param array $setImageDimensions
      * @return $this
      */
-    public function shrink(array $setImageDimensions)
+    public function shrink(array $setImageDimensions, $ratio=false, $upsize=true)
     {
         $this->shrinkImageTo = $setImageDimensions;
+        $this->shrinkRatio = $ratio;
+        $this->shrinkUpsize = $upsize;
         return $this;
     }
 
@@ -421,7 +484,7 @@ class BulletProof
         }
 
         $oldImage = $this->getPixels($imageName);
-        $newImage = $this->shrinkImageTo;
+        $newImage = $this->getNewImageSize($oldImage, false);
 
         $imgString = file_get_contents($imageName);
 
