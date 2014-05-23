@@ -1,22 +1,26 @@
 <?php
-
-namespace ImageUploader;
-
 /**
- * BulletProof: A PHP Image Uploader.
+ * BulletProof: PHP Image Uploader, Cropper, Resize & Watermark.
  *
- * You can also: shrink/resize, add watermark, delete or crop Images,
+ * This is a one-file alternative for quick, fast and safe way of, 
+ * uploading, adding watermarks, cropping and resizing images, 
  * during and after image uploads.
  *
  * This class is heavily commented, to be as much friendly as possible.
  *
  * Please help out by posting out some bugs/flaws if you encounter any. Thanks!
  *
- * @author Simon _eQ <https://github.com/simon-eQ>
- * @license Luke 3:11 ( Free )
- * @link https://github.com/simon-eQ/BulletProof
+ * @category    Image uploader
+ * @package     BulletProof
+ * @author      Simon QD. <me@simons.co.de>
+ * @license     Luke 3:11 ( Free )
+ * @version     1.0.0
+ * @license     Luke 3:11 ( Free )
+ * @link        https://github.com/bivoc/BulletProof
  *
  */
+
+namespace ImageUploader;
 
 
 class ImageUploaderException extends \Exception
@@ -66,9 +70,6 @@ class BulletProof
      * @var string
      */
     private $getMimeType;
-
-
-
 
 
     /*--------------------------------------------------------------------------
