@@ -1,17 +1,14 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
-This class allows you to do **two** things!
-First is to **upload images while** cropping, resizing and watermarking it.
-The second is, to do the same as above but without uploading.
-It means, you can crop/resize/watermark any image any time.
-Please check examples.php for a complete guide.
+This is a one-file alternative for uploading, cropping, resizing and watermarking
+images in PHP, as opposed to using huge/verbose libraries. All does with best safety. 
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
-##### THE START: requiring and instantiating the class.
+##### FIRST STEP:
 ````php
-/** As usual: Require and call the class only */
-require_once "lib\bulletproof.php";
+/** As usual: Require and then call the class */
+require_once  "lib\bulletproof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
@@ -20,11 +17,11 @@ $bulletProof = new ImageUploader\BulletProof;
 /*
  *   This will use the default settings of the class and will upload only
  *   (jpg, gif, png, jpeg) images with sizes ranging from 0.1kb to max 30kbs
- *   It will also create a folder called "uploads" with chmod 0777 if it does not exist.
+ *   It will also create a folder called "uploads" with chmod 0666 if it does not exist.
  */ 
 if($_FILES){
     echo $bulletProof->upload($_FILES['picture']);
- }
+}
 ````
 
 ##### SCENARIO 2: Upload images with different size/type/dimension (Moaarr code)
@@ -129,7 +126,7 @@ $change = $bulletProof
 ````
 
 ### What makes this secure?
-* It checks and handles any errors thrown from `$_FILES[]['error']`.
+* It checks and handles any errors thrown from the `$_FILES[]['error']` array. 
 * It uses `exif_imagetype()` method to get the **real** mime/image type,
 * Checks if MIME type exists in the expected image types ie. `array('jpg', 'png', 'gif', 'jpeg')`
 * Checks `getimagesize();` to see if the image has a valid width/height measurable in pixels.
@@ -138,16 +135,15 @@ $change = $bulletProof
 
 
 #### Whats next?
-* <del> Allow Image Resizing</del> Done!
-* <del> Allow Image Watermarking</del> Done!
-* <del> Allow Image Cropping </del> Done!
-* <del> Handle Errors with Exceptions </del> Done!
-* <del> Backward compatability for PHP 5.3 </del> Done!
-* Allow text watermarking <-- discontinued!
-* Rebuild class abiding to the [SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle)
+* <del> Allow Image Resizing </del> Done.
+* <del> Allow Image Watermarking </del> Done.
+* <del> Allow Image Cropping </del> Done.
+* <del> Handle Errors with Exceptions </del> Done.
+* <del> Backward compatability for PHP 5.3 </del> Done. 
+* Rebuild another class abiding to the [Single Responsibility Principle](http://en.wikipedia.org/wiki/Single_responsibility_principle)
 
 
 
 
 ###License  
-[Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/)
+[Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/) ( Free w/o any license. )
