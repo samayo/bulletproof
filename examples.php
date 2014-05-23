@@ -1,38 +1,40 @@
 <?php
+
+/*
+|
+|-------------------------------------------------------------------------------------
+| 			    SIMPLE WORKING EXAMPLES. 
+|--------------------------------------------------------------------------------------
+| The following are some examples that demostrate the various usages of the class. 
+| Uncomment any block of code and try the out examples.
+|
+*/
+
+
+/** Require and instanciate the class */
 require_once "lib/BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 
 
 
-	/*
-	|--------------------------------------------------------------------------
-	| 			SIMPLE WORRKING EXAMPLES.
-	|--------------------------------------------------------------------------
-	|
-	| This are some default codes made to demostrate some usages of the class.
-	| Uncomment one you like and give it a try.   
-	| leave the try/catch as is to handle errors. 
-	|
-	*/
 
 
 
+# Leave the try/catch block to catch all errors, nicely. 
 try{
 
+
 /**
- * SIMPLE & DEFAULT UPLOAD
- * - This minimal method uploads using the default settings of the class. 
+ *	SIMPLE & DEFAULT UPLOAD
  *
- * FILE TYPE AND SIZE
- * - This will upload a jpg, jpeg, png or gif files, between image sizes of 1 to 30kb
+ * This is the simples way to upload an image. It will use the default methods of the class. 
+ *   Which means it will: 
+ *    > upload an image with (jpg, png, gif, jpeg) extensions only. 
+ *    > It will only upload file with size in-between from 1Kb to 30Kb. 
+ *    > It will upload the images in a folder called "uploads", if you don't have such folder
+ *      then it will be created and given a chmod of '666'. 
+ *    > Uploaded image will be given a unique & random name
  *
- * DIRECTORY: 
- * - It will try to upload those files into a folder called "uploads"
- *   If the folder does not exist, it will created and the image will be uploaded into it. 
- *
- * NAME: 
- * - If you don't pass a second argument for the 'upload()' method  a randomname will 
- *  be generated instead.  ex: '9729117325181114111460111302586531cfab37d225.mimetype'
  */
 
 // if($_FILES){
@@ -42,31 +44,35 @@ try{
 
 
 
+#-----------------------------------------------------------------------------------------------------#
+
+
 
 /**
- * UPLOAD SPECIFIC IMAGE + CUSTOM NAME + CUSTOM UPLOAD DIRECTORY
+ *	UPLOAD IMAGES WITH "SPECIFIC" TYPE, NAME, UPLOAD DIR.
  * 
- * This will upload ONLY the file/image types specified in the 'fileTypes()' method.
+ * This will upload ONLY the image types specified in the 'fileTypes()' method.
  * In this case, the image to be uploaded will be 'gif', it will be uploaded 
- * a folder called 'my_pictures' and will be named 'awesome'
+ * a folder called 'documents' and the image will be re-named  to 'awesome'
  */
 
 // if($_FILES){
 // 	echo $bulletProof
-//      ->uploadDir("foo") # upload to 'my_pictures' folder, if it does not exit create it!
-//      ->fileTypes(array('gif')) # upload only gif files
-//      ->upload($_FILES["picture"], "awesome"); # rename file/image to "awesome"
+//      ->uploadDir("documents") 
+//      ->fileTypes(array('gif')) 
+//      ->upload($_FILES["picture"], "awesome"); 
 // }
 
 
 
+#-----------------------------------------------------------------------------------------------------#
 
 
 
 /**
  * UPLOAD WITH A SPECIFIC SIZE 
  * 
- * This will check the size of the image, as specified in the 'limitSize()' method.
+ * This will check the size (in bytes) of the image, as specified in the 'limitSize()' method.
  * Pass values in bytes, and don't forget "min", "max". 
  * remember. 1 kb ~ 1000 bytes. 
  *
@@ -74,15 +80,14 @@ try{
 
 // if($_FILES){
 // 	echo $bulletProof
-// 		->fileTypes(array("png", "jpeg"))
 // 		->limitSize(array("min"=>1, "max"=>42000))
-// 		->upload($_FILES['picture'], "passport_pic");
+// 		->upload($_FILES['picture'], "cars_picture");
 // 	}
 
 
 
 
-
+#-----------------------------------------------------------------------------------------------------
 
 
 /**
@@ -90,8 +95,9 @@ try{
  * 
  * This will add a watermark specified in the 'watermark()' method. 
  * The first argument should always be the image and the second
- * the position. You can only pass 4 positions: 
+ * the should be the position. You can only pass 4 types of positions: 
  * top-right, bottom-right, center, 'top-left', 'bottom-left'
+ * This position obviously determines where the watermark appears in the image.
  * 
  */
 
@@ -106,7 +112,7 @@ try{
 
 
 
-
+#-----------------------------------------------------------------------------------------------------
 
 
 
@@ -133,7 +139,7 @@ try{
 
 
 
-
+#-----------------------------------------------------------------------------------------------------
 
 
 /**
@@ -151,60 +157,6 @@ try{
 // }
 
 
-
-
-/*
-|--------------------------------------------------------------------------
-| 			SIMPLE WORRKING EXAMPLES.
-|--------------------------------------------------------------------------
-|
-| The below functions allow you to delete/crop/shrink/watermak   
-| an image only that has already been UPLOADED, maybe a minute    
-| ago or a year ago, in short its like physically checking an image 
-|
-*/
-
-
-
-/**
- * DELETING/REMOVING A IMAGE/FILE
- */
-#$delete = $bulletProof->deleteFile("uploads/c.jpeg");
-
-
-
-/**
- * CROP IMAGES
- */
-// $crop = $bulletProof
-// 	->crop(array("height"=>110, "width"=>110))
-// 	->change("crop", "uploads/wind_power.jpg");
-
-
-
-
-
-
-
-/**
- * WATERMARK IMAGES
- */
-// $watermark = $bulletProof
-// 	->watermark("logo.png", "center")
-// 	->change("watermark", "uploads/oldtimer.jpg");
-
-
-
-
-
-
-
-/**
- * SHRINK IMAGES
- */
-// $shrink = $bulletProof
-// 	->shrink(array("height"=>130, "width"=>150))
-// 	->change("shrink", "uploads/narcissus.jpg");
 
 
 
