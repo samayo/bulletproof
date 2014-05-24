@@ -1,7 +1,7 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
 This is a one-file alternative for uploading, cropping, resizing and watermarking
-images in PHP, as opposed to using huge/verbose libraries. All does with best safety. 
+images in PHP, as opposed to using huge/verbose libraries. All done with the best security. 
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
@@ -146,4 +146,4 @@ $change = $bulletProof
 
 
 ###License  
-[Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/) ( Free w/o any license. )
+[Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/) ( Free; No license! )
