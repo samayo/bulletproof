@@ -1,7 +1,7 @@
 {
     "name": "bivoc/bullet-proof",
     "description": "PHP Secure Image Uploader, Cropper, Watermark, and Image Reisizing tool",
-    "keywords": ["image", "upload","watermark", "crop"],
+    "keywords": ["image", "upload","watermark", "crop", "resize"],
     "homepage": "http://github.com/bivoc/BulletProof",
     "license": "public domain",
     "authors": [

@@ -1,13 +1,10 @@
 <?php
 
 /*
-|
-|-------------------------------------------------------------------------------------
-| 			    SIMPLE WORKING EXAMPLES. 
+| 	  BulletProof Image Upload and Manupilation Examples. 
 |--------------------------------------------------------------------------------------
-| The following are some examples that demostrate the various usages of the class. 
-| Uncomment any block of code and try the out examples.
-|
+|	 Below are some examples prepared to get you started. 
+| 	 Uncomment any block of code and try the out examples 
 */
 
 
@@ -17,24 +14,22 @@ $bulletProof = new ImageUploader\BulletProof;
 
 
 
-
-
-
-# Leave the try/catch block to catch all errors, nicely. 
+# Let the try/catch be, to handle all errors.
 try{
 
 
 /**
  *	SIMPLE & DEFAULT UPLOAD
  *
- * This is the simples way to upload an image. It will use the default methods of the class. 
+ * This is the simplest way to upload an image. It will use the default methods of the class. 
  *   Which means it will: 
  *    > upload an image with (jpg, png, gif, jpeg) extensions only. 
- *    > It will only upload file with size in-between from 1Kb to 30Kb. 
+ *    > It will only upload file with sizes in-between 1Kb to 30Kb. 
  *    > It will upload the images in a folder called "uploads", if you don't have such folder
- *      then it will be created and given a chmod of '666'. 
- *    > Uploaded image will be given a unique & random name
+ *      then it will be created with permission/chmod of '666'. 
+ *    > Uploaded image will also be given a unique & random name
  *
+ *   # you can echo file path&image name, by doing: echo $bulletproof; 
  */
 
 // if($_FILES){
@@ -52,8 +47,9 @@ try{
  *	UPLOAD IMAGES WITH "SPECIFIC" TYPE, NAME, UPLOAD DIR.
  * 
  * This will upload ONLY the image types specified in the 'fileTypes()' method.
- * In this case, the image to be uploaded will be 'gif', it will be uploaded 
- * a folder called 'documents' and the image will be re-named  to 'awesome'
+ * In this case, the image to be uploaded will be 'gif', it will be uploaded to
+ * a folder called 'documents' or it'll be created if it does not exist 
+ * and the image will be re-named  to 'awesome.gif'
  */
 
 // if($_FILES){
@@ -72,9 +68,9 @@ try{
 /**
  * UPLOAD WITH A SPECIFIC SIZE 
  * 
- * This will check the size (in bytes) of the image, as specified in the 'limitSize()' method.
+ * This will check the size of the image (in bytes), as specified in the 'limitSize()' method.
  * Pass values in bytes, and don't forget "min", "max". 
- * remember. 1 kb ~ 1000 bytes. 
+ * remember. 1 kb ~ 1000 bytes. In this example, only an image less than 42Kb can be uploaded
  *
  */
 
@@ -93,10 +89,12 @@ try{
 /**
  * ADD A WATERMARK TO IMAGE
  * 
- * This will add a watermark specified in the 'watermark()' method. 
+ * This will add a watermark as specified in the 'watermark()' method. 
  * The first argument should always be the image and the second
- * the should be the position. You can only pass 4 types of positions: 
+ * should be the position (where to put the watermark). You can only pass 
+ * 4 types of positions: 
  * top-right, bottom-right, center, 'top-left', 'bottom-left'
+ *
  * This position obviously determines where the watermark appears in the image.
  * 
  */
@@ -122,7 +120,7 @@ try{
  * This will crop all images as specified in the 'crop()' method. 
  * Unless the the crop size is bigger than the actual image. In other words: 
  * If you have an image with 100px * 100px, if you want to crop it to 120px * 120px 
- * you can't and you shouldn't. 
+ * you can't and you shouldn't. (Or perhaps, extend the class and add your own method)
  *
  * The script will calculate the ratio and crop the image always from the center of the image. 
  * 
@@ -131,7 +129,6 @@ try{
 // if($_FILES){
 // 	echo $bulletProof
 // 		->fileTypes(array("gif", "jpg", "jpeg", "png"))
-// 		->limitSize(array("min"=>1, "max"=>1122000))
 // 		->crop(array("width"=>100, "height"=>100))
 // 		->upload($_FILES['picture']);
 // }
@@ -160,7 +157,7 @@ try{
 
 
 
-
+ /* Always use the try/catch block to handle errors */
  }catch(\ImageUploader\ImageUploaderException $e){
      echo $e->getMessage();
  }
@@ -169,9 +166,9 @@ try{
 
 ?>
 
-
+<!-- A simple form for the above example -->
 <form method="POST" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-    <input name="picture" type="file" />
-    <input type="submit" value="submit" id="submit" />
+    <input type="file" name="picture"  />
+    <input type="submit" value="upload" id="submit" />
 </form>

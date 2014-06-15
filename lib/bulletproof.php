@@ -7,7 +7,6 @@
  * during and after image uploads.
  *
  * This class is heavily commented, to be as much friendly as possible.
- *
  * Please help out by posting out some bugs/flaws if you encounter any. Thanks!
  *
  * @category    Image uploader
@@ -15,7 +14,6 @@
  * @author      Simon QD. <me@simons.co.de>
  * @license     Luke 3:11 ( Free )
  * @version     1.0.0
- * @license     Luke 3:11 ( Free )
  * @link        https://github.com/bivoc/BulletProof
  *
  */
@@ -31,10 +29,13 @@ class ImageUploaderException extends \Exception
 class BulletProof
 {
 
-
-    /*--------------------------------------------------------------------------
-    |  UPLOAD: Image upload class properties                                   |
-    *--------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Upload Properties
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Set a group of default image types to upload.
@@ -71,10 +72,13 @@ class BulletProof
      */
     private $getMimeType;
 
-
-    /*--------------------------------------------------------------------------
-    |   IMAGE RESIZE & CROP  |   Properties                                     |
-    ---------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Resize and Crop Properties
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Image dimensions for resizing or shrinking ex: array("height"=>100, "width"=>100)
@@ -104,11 +108,13 @@ class BulletProof
      */
     private $cropImageTo  = array();
 
-
-
-    /*-----------------------------------------------------------------------------
-    |    WATERMARK  | Image Watermark Properties                                   |
-    ----------------------------------------    -----------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Watermark and Crop Properties
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Name of the image to use as a watermark. ( best to use a png  image )
@@ -131,11 +137,13 @@ class BulletProof
      */
     private $getWatermarkDimensions;
 
-
-
-    /*--------------------------------------------------------------------------
-    |    UPLOADING  | General Uploading Methods                                |
-    ---------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Upload Properties
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * For passing the image/mime types to upload.
@@ -316,11 +324,13 @@ class BulletProof
         return $uploadErrors[$key];
     }
 
-
-
-    /*--------------------------------------------------------------------------
-    |    WATERMARK  | Image Watermark methods                                   |
-    *--------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Watermark Methods
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Get the watermark image and its position.
@@ -449,11 +459,13 @@ class BulletProof
         }
     }
 
-
-
-    /*--------------------------------------------------------------------------
-    |    SHRINK  | Image shrink/resize  methods                                |
-    ---------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Shrink/Resize Properties
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Get the Width and Height of the image image to shrink (in pixels)
@@ -523,11 +535,13 @@ class BulletProof
         }
     }
 
-
-
-    /*--------------------------------------------------------------------------
-    |    CROPPING | Image cropping methods                                     |
-    ---------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Image Crop Methods. 
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Get size dimensions to use for new image cropping
@@ -614,11 +628,13 @@ class BulletProof
 
     }
 
-
-
-    /*--------------------------------------------------------------------------
-    |    Change file |  crop/watermark/shrink methods. without uploading        |
-    ---------------------------------------------------------------------------*/
+    /*
+    |--------------------------------------------------------------------------
+    | Not Upload Related. 
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     /**
      * Without uploading, just crop/watermark/shrink all images in your folders
