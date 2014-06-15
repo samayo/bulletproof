@@ -1,35 +1,37 @@
 <?php
 
-/*
-| 	  BulletProof Image Upload and Manupilation Examples. 
-|--------------------------------------------------------------------------------------
-|	 Below are some examples prepared to get you started. 
-| 	 Uncomment any block of code and try the out examples 
-*/
-
-
-/** Require and instanciate the class */
+/**
+ * BULLETPROOF - ALL IN ONE, IMAGE UPlOAD/MANIPULATE 
+ * 
+ * @category BULLETPROOF
+ * @license  Free / Luke 3:11
+ * @version  1.0.0
+ * @link     https://github.com/bivoc/bulletproof
+ * @author   bivoc. ~ The force is strong with this one.
+ *
+ *
+ * Below are some examples prepared to get you started. 
+ * Uncomment any block of code and try the out examples 
+ */
 require_once "lib/BulletProof.php";
 $bulletProof = new ImageUploader\BulletProof;
 
 
 
-# Let the try/catch be, to handle all errors.
+// Let the try/catch be, to handle all errors.
 try{
 
 
 /**
- *	SIMPLE & DEFAULT UPLOAD
+ * SIMPLE & DEFAULT UPLOAD
  *
  * This is the simplest way to upload an image. It will use the default methods of the class. 
- *   Which means it will: 
- *    > upload an image with (jpg, png, gif, jpeg) extensions only. 
- *    > It will only upload file with sizes in-between 1Kb to 30Kb. 
- *    > It will upload the images in a folder called "uploads", if you don't have such folder
- *      then it will be created with permission/chmod of '666'. 
- *    > Uploaded image will also be given a unique & random name
- *
- *   # you can echo file path&image name, by doing: echo $bulletproof; 
+ * Which means it will: 
+ * > upload an image with (jpg, png, gif, jpeg) extensions only. 
+ * > It will only upload file with sizes in-between 1Kb to 30Kb. 
+ * > It will upload the images in a folder called "uploads", if you don't have such folder
+ *   then it will be created with permission/chmod of '666'. 
+ * > Uploaded image will also be given a unique & random name
  */
 
 // if($_FILES){
@@ -44,7 +46,7 @@ try{
 
 
 /**
- *	UPLOAD IMAGES WITH "SPECIFIC" TYPE, NAME, UPLOAD DIR.
+ * UPLOAD IMAGES WITH "SPECIFIC" TYPE, NAME, UPLOAD DIR.
  * 
  * This will upload ONLY the image types specified in the 'fileTypes()' method.
  * In this case, the image to be uploaded will be 'gif', it will be uploaded to
