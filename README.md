@@ -22,8 +22,7 @@ if($_FILES){
 }
 /* 
  * Here the variable $bulletProof will contain the image/path ex: documents/cat.jpg 
- * if the upload was a success.
- * So, you can store it in db or do: <?= $bulletProof ?> // uploads/mypicture.jpg 
+ * if the upload was a success. So, you can store it in db or do: <?= $bulletProof ?>
  */
 ````
 
@@ -82,7 +81,7 @@ $bulletProof
 Please check the examples.php for more functions and some tested examples.
 
 
-##### Notes:
+#### Notes:
  The `upload()` method accepts two arguments. First the Image, and second (optional), a new name for the image.
  If you provide a name, it will be used as a new name for the upload, if not a unique name will be generated.
 ````php
@@ -117,7 +116,7 @@ $change = $bulletProof
  	->change("shrink", "my_pictures/paris.jpg");
 ````
 
-#### what makes this secure ?
+#### What makes this secure ?
 * It checks any errors thrown from the `$_FILES[]['error']` array. 
 * It uses `exif_imagetype()` method to get the **real** `mime/image` type,
 * Checks if image type exists in the expected types ie. `array('jpg', 'png', 'gif', 'jpeg')`
@@ -126,7 +125,7 @@ $change = $bulletProof
 
 
 
-#### TODO
+#### Todo
 * <del> Allow Image Resizing </del> Done.
 * <del> Allow Image Watermarking </del> Done.
 * <del> Allow Image Cropping </del> Done.
@@ -137,5 +136,5 @@ $change = $bulletProof
 
 
 
-###License  
+#### License  
 [Luke 3:11](http://www.kingjamesbibleonline.org/Luke-3-11/) ( Free; No license! )
