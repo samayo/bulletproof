@@ -21,7 +21,8 @@ if($_FILES){
     echo $bulletProof->upload($_FILES['picture']);
 }
 /* 
- * Here the variable $bulletProof will hold the image/path upload was success.
+ * Here the variable $bulletProof will contain the image/path ex: documents/cat.jpg 
+ * if the upload was a success.
  * So, you can store it in db or do: <?= $bulletProof ?> // uploads/mypicture.jpg 
  */
 ````
