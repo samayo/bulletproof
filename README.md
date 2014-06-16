@@ -8,7 +8,7 @@ images in PHP, All done with the best security.
 ##### First Step;
 ````php
 /* As usual: Require and then call the class */
-require_once  "lib\bulletproof.php";
+require_once  "src\bulletproof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
