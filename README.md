@@ -1,7 +1,6 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
-This is a one-file solution for image upload, crop, resize and watermark in PHP, using
-the best **security**. 
+This is a one-file solution for a secure image upload, crop, resize, watermark.. in PHP
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
@@ -82,7 +81,7 @@ $bulletProof
     ->upload($_FILES['logo']);
 ````
 
-Please check the `examples/` folder for list of some examples.
+Please check the `examples` folder for list of boilerplate codes
 
 
 #### Notes:
