@@ -1,10 +1,10 @@
-# BULLETPROOF
+# BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)
 #### SECURE PHP IMAGE UPLOADER
-This is a one-file solution for a secure image upload, crop, resize, watermark.. in PHP
+This is a one-file solution for a **secure** upload, crop, resize & watermark images in PHP
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
-##### First Step; The SetUp. 
+##### First Step;  
 ````php
 /* As usual: Require and then call the class */
 require_once  "src\bulletproof.php";
