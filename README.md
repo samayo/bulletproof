@@ -1,10 +1,10 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
-This is a one-file alternative for a secure image upload, crop, resize, and watermark. 
+This is an ALL-IN-ONE solution for a **secure** Image upload, crop, resize, and watermark in PHP. 
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
-##### First Step;
+##### First Step; The SetUp. 
 ````php
 /* As usual: Require and then call the class */
 require_once  "src\bulletproof.php";
@@ -13,25 +13,25 @@ $bulletProof = new ImageUploader\BulletProof;
 
 ##### SCENARIO 1: Upload with the default settings. (Less code)
 ````php
-/* This will use the default settings of the class and will upload only
- * (jpg, gif, png, jpeg) images with sizes ranging from 0.1kb to max 30kbs
- * It will also create a folder called "uploads" with chmod 0666 if it does not exist.
+/* This example will use most of the default settings in the class and will only upload
+ * a (jpg, gif, png, jpeg) type of images with sizes ranging from 0.1kb to max 30kbs
+ * It will also create a folder called "uploads" for the storage with chmod (permission)
+ * 0666 if it does not exist.
  */ 
 if($_FILES){
     echo $bulletProof->upload($_FILES['picture']);
 }
-/* 
- * Here the variable $bulletProof will contain the image/path ex: documents/cat.jpg 
- * if the upload was a success. So, you can store it in db or do: <?= $bulletProof ?>
+/* Here the variable $bulletProof will contain the upload directory, and the new image name
+ * So, you can insert it in your db, or echo the image directly as <img src='{$bulletproof}' />
  */
 ````
 
-##### SCENARIO 2: Upload with custom image Size, Types, Dimension & Upload Location. 
+##### SCENARIO 2: Upload image with custom Size, Type, Dimension & Upload Location. 
 ````php
-/* fileTypes() - What type of images to upload. ex: jpg, gif, png..
- * uploadDir() - Creates/Assigns a folder name to store the uploads.
+/* fileTypes() - Accepts array of image types to upload i.e. jpg, gif, png..
+ * uploadDir() - Assign a specific folder to store you upload, or create it. 
  * limitSize() - Set a limit on the min and max image size for uploads (in bytes)
- * limitDimension() - Set the max height and width of image upload  (in pixels)
+ * limitDimension() - Set the max height and width of image dimentions (in pixels)
  */
 $bulletProof
     ->fileTypes(array("png", "jpeg"))
@@ -43,7 +43,10 @@ $bulletProof
 
 ##### SCENARIO 3: Shrink the image, and Upload. 
 ````php
-/* shrink() - will shrink/resize the image according to the given dimensions (in pixels) */
+/*
+ * shrink() - will shrink/resize the image according to the given dimensions (in pixels) 
+ * NOTE, a folder called 'shrinked_images' will be created first to store the uploaded image
+ */ 
 $bulletProof
     ->fileTypes(array("jpg", "gif", "png", "jpeg"))
     ->uploadDir("shrinked_images")
@@ -78,7 +81,7 @@ $bulletProof
     ->upload($_FILES['logo']);
 ````
 
-Please check the examples.php for more functions and some tested examples.
+Please check the `examples/` folder for list of some examples.
 
 
 #### Notes:

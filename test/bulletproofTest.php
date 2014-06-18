@@ -1,6 +1,7 @@
 <?php
 // Trying to come up with ways how to test this thing. 
 // if anyone can provide any idea, it would help a lot
+
 class bulletproofTest extends \PHPUnit_Framework_TestCase 
 {
     public function test_if_all_visible_class_methods_exist(){
@@ -12,8 +13,7 @@ class bulletproofTest extends \PHPUnit_Framework_TestCase
     		[
     		'fileTypes',
     		'limitSize',
-    		'limitDimension',
-    		'getMimeType',    	
+    		'limitDimension',   	
     		'uploadDir',    
     		'watermark',    		
     		'shrink',    		
@@ -26,12 +26,10 @@ class bulletproofTest extends \PHPUnit_Framework_TestCase
     	$this->assertTrue(empty($result));
     }
 
-    // to application breakup, if folder, or file name changes. 
-    public function test_if_file_exists(){
+    // define funny + trivial test :)
+    public function test_if_files_exists(){
     	$bulletproofFileExists = file_exists(__DIR__.'/../src/bulletproof.php');
-    	$exampleFileExists = file_exists(__DIR__.'/../examples.php');
     	$this->assertTrue($bulletproofFileExists);
-    	$this->assertTrue($exampleFileExists);
     }	
 
 }

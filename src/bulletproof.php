@@ -37,31 +37,31 @@ class BulletProof
      * Set a group of default image types to upload.
      * @var array
      */
-    private $imageType = array("jpg", "jpeg", "png", "gif");
+    protected $imageType = array("jpg", "jpeg", "png", "gif");
 
     /**
      * Set a default file size to upload. Values are in bytes. Remember: 1kb ~ 1000 bytes.
      * @var array
      */
-    private $imageSize = array("min" => 1, "max" => 30000);
+    protected $imageSize = array("min" => 1, "max" => 30000);
 
     /**
      * Default & maximum allowed height and width image to upload.
      * @var array
      */
-    private $imageDimension = array("height"=>1000, "width"=>1000);
+    protected $imageDimension = array("height"=>1000, "width"=>1000);
 
     /**
      * Set a default folder to upload images, if it does not exist, it will be created.
      * @var string
      */
-    private $uploadDir = "uploads";
+    protected $uploadDir = "uploads";
     
     /**
      * To get the real image/mime type. i.e gif, jpeg, png, ....
      * @var string
      */
-    private $getMimeType;
+    protected $getMimeType;
 
     /*
     |--------------------------------------------------------------------------
@@ -72,25 +72,25 @@ class BulletProof
      * Image dimensions for resizing or shrinking ex: array("height"=>100, "width"=>100)
      * @var array
      */
-    private $shrinkImageTo = array();
+    protected $shrinkImageTo = array();
 
     /**
      * Whether or not to keep the ratio of the original image while resizing
      * @var boolean
      */
-    private $shrinkRatio;
+    protected $shrinkRatio;
 
     /**
      * Whether or not to allow upsizing of an image when applying the shrink command.
      * @var boolean
      */
-    private $shrinkUpsize;
+    protected $shrinkUpsize;
 
     /**
      * New image dimensions for image cropping ex: array("height"=>100, "width"=>100)
      * @var array
      */
-    private $cropImageTo  = array();
+    protected $cropImageTo  = array();
 
     /*
     |--------------------------------------------------------------------------
@@ -101,19 +101,19 @@ class BulletProof
      * Name of the image to use as a watermark. ( best to use a png  image )
      * @var
      */
-    private $getWatermark;
+    protected $getWatermark;
 
     /**
      * Watermark Position. (Where to put the watermark). ex: 'center', 'top-right', 'bottom-left'....
      * @var
      */
-    private $getWatermarkPosition;
+    protected $getWatermarkPosition;
 
     /**
      * Size, store ( Width & Height ) of the watermark ex: 'array("height"=>40, "width"=>20)'.
      * @var
      */
-    private $getWatermarkDimensions;
+    protected $getWatermarkDimensions;
 
 
     /*
@@ -163,10 +163,10 @@ class BulletProof
      * @return mixed
      * @throws ImageUploaderException
      */
-    public function getMimeType($imageName)
+    protected function getMimeType($imageName)
     {   
         if(!file_exists($imageName)){
-            throw new ImageUploaderException("File " . $imageName . " does not exist");
+            throw new ImageUploaderException("Image " . $imageName . " does not exist");
         }
 
         $listOfMimeTypes = [
@@ -187,7 +187,7 @@ class BulletProof
      * @param $getImage - The image name
      * @return array
      */
-    private function getPixels($getImage)
+    protected function getPixels($getImage)
     {
         list($width, $height) = getImageSize($getImage);
         return array("width"=>$width, "height"=>$height);
@@ -200,7 +200,7 @@ class BulletProof
      * @param array $oldImage
      * @return array
      */
-    private function getNewImageSize($oldImage)
+    protected function getNewImageSize($oldImage)
     {
 
         // If the ratio needs to be kept.
@@ -249,7 +249,7 @@ class BulletProof
      * @param $isNameProvided - A new name for the file. 
      * @return string
      */
-    private function imageRename($isNameProvided)
+    protected function imageRename($isNameProvided)
     {
         if ($isNameProvided) {
             return $isNameProvided . "." . $this->getMimeType;
@@ -281,7 +281,7 @@ class BulletProof
      *
      * @return array
      */
-    private function commonUploadErrors($key)
+    protected function commonUploadErrors($key)
     {
         $uploadErrors = array(
             UPLOAD_ERR_OK           => "...",
@@ -331,7 +331,7 @@ class BulletProof
      * @param $imageName
      * @throws ImageUploaderException
      */
-    private function applyWatermark($imageName)
+    protected function applyWatermark($imageName)
     {
         if (!$this->getWatermark) {
             return ;
@@ -454,7 +454,7 @@ class BulletProof
      * @param $imageName - the file to upload
      * @throws ImageUploaderException
      */
-    private function applyShrink($fileName, $imageName)
+    protected function applyShrink($fileName, $imageName)
     {
 
         if (!$this->shrinkImageTo) {
@@ -526,7 +526,7 @@ class BulletProof
      * @return resource
      * @throws ImageUploaderException
      */
-    private function applyCrop($imageName, $tmp_name)
+    protected function applyCrop($imageName, $tmp_name)
     {
 
         if (!$this->cropImageTo) {
