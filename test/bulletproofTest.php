@@ -10,7 +10,7 @@ class bulletproofTest extends \PHPUnit_Framework_TestCase
     	$classMethod = get_class_methods($imageUploader);
 
     	$result = array_diff(
-    		[
+    		array(
     		'fileTypes',
     		'limitSize',
     		'limitDimension',   	
@@ -21,7 +21,7 @@ class bulletproofTest extends \PHPUnit_Framework_TestCase
     		'change',
     		'deleteFile',
     		'upload',
-    		], $classMethod);
+    		), $classMethod);
 
     	$this->assertTrue(empty($result));
     }
