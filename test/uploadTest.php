@@ -77,7 +77,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
 	/*Test if the upload method uploads image with default settings */
 	public $bulletproof;
 	public $testingImage; 
-	public $imageSize = [];
+	public $imageSize = array();
 
 	function __construct(){
 		$this->bulletproof = new overrideBulletProof;
