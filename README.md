@@ -1,6 +1,7 @@
 # BULLETPROOF
 #### SECURE PHP IMAGE UPLOADER
-This is an ALL-IN-ONE solution for a **secure** Image upload, crop, resize, and watermark in PHP. 
+This is a one-file solution for an image upload, crop, resize and watermark in PHP, using
+the best possible **security**. 
 
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
@@ -17,13 +18,13 @@ $bulletProof = new ImageUploader\BulletProof;
  * a (jpg, gif, png, jpeg) type of images with sizes ranging from 0.1kb to max 30kbs
  * It will also create a folder called "uploads" for the storage with chmod (permission)
  * 0666 if it does not exist.
+ *
+ * Here the variable $bulletProof will contain the upload directory, and the new image name
+ * So, you can insert it in your db, or echo the image directly as <img src='{$bulletproof}' />
  */ 
 if($_FILES){
     echo $bulletProof->upload($_FILES['picture']);
 }
-/* Here the variable $bulletProof will contain the upload directory, and the new image name
- * So, you can insert it in your db, or echo the image directly as <img src='{$bulletproof}' />
- */
 ````
 
 ##### SCENARIO 2: Upload image with custom Size, Type, Dimension & Upload Location. 
