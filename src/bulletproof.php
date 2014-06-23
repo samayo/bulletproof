@@ -1,28 +1,25 @@
 <?php
 
 /**
- * BulletProof: PHP Image Uploader, Cropper, Resize & Watermark.
+ * BULLETPROOF,  
  *
- * This is a one-file alternative for quick, fast and safe way of, 
- * uploading, adding watermarks, cropping and resizing images, 
- * during and after image uploads.
+ * This is a one-file solution for a quick and safe way of, 
+ * uploading, watermarking, cropping and resizing images, 
+ * during and after uploads with PHP with best security.
  *
  * This class is heavily commented, to be as much friendly as possible.
  * Please help out by posting out some bugs/flaws if you encounter any. Thanks!
  *
  * @category    Image uploader
  * @package     BulletProof
- * @author      Simon QD. <me@simons.co.de>
  * @version     1.0.1
+ * @author      Bivoc 
  * @link        https://github.com/bivoc/BulletProof
  * @license     Luke 3:11 ( Free )
  */
 namespace ImageUploader;
 
-
-class ImageUploaderException extends \Exception
-{
-}
+class ImageUploaderException extends \Exception {}
 
 
 class BulletProof
@@ -46,7 +43,7 @@ class BulletProof
     protected $imageSize = array("min" => 1, "max" => 30000);
 
     /**
-     * Default & maximum allowed height and width image to upload.
+     * Set a default min & maximum height & width for image to upload.
      * @var array
      */
     protected $imageDimension = array("height"=>1000, "width"=>1000);
@@ -62,6 +59,7 @@ class BulletProof
      * @var string
      */
     protected $getMimeType;
+
 
     /*
     |--------------------------------------------------------------------------
@@ -92,6 +90,7 @@ class BulletProof
      */
     protected $cropImageTo  = array();
 
+
     /*
     |--------------------------------------------------------------------------
     | Image Watermark and Crop Properties
@@ -99,19 +98,19 @@ class BulletProof
 
     /**
      * Name of the image to use as a watermark. ( best to use a png  image )
-     * @var
+     * @var string
      */
     protected $getWatermark;
 
     /**
      * Watermark Position. (Where to put the watermark). ex: 'center', 'top-right', 'bottom-left'....
-     * @var
+     * @var string
      */
     protected $getWatermarkPosition;
 
     /**
-     * Size, store ( Width & Height ) of the watermark ex: 'array("height"=>40, "width"=>20)'.
-     * @var
+     * Size ( Width & Height ) of the watermark ex: 'array("height"=>40, "width"=>20)'.
+     * @var array
      */
     protected $getWatermarkDimensions;
 
@@ -122,7 +121,7 @@ class BulletProof
     \--------------------------------------------------------------------------*/
 
     /**
-     * For passing the image/mime types to upload.
+     * Stores image types to upload
      *
      * @param array $fileTypes -  ex: ['jpg', 'doc', 'txt'].
      * @return $this
@@ -157,7 +156,7 @@ class BulletProof
     }
 
     /**
-     * Get the real file's Extension/mime type
+     * Get the real image's Extension/mime type
      *
      * @param $imageName
      * @return mixed
@@ -427,6 +426,7 @@ class BulletProof
                 break;
         }
     }
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -439,7 +439,7 @@ class BulletProof
      * @param array $setImageDimensions
      * @return $this
      */
-    public function shrink(array $setImageDimensions, $ratio=false, $upsize=true)
+    public function shrink(array $setImageDimensions, $ratio = false, $upsize = true)
     {
         $this->shrinkImageTo = $setImageDimensions;
         $this->shrinkRatio = $ratio;
@@ -660,7 +660,7 @@ class BulletProof
     {
        
        if(!function_exists('exif_imagetype')){
-        throw new ImageUploaderException("Function 'exif_imagetype' Not found. Please enable \"php_exif\" in your PHP.ini ");
+        throw new ImageUploaderException("Function 'exif_imagetype' Not found.");
        }
 
          // Check if any errors are thrown by the FILES[] array

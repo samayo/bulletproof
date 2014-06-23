@@ -46,7 +46,7 @@ if($_FILES){
 	}
 
  
- /* You must have a logo for this to work */
+ /* You must have a provide a watermark (logo.png) for this to work */
 
  /* Always use the try/catch block to handle errors */
  }catch(\ImageUploader\ImageUploaderException $e){

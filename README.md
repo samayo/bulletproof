@@ -1,50 +1,46 @@
 # BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)
 #### SECURE PHP IMAGE UPLOADER
-This is a one-file solution for a **secure** upload, crop, resize & watermark images in PHP
-
+This is a one-file solution for a **secure** upload, crop, resize & watermark images in PHP.
 ##### **Enable** `php_exif` extension in your php.ini before using this class.
 =====
+
 ##### First Step;  
 ````php
-/* As usual: Require and then call the class */
+/* as usual, require the src file and instanciate the class */
 require_once  "src\bulletproof.php";
 $bulletProof = new ImageUploader\BulletProof;
 ````
 
 ##### SCENARIO 1: Upload with the default settings. (Less code)
 ````php
-/* This example will use most of the default settings in the class and will only upload
- * a (jpg, gif, png, jpeg) type of images with sizes ranging from 0.1kb to max 30kbs
+/* This example will use most of the default settings in the class and uploads
+ * a (jpg, gif, png, jpeg) image types, with sizes ranging from 0.1kb to max 30kbs
  * It will also create a folder called "uploads" for the storage with chmod (permission)
- * 0666 if it does not exist.
+ * 0666 if it does not exist. If you want to create your a folder, use ->uploadDir('dirName')
  *
- * Here the variable $bulletProof will contain the upload directory, and the new image name
- * So, you can insert it in your db, or echo the image directly as <img src='{$bulletproof}' />
+ * Also, the variable $bulletProof will contain the upload directory, and the new image name
+ * and its path (if the upload was a success). Which can be useful, for inserting the image
+ * path/name your db, or show the image directly using: <img src=' <?= $bulletproof} ?> '/>
  */ 
 if($_FILES){
-    echo $bulletProof->upload($_FILES['picture']);
+    echo $bulletProof->upload($_FILES['picture']); //ex: uploads/blue_cat.jpg
 }
 ````
 
 ##### SCENARIO 2: Upload image with custom Size, Type, Dimension & Upload Location. 
 ````php
-/* fileTypes() - Accepts array of image types to upload i.e. jpg, gif, png..
- * uploadDir() - Assign a specific folder to store you upload, or create it. 
- * limitSize() - Set a limit on the min and max image size for uploads (in bytes)
- * limitDimension() - Set the max height and width of image dimentions (in pixels)
- */
+/* Here is an example, of image upload with strict and costum choices */
 $bulletProof
-    ->fileTypes(array("png", "jpeg"))
-    ->uploadDir("my_pictures")
-    ->limitSize(array("min"=>1000, "max"=>100000))
-    ->limitDimension(array("height"=>100, "width"=>100));
+    ->fileTypes(array("png", "jpeg")) // accept only png and jpeg images
+    ->uploadDir("pictures") // upload images to or create folder (if it does not exist)
+    ->limitSize(array("min"=>1000, "max"=>55000)) // limit image size (in bytes)
+    ->limitDimension(array("height"=>100, "width"=>120)); // limit image dimensions
     ->upload($_FILES['picture']);
 ````
 
 ##### SCENARIO 3: Shrink the image, and Upload. 
 ````php
-/*
- * shrink() - will shrink/resize the image according to the given dimensions (in pixels) 
+/* shrink() - will shrink/resize the image according to the given dimensions (in pixels) 
  * NOTE, a folder called 'shrinked_images' will be created first to store the uploaded image
  */ 
 $bulletProof
@@ -85,8 +81,8 @@ Please check the `examples` folder for list of boilerplate codes
 
 
 #### Notes:
- The `upload()` method accepts two arguments. First the Image, and second (optional), a new name for the image.
- If you provide a name, it will be used as a new name for the upload, if not a unique name will be generated.
+ The `upload()` method accepts two arguments. First the Image, and second (optional), a new name for that image.
+ If you provide a name, then the uploaded image will be renamed, otherwise a new random&unique name will be generated
 ````php
 // Uploaded file will be renamed 'cheeez' plus the file mime type i.e (jpg/png/gif...).
 ->upload($_FILES['fileName'], 'cheeez');
@@ -134,7 +130,7 @@ $change = $bulletProof
 * <del> Allow Image Cropping </del> Done.
 * <del> Handle Errors with Exceptions </del> Done.
 * <del> Backward compatability for PHP 5.3 </del> Done. 
-* Rebuild another class abiding to the [Single Responsibility Principle](http://en.wikipedia.org/wiki/Single_responsibility_principle)
+* [Single Responsibility Principle](http://en.wikipedia.org/wiki/Single_responsibility_principle)
 
 
 

@@ -29,6 +29,7 @@ class bulletproofTest extends \PHPUnit_Framework_TestCase
     // define funny + trivial test :)
     public function test_if_files_exists(){
     	$bulletproofFileExists = file_exists(__DIR__.'/../src/bulletproof.php');
+        /* more to follow (including examples, and dummy images )*/
     	$this->assertTrue($bulletproofFileExists);
     }	
 
