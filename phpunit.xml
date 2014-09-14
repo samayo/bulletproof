@@ -8,7 +8,7 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          syntaxCheck="false"
-         bootstrap="src/bulletproof.php"
+         bootstrap="test/bootstrap.php"
         >
     <testsuites>
         <testsuite name="BulletProof Tests">
