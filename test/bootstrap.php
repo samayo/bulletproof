@@ -13,6 +13,6 @@ class BulletProofOverride extends BulletProof
     }
 
     public function moveUploadedFile($uploaded_file, $new_file) {
-        return true;
+        return copy($uploaded_file,$new_file);
     }
 }
