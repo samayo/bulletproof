@@ -204,7 +204,6 @@ class BulletProof
 
         // If the ratio needs to be kept.
         if ($this->shrinkRatio) {
-
             $width = $this->shrinkImageTo["width"];
             // First, calculate the height.
             $height = intval($width / $oldImage["width"] * $oldImage["height"]);
@@ -711,15 +710,24 @@ class BulletProof
         $this->applyCrop($fileToUpload["tmp_name"], $fileToUpload["tmp_name"]);
 
         // Security check, to see if file was uploaded with HTTP_POST 
-        $checkSafeUpload = is_uploaded_file($fileToUpload["tmp_name"]);
+        $checkSafeUpload = $this->isUploadedFile($fileToUpload["tmp_name"]);
 
         // Upload the file
-        $moveUploadedFile = move_uploaded_file($fileToUpload["tmp_name"], $this->uploadDir . "/" . $newFileName);
+        $moveUploadedFile = $this->moveUploadedFile($fileToUpload["tmp_name"], $this->uploadDir . "/" . $newFileName);
 
         if ($checkSafeUpload && $moveUploadedFile) {
             return $this->uploadDir . "/" . $newFileName; 
         }else{
             throw new ImageUploaderException(" File could not be uploaded. Unknown error occurred. ");
         }
+    }
+
+    public function isUploadedFile($file)
+    {
+        return is_uploaded_file($file);
+    }
+
+    public function moveUploadedFile($uploaded_file, $new_file) {
+        return move_uploaded_file($uploaded_file, $new_file);
     }
 }
