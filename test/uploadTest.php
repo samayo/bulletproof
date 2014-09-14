@@ -10,7 +10,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
     function __construct()
     {
         $this->bulletproof = new \ImageUploader\BulletProofOverride();
-        $this->testingImage = __DIR__ . '/../test/monkey_pic.jpg';
+        $this->testingImage = __DIR__ . '/monkey_pic.jpg';
     }
 
 
@@ -22,14 +22,16 @@ class uploadTest extends \PHPUnit_Framework_TestCase
                 'tmp_name' => $this->testingImage,
                 'error' => 0
             );
-        $upload = $this->bulletproof->upload($image,'uploadedimg');
-        $this->assertEquals('uploads/uploadedimg.jpeg',$upload);
+        $upload = $this->bulletproof
+            ->uploadDir('/tmp')
+            ->upload($image,'bulletproof_test_image');
+        $this->assertEquals('/tmp/bulletproof_test_image.jpeg',$upload);
     }
 
     /* test if it accepts image type rules as declared*/
     function testFileTypes()
     {
-        $bulletproof = $this->bulletproof;
+        $bulletproof = $this->bulletproof->uploadDir('/tmp');
         $image = array('name' => $this->testingImage,
                        'type' => 'image/jpeg',
                        'size' => 542,
@@ -41,32 +43,32 @@ class uploadTest extends \PHPUnit_Framework_TestCase
         $bulletproof->fileTypes(array('gif'));
         $this->setExpectedException('ImageUploader\ImageUploaderException',' This is not allowed file type!
              Please only upload ( gif ) file types');
-        $upload = $bulletproof->upload($image,'uploadedimg');
+        $upload = $bulletproof->upload($image,'bulletproof_test_image');
 
 
         /* should not accept png*/
         $bulletproof->fileTypes(array('png'));
         $this->setExpectedException('ImageUploader\ImageUploaderException',' This is not allowed file type!
              Please only upload ( png ) file types');
-        $upload = $bulletproof->upload($image,'uploadedimg');
+        $upload = $bulletproof->upload($image,'bulletproof_test_image');
 
         /* shouldn't accept this file */
         $bulletproof->fileTypes(array('exe'));
         $this->setExpectedException('ImageUploader\ImageUploaderException',' This is not allowed file type!
              Please only upload ( exe ) file types');
-        $upload = $bulletproof->upload($image,'uploadedimg');
+        $upload = $bulletproof->upload($image,'bulletproof_test_image');
 
         /* example file is actually jpeg, not jpg */
         $bulletproof->fileTypes(array('png', 'jpeg'));
-        $upload = $bulletproof->upload($image,'uploadedimg');
-        $this->assertEquals('uploads/uploadedimg.jpeg',$upload);
+        $upload = $bulletproof->upload($image,'bulletproof_test_image');
+        $this->assertEquals('uploads/bulletproof_test_image.jpeg',$upload);
     }
 
 
     /* test if it accepts image size rules as declared */
     function testImageSize()
     {
-        $bulletproof = $this->bulletproof;
+        $bulletproof = $this->bulletproof->uploadDir('/tmp');
         $bulletproof->limitSize(array("min" => 1, "max" => 33122));
         $image = array('name' => $this->testingImage,
                        'type' => 'image/jpeg',
@@ -74,8 +76,8 @@ class uploadTest extends \PHPUnit_Framework_TestCase
                        'tmp_name' => $this->testingImage,
                        'error' => 0
         );
-        $upload = $bulletproof->upload($image,'uploadedimg');
-        $this->assertEquals('uploads/uploadedimg.jpeg',$upload);
+        $upload = $bulletproof->upload($image,'bulletproof_test_image');
+        $this->assertEquals('/tmp/bulletproof_test_image.jpeg',$upload);
 
         /*give it invalid 'max' size*/
         $bulletproof = $this->bulletproof;
@@ -87,7 +89,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
                        'error' => 0
         );
         $this->setExpectedException('ImageUploader\ImageUploaderException','File sizes must be between 1 to 22 bytes');
-        $upload = $bulletproof->upload($image,'uploadedimg');
+        $upload = $bulletproof->upload($image,'bulletproof_test_image');
 
     }
 }
