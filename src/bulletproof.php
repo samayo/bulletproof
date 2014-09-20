@@ -204,35 +204,75 @@ class BulletProof
 
         // If the ratio needs to be kept.
         if ($this->shrinkRatio) {
-            $width = $this->shrinkImageTo["width"];
-            // First, calculate the height.
-            $height = intval($width / $oldImage["width"] * $oldImage["height"]);
-
-            // If the height is too large, set it to the maximum height and calculate the width.
-            if ($height > $this->shrinkImageTo["height"]) {
-
-                $height = $this->shrinkImageTo["height"];
-                $width = intval($height / $oldImage["height"] * $oldImage["width"]);
+            if (is_null($this->shrinkImageTo["width"]) || is_null($this->shrinkImageTo["height"])) {
+                list($width, $height) =$this->getNewSizeOne($oldImage);
+            } else {
+                list($width, $height) = $this->getNewSizeNormal($oldImage);
             }
-
-            // If we don't allow upsizing check if the new width or height are too big.
-            if (! $this->shrinkUpsize) {
-                // If the given width is larger then the image height, then resize it.
-                if ($width > $oldImage["width"]) {
-                    $width = $oldImage["width"];
-                    $height = intval($width / $oldImage["width"] * $oldImage["height"]);
-                }
-
-                // If the given height is larger then the image height, then resize it.
-                if ($height > $oldImage["height"]) {
-                    $height = $oldImage["height"];
-                    $width = intval($height / $oldImage["height"] * $oldImage["width"]);
-                }
-            }
-
         } else {
             $width = $this->shrinkImageTo["width"];
             $height = $this->shrinkImageTo["height"];
+        }
+
+        // If we don't allow upsizing check if the new width or height are too big.
+        if (($width > $oldImage["width"] || $height > $oldImage["height"]) && !$this->shrinkUpsize) {
+            $width = $oldImage["width"];
+            $height = $oldImage["height"];
+        }
+
+        return array(
+            "width" => $width,
+            "height" => $height
+        );
+    }
+
+    /**
+     * Calculate the new of the image when only width or height is given.
+     *
+     * @param $oldImage
+     * @return array
+     */
+    protected function getNewSizeOne($oldImage)
+    {
+        if (is_null($this->shrinkImageTo["width"])) {
+            $height = $this->shrinkImageTo["height"];
+            if ($this->shrinkImageTo["height"] > $oldImage["height"] && !$this->shrinkUpsize) {
+                $height = $oldImage["height"];
+            }
+            $width = intval($height / $oldImage["height"] * $oldImage["width"]);
+        }
+
+        if (is_null($this->shrinkImageTo["height"])) {
+            $width = $this->shrinkImageTo["width"];
+            if ($this->shrinkImageTo["width"] > $oldImage["width"] && !$this->shrinkUpsize) {
+                $width = $oldImage["width"];
+            }
+            $height = intval($width / $oldImage["width"] * $oldImage["height"]);
+        }
+
+        return array(
+            "width" => $width,
+            "height" => $height
+        );
+    }
+    /**
+     * Calculate the new size of the image.
+     * Has the ability to keep the original ratio of the image. Can prevent upsizing of an image.
+     *
+     * @param array $oldImage
+     * @return array
+     */
+    protected function getNewSizeNormal($oldImage)
+    {
+        $width = $this->shrinkImageTo["width"];
+        // First, calculate the height.
+        $height = intval($width / $oldImage["width"] * $oldImage["height"]);
+
+        // If the height is too large, set it to the maximum height and calculate the width.
+        if ($height > $this->shrinkImageTo["height"]) {
+
+            $height = $this->shrinkImageTo["height"];
+            $width = intval($height / $oldImage["height"] * $oldImage["width"]);
         }
 
         return array(
