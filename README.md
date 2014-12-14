@@ -1,5 +1,6 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)
-#### SECURE PHP IMAGE UPLOADER, MANIPULATOR
+#### SECURE PHP IMAGE UPLOADER, MANIPULATOR    
+
 This is a one-file solution for a **secure** upload, crop, resize & watermark images in PHP.
 =====
 
