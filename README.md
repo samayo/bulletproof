@@ -1,8 +1,9 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)
 #### SECURE PHP IMAGE UPLOADER, MANIPULATOR
 This is a one-file solution for a **secure** upload, crop, resize & watermark images in PHP.
-> Enable `php_exif` extension in your php.ini before using this class.
 =====
+
+> Enable `php_exif` extension in your php.ini before using this class.
 
 #### Installing
 Install using composer. 
@@ -21,8 +22,7 @@ $image = new ImageUploader\BulletProof;
 ````
 
 
-#### usage #1: minimum usage with default settings. 
-````php
+##### usage #1: minimum usage with default settings. 
 The below code basically will:
 - Only upload images with (jpg, gif, png, jpeg) extensions, 
 - Only size ranging from 0.1kb to 30kb
@@ -36,10 +36,10 @@ if($_FILES){
 
 Also, the variable `$result` will contain the upload directory, and the new image name
 and its path. Which can be useful, for inserting the image
-path/name your db, or show the image directly using: <img src=' <?= $result ?> '/>
+path/name your db, or show the image directly using: `<img src=' <?= $result ?> '/>`
 
 
-#### usage #2: upload with customized size, dimention and save location. 
+##### usage #2: upload with customized size, dimention and save location. 
 ````php
 $image->fileTypes(["png", "jpeg"])  //only accept png/jpeg image types
     ->uploadDir("pics")  //create folder 'pics' if it does not exist.
@@ -58,7 +58,7 @@ $image->fileTypes(["jpg", "gif", "png", "jpeg"])
     ->upload($_FILES["pictures"]);
 ````
 
-#### usage #4: add a watermark and Upload. 
+##### usage #4: add a watermark and Upload. 
 `watermark()` method will accept two arguments.
  1# - The image to use as watermark. (best to use a PNG).
  2# - The Location where to put your watermark on the image.
@@ -71,7 +71,7 @@ $image->fileTypes(array("png"))
     ->upload($_FILES['logo']);
 ````
 
-#### usage #5: crop and upload. 
+##### usage #5: crop and upload. 
 `crop()` method simply crops the images, by the given cordination
  ````php
 $image->fileTypes(array("png"))
