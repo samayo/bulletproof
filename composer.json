@@ -1,13 +1,12 @@
 {
-    "name": "bivoc/bullet-proof",
+    "name": "samayo/bullet-proof",
     "description": "PHP Secure Image Uploader, Cropper, Watermark, and Image Reisizing tool",
     "keywords": ["image", "upload","watermark", "crop", "resize"],
-    "homepage": "http://github.com/bivoc/BulletProof",
+    "homepage": "http://github.com/samayo/BulletProof",
     "license": "public domain",
     "authors": [
         {
             "name": "Simon_QD",
-            "email": "me@simons.co.de"
         }
     ],
     "require": {

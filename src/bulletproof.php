@@ -1,10 +1,9 @@
 <?php
-
 /**
  * BULLETPROOF,  
  *
- * This is a one-file solution for a quick and safe way of, 
- * uploading, watermarking, cropping and resizing images, 
+ * This is a one-file solution for a quick and safe way of
+ * uploading, watermarking, cropping and resizing images
  * during and after uploads with PHP with best security.
  *
  * This class is heavily commented, to be as much friendly as possible.
@@ -12,9 +11,9 @@
  *
  * @category    Image uploader
  * @package     BulletProof
- * @version     1.0.1
- * @author      Bivoc 
- * @link        https://github.com/bivoc/BulletProof
+ * @version     1.4.0
+ * @author      samayo 
+ * @link        https://github.com/samayo/BulletProof
  * @license     Luke 3:11 ( Free )
  */
 namespace ImageUploader;
