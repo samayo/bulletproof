@@ -1,11 +1,11 @@
 BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
 ----
-A one-file class to **securely upload**, crop, resize & watermark images in PHP.
+A one-file class to **securely upload**, crop, resize and watermark images in PHP.
 
 
-> Enable `php_exif` extension in your php.ini before using this class.
+> enable the `php_exif` extension in your php.ini before using this class.
 
-##### INSTALL
+#### INSTALL
 ```json
 {
     "require": {
@@ -14,8 +14,9 @@ A one-file class to **securely upload**, crop, resize & watermark images in PHP.
 }
 ```
 
-##### START
+#### SET UP
 ````php
+// just require the class and create the object
 require_once  "src\bulletproof.php";
 $image = new ImageUploader\BulletProof;
 ````
@@ -33,39 +34,38 @@ if($_FILES){
 }
 ````
 
-Also, the variable `$result` will contain the `upload directory/image name`. Which can be useful, for direct
-database storage or echo it using `<img src=' <?= $result ?> '/>`
+Also, the variable `$result` will contain the `upload directory/image name`. Which can be useful, for storage in database or render the uploaded image using `<img src=' <?= $result ?> '/>`
 
 
-#### (2) A custom size, dimension and location. 
+#### (2) Customized size, dimension and location. 
 ````php
 $image->fileTypes(["png", "jpeg"])  //only accept png/jpeg image types
     ->uploadDir("pics")  //create folder 'pics' if it does not exist.
     ->limitSize(["min"=>1000, "max"=>55000])  //limit image size (in bytes)
     ->limitDimension(["height"=>100, "width"=>120]);  //limit image dimensions
-    ->upload($_FILES['picture']);  //upload
+    ->upload($_FILES['picture']);  // upload to folder 'pics'
 ````
 
 #### (3) Shrink and upload 
-`shrink()` method will shrink/resize the image according to the given dimensions (in pixels) 
+`shrink()` method shrinks/resizes the image according to the given dimensions (in pixels) 
 
 ````php
 $image->fileTypes(["jpg", "gif", "png", "jpeg"])
-    ->uploadDir("shrinked_images")
-    ->shrink(["height"=>100, "width"=>200]) // shrink to the given size
-    ->upload($_FILES["pictures"]);
+    ->uploadDir("small_pics")
+    ->shrink(["height"=>100, "width"=>200]) // shrink to 100*200 pixels
+    ->upload($_FILES["pictures"]); // upload to small_pics folder
 ````
 
 #### (4) Watermark and upload. 
-`watermark()` method will accept two arguments.
+`watermark()` create a watermark at the top of the main image, accepts 2 args: 
  1# - The image to use as watermark. (best to use a PNG).
- 2# - The Location where to put your watermark on the image.
+ 2# - The Location where to put the  watermark on the image.
 Location can be a string 'center', 'bottom-right', 'bottom-left', 'top-left'...
 
 ````php
 $image->fileTypes(array("png"))
     ->uploadDir("watermarked")
-    ->watermark('trademark.png', 'bottom-right')) // put trademark on bottom-right 
+    ->watermark('me.png', 'bottom-right')) // put 'me.png' on center 
     ->upload($_FILES['logo']);
 ````
 
@@ -73,8 +73,7 @@ $image->fileTypes(array("png"))
 `crop()` method simply crops the images, by the given cordination
  ````php
 $image->fileTypes(array("png"))
-    ->uploadDir("watermarked")
-    ->crop(array("height"=>40, "width"=>50))
+    ->crop(array("height"=>40, "width"=>50)) // crop/trim to 40*50 pixels
     ->upload($_FILES['logo']);
 ````
 
