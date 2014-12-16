@@ -1,12 +1,11 @@
-BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
+BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
 ----
 A one-file class to **securely upload**, crop, resize & watermark images in PHP.
 
 
 > Enable `php_exif` extension in your php.ini before using this class.
 
-#### Install
-using composer or `$ git clone --recursive git://github.com/samayo/bulletproof.git` 
+##### INSTALL
 ```json
 {
     "require": {
@@ -15,18 +14,18 @@ using composer or `$ git clone --recursive git://github.com/samayo/bulletproof.g
 }
 ```
 
-#### Initial Step 
+##### START
 ````php
 require_once  "src\bulletproof.php";
 $image = new ImageUploader\BulletProof;
 ````
 
 
-##### #1: Using the default settings 
-The below code basically will:
-- Only upload images with (jpg, gif, png, jpeg) extensions, 
-- Only size ranging from 0.1kb to 30kb
-- Creates (if it doesn't exist) "uploads/" folder for storing the image 
+#### (1) Upload with  default settings 
+The below code will:
+- Only upload images with (jpg, gif, png, jpeg) extension, 
+- Only sizes ranging from 0.1kb to 30kb max
+- Creates [if it doesn't exist] "uploads/" folder for storing the image 
 
 ````php 
 if($_FILES){
@@ -34,12 +33,11 @@ if($_FILES){
 }
 ````
 
-Also, the variable `$result` will contain the upload directory, and the new image name
-and its path. Which can be useful, for inserting the image
-path/name your db, or show the image directly using: `<img src=' <?= $result ?> '/>`
+Also, the variable `$result` will contain the `upload directory/image name`. Which can be useful, for direct
+database storage or echo it using `<img src=' <?= $result ?> '/>`
 
 
-##### #2: A custom size, dimension and location. 
+#### (2) A custom size, dimension and location. 
 ````php
 $image->fileTypes(["png", "jpeg"])  //only accept png/jpeg image types
     ->uploadDir("pics")  //create folder 'pics' if it does not exist.
@@ -48,7 +46,7 @@ $image->fileTypes(["png", "jpeg"])  //only accept png/jpeg image types
     ->upload($_FILES['picture']);  //upload
 ````
 
-##### #3: To shrink and upload. 
+#### (3) Shrink and upload 
 `shrink()` method will shrink/resize the image according to the given dimensions (in pixels) 
 
 ````php
@@ -58,7 +56,7 @@ $image->fileTypes(["jpg", "gif", "png", "jpeg"])
     ->upload($_FILES["pictures"]);
 ````
 
-##### #4: Adding a watermark and Upload. 
+#### (4) Watermark and upload. 
 `watermark()` method will accept two arguments.
  1# - The image to use as watermark. (best to use a PNG).
  2# - The Location where to put your watermark on the image.
@@ -71,7 +69,7 @@ $image->fileTypes(array("png"))
     ->upload($_FILES['logo']);
 ````
 
-##### #5: To Crop and upload. 
+#### (5) Crop and upload. 
 `crop()` method simply crops the images, by the given cordination
  ````php
 $image->fileTypes(array("png"))
