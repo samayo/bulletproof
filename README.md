@@ -1,13 +1,12 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)
-#### SECURE PHP IMAGE UPLOADER, MANIPULATOR    
-
-##### This is a one-file solution for a **secure** upload, crop, resize & watermark images in PHP.
 =====
+ A one-file class to **securely upload**, crop, resize & watermark images in PHP.
+
 
 > Enable `php_exif` extension in your php.ini before using this class.
 
-#### Installing
-Install using composer. 
+#### Install
+using composer or `$ git clone --recursive git://github.com/samayo/bulletproof.git` 
 ```json
 {
     "require": {
@@ -16,14 +15,14 @@ Install using composer.
 }
 ```
 
-##### First Step; require and instanciate the class. 
+#### Initial Step 
 ````php
 require_once  "src\bulletproof.php";
 $image = new ImageUploader\BulletProof;
 ````
 
 
-#### #1: upload with with default settings. 
+##### #1: Using the default settings 
 The below code basically will:
 - Only upload images with (jpg, gif, png, jpeg) extensions, 
 - Only size ranging from 0.1kb to 30kb
@@ -40,7 +39,7 @@ and its path. Which can be useful, for inserting the image
 path/name your db, or show the image directly using: `<img src=' <?= $result ?> '/>`
 
 
-#### #2: upload with custome size, dimension and location. 
+##### #2: A custom size, dimension and location. 
 ````php
 $image->fileTypes(["png", "jpeg"])  //only accept png/jpeg image types
     ->uploadDir("pics")  //create folder 'pics' if it does not exist.
@@ -49,7 +48,7 @@ $image->fileTypes(["png", "jpeg"])  //only accept png/jpeg image types
     ->upload($_FILES['picture']);  //upload
 ````
 
-#### #3: shrink and upload. 
+##### #3: To shrink and upload. 
 `shrink()` method will shrink/resize the image according to the given dimensions (in pixels) 
 
 ````php
@@ -59,7 +58,7 @@ $image->fileTypes(["jpg", "gif", "png", "jpeg"])
     ->upload($_FILES["pictures"]);
 ````
 
-#### #4: add a watermark and Upload. 
+##### #4: Adding a watermark and Upload. 
 `watermark()` method will accept two arguments.
  1# - The image to use as watermark. (best to use a PNG).
  2# - The Location where to put your watermark on the image.
@@ -72,7 +71,7 @@ $image->fileTypes(array("png"))
     ->upload($_FILES['logo']);
 ````
 
-#### #5: crop and upload. 
+##### #5: To Crop and upload. 
 `crop()` method simply crops the images, by the given cordination
  ````php
 $image->fileTypes(array("png"))
@@ -81,7 +80,7 @@ $image->fileTypes(array("png"))
     ->upload($_FILES['logo']);
 ````
 
-Please check the `examples` folder for list of boilerplate codes
+Please check the `examples/` folder for list of boilerplate codes
 
 #### Renaming images
  The `upload()` method accepts two arguments. First the Image, and second (optional), a new name for that image.
