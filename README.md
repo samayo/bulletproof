@@ -1,6 +1,6 @@
-## BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)
-=====
- A one-file class to **securely upload**, crop, resize & watermark images in PHP.
+BULLETPROOF [![Build Status](https://travis-ci.org/bivoc/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
+----
+A one-file class to **securely upload**, crop, resize & watermark images in PHP.
 
 
 > Enable `php_exif` extension in your php.ini before using this class.
