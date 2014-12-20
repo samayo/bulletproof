@@ -1,5 +1,5 @@
 {
-    "name": "samayo/bullet-proof",
+    "name": "samayo/bulletproof",
     "description": "PHP Secure Image Uploader, Cropper, Watermark, and Image Reisizing tool",
     "keywords": ["image", "upload","watermark", "crop", "resize"],
     "homepage": "http://github.com/samayo/BulletProof",
