@@ -16,8 +16,6 @@
  * @link        https://github.com/samayo/BulletProof
  * @license     Luke 3:11 ( Free )
  */
-namespace ImageUploader;
-
 class ImageUploaderException extends \Exception {}
 
 
@@ -39,13 +37,13 @@ class BulletProof
      * Set a default file size to upload. Values are in bytes. Remember: 1kb ~ 1000 bytes.
      * @var array
      */
-    protected $imageSize = array("min" => 1, "max" => 30000);
+    protected $imageSize = array("min" => 1, "max" => 8388608);
 
     /**
      * Set a default min & maximum height & width for image to upload.
      * @var array
      */
-    protected $imageDimension = array("height"=>1000, "width"=>1000);
+    protected $imageDimension = array("height"=>2000, "width"=>3000);
 
     /**
      * Set a default folder to upload images, if it does not exist, it will be created.
@@ -452,9 +450,9 @@ class BulletProof
      * @param $imageName - the file to upload
      * @throws ImageUploaderException
      */
-    protected function applyShrink($fileName, $imageName)
+    protected function applyShrink($fileName, $imageName,$newName=null)
     {
-
+        $newName=$newName?$newName:$imageName;
         if (!$this->shrinkImageTo) {
             return;
         }
@@ -484,7 +482,7 @@ class BulletProof
         switch ($mimeType) {
             case "jpeg":
             case "jpg":
-                imagejpeg($tmp, $imageName, 100);
+                imagejpeg($tmp, $newName, 100);
                 break;
             case "png":
                 imagepng($tmp, $imageName, 0);
@@ -601,7 +599,7 @@ class BulletProof
      * @param $imageName - the image you want to change. Provide full path pls.
      * @throws ImageUploaderException
      */
-    public function change($action, $imageName){
+    public function change($action, $imageName, $newName=null){
 
         if(empty($action) || !file_exists($imageName)){
             throw new ImageUploaderException(__FUNCTION__." needs two arguments. the Task and Image name");
@@ -617,7 +615,7 @@ class BulletProof
         if($action == "shrink" &&
             $this->shrinkImageTo)
         {
-            $this->applyShrink($imageName, $imageName);
+            $this->applyShrink($imageName, $imageName, $newName);
             return true;
         }
 
