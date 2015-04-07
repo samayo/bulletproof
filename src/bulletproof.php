@@ -708,22 +708,14 @@ class BulletProof
         $this->applyShrink($fileToUpload["tmp_name"], $fileToUpload["tmp_name"]);
         $this->applyCrop($fileToUpload["tmp_name"], $fileToUpload["tmp_name"]);
 
-        // Security check, to see if file was uploaded with HTTP_POST 
-        $checkSafeUpload = $this->isUploadedFile($fileToUpload["tmp_name"]);
-
         // Upload the file
         $moveUploadedFile = $this->moveUploadedFile($fileToUpload["tmp_name"], $this->uploadDir . "/" . $newFileName);
 
-        if ($checkSafeUpload && $moveUploadedFile) {
+        if ($moveUploadedFile) {
             return $this->uploadDir . "/" . $newFileName; 
         }else{
             throw new ImageUploaderException(" File could not be uploaded. Unknown error occurred. ");
         }
-    }
-
-    public function isUploadedFile($file)
-    {
-        return is_uploaded_file($file);
     }
 
     public function moveUploadedFile($uploaded_file, $new_file) {
