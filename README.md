@@ -116,7 +116,6 @@ $change = $image
 * Uses `exif_imagetype()` method to get the **real** `mime/image` type,
 * Checks if image type exists in the expected types ie. `array('jpg', 'png', 'gif', 'jpeg')`
 * Checks `getimagesize();` to see if the image has a valid width/height measurable in pixels.
-* Uses `is_uploaded_file()` to check for a secure upload HTTP Post method, (extra security check).
 
 
 #### Todo
