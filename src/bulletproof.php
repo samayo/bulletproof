@@ -5,7 +5,7 @@
  * A one-file / one-class solution for a simple and very secure way of
  * uploading images in PHP, also included: Image watermarking, Cropping, Resizing 
  * with fluent queries, for validating and customizing 
- * mime, name, size, dimension, location, height, width ... 
+ * mime, name, size, dimension, location, height, width 
  *
  * PHP support minimum 5.3
  *
@@ -31,7 +31,7 @@ class Image implements \ArrayAccess, \Serializable
     protected $dimensions = array(444, 444);
     protected $size       = array(100, 50000);
     protected $mimeTypes  = array("jpeg", "png");
-    private   $serialize  = array();
+    protected $serialize  = array();
 
     /* methods to call for validation purposes*/
     protected $watermark            = null;
@@ -46,7 +46,7 @@ class Image implements \ArrayAccess, \Serializable
     protected $imageResizeScaleUp    = array();
 
     /* methods to call for validation purposes*/
-    protected $imageMimeTypes = array(
+    protected $imageMimesList = array(
         1 => "gif", "jpeg", "png",  "swf", "psd", 
              "bmp", "tiff", "jpc", "jp2", "jpx", 
              "jb2", "swc",  "iff", "wbmp", "xmb", "ico"
@@ -54,44 +54,41 @@ class Image implements \ArrayAccess, \Serializable
 
     private $image, $error = false;
 
-public function __construct(array $files = []){
-    $this->image = $files;
-}
-protected function getImageMime($tmp_name){  
+    public function __construct(array $files = []){
+        $this->image = $files;
+    }
+    
+    protected function getImageMime($tmp_name){  
 
      if(!file_exists($tmp_name)){
        $this->error  = "file does not exist"; 
         return ;
      }
 
-    if(isset($this->imageMimeTypes [exif_imagetype($tmp_name)])){
-        $this->imageMime = $this->imageMimeTypes [exif_imagetype($tmp_name)];
+    if(isset($this->imageMimesList [exif_imagetype($tmp_name)])){
+        $this->imageMime = $this->imageMimesList [exif_imagetype($tmp_name)];
          
         return $this->imageMime;
     }
     return false; 
-}
-public function offsetSet($offset, $value) {
-    if (is_null($offset)){
-        $this->image[] = $value;
-    }else{
-        $this->image[$offset] = $value;
     }
-}
-public function offsetExists($offset) {
-    return array_key_exists($this->image[$offset], $this->image);
-    /*das*/
-}
-public function offsetUnset($offset) {
-    /**/
-    unset($this->image[$offset]);
-}
-public function offsetGet($offset) {
+    public function offsetSet($offset, $value) {
+        if (is_null($offset)){
+            $this->image[] = $value;
+        }else{
+            $this->image[$offset] = $value;
+        }
+    }
+    public function offsetExists($offset) {
+        return array_key_exists($this->image[$offset], $this->image);
+      
+    }
+    public function offsetUnset($offset) {
+     
+        unset($this->image[$offset]);
+    }
+    public function offsetGet($offset) {
 
-    if($offset === "error"){
-        $this->error; 
-    }
-   
     if(isset($this->image[$offset])){
         $this->image = $this->image[$offset];
         return true; 
@@ -148,39 +145,39 @@ public function setDimension($maxWidth, $maxHeight){
     $this->dimensions = array($maxWidth, $maxHeight);
     return $this; 
 }
-public function name(){
+public function getName(){
     if(null == $this->name){
         $this->name = uniqid(true)."_".str_shuffle(implode(range("E", "Q")));   
     }
     return $this->name; 
 }
-public function fullPath(){
+public function getFullPath(){
     return $this->fullPath = $this->location . '/' . $this->name . '.'. $this->imageMime;
   
 }
-public function size(){
-    /**/
+public function getSize(){
+  
     return (int) $this->image['size']; 
 }  
-public function height(){
+public function getHeight(){
     if($this->height != null){
         return $this->height; 
     }
     list($width, $height) = $this->dimensions($this->image["tmp_name"]);  
     return $height; 
 }  
-public function width(){
+public function getWidth(){
    if($this->width != null){
         return $this->width; 
     }
     list($width, $height) = $this->dimensions($this->image["tmp_name"]); 
     return $width; 
 }  
-public function location(){
+public function getLocation(){
     /**/
     return $this->location; 
 }
-public function mimeType(){
+public function getMime(){
     return $this->imageMime;
 }
 private function dimensions($image){
@@ -196,26 +193,17 @@ public function remove($fileToDelete){
         $this->error  = "File may have been deleted or does not exist" ;
         return ;
     }
-    /*dasd*/
+   
     return true;
 }
 
 
 
-  public function error(){
-    // if(defined(__CLASS__ . '\ERR_EXCEPTION') && self::ERR_EXCEPTION == true){
-    //     throw new Exception($this->error); 
-    // }
+  public function getError(){
+    
     return $this->error ; 
   }
- /**
-     * Get the watermark image and its position.
-     *
-     * @param $watermark - the watermark name, ex: 'logo.png'
-     * @param $watermarkCordinates - position to put the watermark, ex: 'center'
-     * @return $this
-     * @throws ImageErrorException
-     */
+ 
     public function watermark($watermark, $position = "center")
     {
        
@@ -363,11 +351,11 @@ public function remove($fileToDelete){
         
         $crop = $imageCropSize;
 
-        // The image offsets/coordination to crop the image.
+       
         $widthTrim = ceil(($image["width"] - $crop["width"]) / 2);
         $heightTrim = ceil(($image["height"] - $crop["height"]) / 2);
 
-        // Can't crop a 100X100 image, to 200X200. Image can only be cropped to smaller size.
+        
         if ($widthTrim < 0 && $heightTrim < 0) {
             return ;
         }
@@ -415,7 +403,7 @@ public function remove($fileToDelete){
             $this->error = "Function 'exif_imagetype' Not found."; 
         }
 
-        var_dump($image["error"]);
+      
          if($image["error"]){
            $this->error  = $this->uploadErrors($image["error"]);
             return ;
@@ -424,7 +412,7 @@ public function remove($fileToDelete){
         $imageMime = $this->getImageMime($image["tmp_name"]); 
         
 
-        if(!in_array($imageMime, $this->imageMimeTypes)){
+        if(!in_array($imageMime, $this->imageMimesList)){
            $mimes = implode(', ', $this->mimeTypes);
             $this->error  = "Invalid File! Only ($mimes) image types are allowed";
             return ;
