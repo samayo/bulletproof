@@ -258,13 +258,14 @@ class BulletProof
      * Get the specified upload dir, if it does not exist, create a new one.
      *
      * @param $directoryName - directory name where you want your files to be uploaded
+     * @param $filePermissions - octal representation of file permissions in linux environment
      * @return $this
      * @throws ImageUploaderException
      */
-    public function uploadDir($directoryName)
+    public function uploadDir($directoryName, $filePermissions = 0666)
     {
         if (!file_exists($directoryName) && !is_dir($directoryName)) {
-            $createFolder = mkdir("" . $directoryName, 0666, true);
+            $createFolder = mkdir("" . $directoryName, $filePermissions, true);
             if (!$createFolder) {
                 throw new ImageUploaderException("Folder " . $directoryName . " could not be created");
             }
