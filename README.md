@@ -2,7 +2,7 @@
 [![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader) [![Latest Unstable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/unstable.svg)](https://packagist.org/packages/bullet-proof/image-uploader) [![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)    
 =======================================
 
-A single-class library to upload, crop, resize and watermark images in PHP with a bulletproof security.
+A single-class library to upload images in PHP with a bulletproof security.
 
 ### INSTALL
 using git
@@ -13,9 +13,11 @@ using composer
 ````bash
 php composer.phar require samayo/bulletproof:2.0.*
 ````
-or directly download as zip format from http://...
+download as zip format from [source file][bulletproof_link]
 
-Assuming your HTML form looks like this. 
+#### Simple example
+
+Create an HTML form like this. 
 ````html
 <form method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
@@ -23,38 +25,33 @@ Assuming your HTML form looks like this.
 	<input type="submit" value="upload"/>
 </form>
 ````
-#### Simple example
-Require the class and do yo thang
+Then simply require the class and upload
 ````php 
 <?php
+
 require_once  "src/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-/* check $_FILES['name']['ikea'] exists */
 if($image["ikea"]){
 
-	// upload the image
 	$upload = $image->upload(); 
 
-	// $upload returns false for failure
 	if($upload){
 		// OK
 	}else{
-		echo $image["error"]; // check for errors
+		echo $image["error"]; 
 	}
 }
 ````
-Thanks to the default configurations set inside the Bulletproof class, the above is a simple way to upload an image with all the security you need, including some image dimention, size, mime type limits. 
-	Also image renaming, and folder creation (for image storage) are handled on the fly. To override all these settings, keep reading.
-
-#### 5 setter methods for configuration
-Below are 5 methods to help you check for image dimension, size and mime type also for changing image name, and creating folder for storage.
+To upload based on size, dimension, mimetype and more use any of the below config methods
+#### Setting image properties
+The following methods help to dimension, size and mime type & image name creating folder
 ````php  
-// pass string if you want image to be renamed
+// Call if you need to manually rename images
 ->setName($name); 
 
-// set min/max upload size limit (in bytes) 
+// define min/max upload size limit (in bytes) 
 ->setSize($min, $max); 
 
 // define acceptable mime types (in array)
@@ -66,10 +63,10 @@ Below are 5 methods to help you check for image dimension, size and mime type al
 // set max width/height limit in pixels
 ->setDimension($min, $max);  
 ````
-#### 8 getter methods for getting image info
-Following methods help you get some info about image, before or after upload. 
+#### Getting image properties
+To get all image info, before or after upload use any of the below
 ````php 
-// get image name
+// get image name (w/o mime or location)
 ->getName();
 
 // get image size in bytes
@@ -93,22 +90,20 @@ Following methods help you get some info about image, before or after upload.
 // get a json format value of all the above information
 ->getJson();
 ````
-### Example 1: some getters and setters in action 
-use getters and setters combination to do yo thang
+### usage #1: some getters and setters in action 
+use getters and setters combination for uploading
 ````php 
 <?php 
 $image = new Bulletproof\Image($_FILES);
 
-/* let's call some setters */
-$image->setName('kitten')
-      ->setMime(['png', 'gif'])
-      ->setLocation('lolz');
+/* let"s call some setters */
+$image->setName("kitten")
+      ->setMime(["png", "gif"])
+      ->setLocation("lolz");
 
-if($image['ikea']){
+if($image["ikea"]){
 
 	if($image->upload()){
-
-		/* get some info after upload */
 		echo $image->getName(); // kitten
 		echo $image->getMime(); // gif
 		echo $image->getLocation(); // lolz
@@ -116,52 +111,41 @@ if($image['ikea']){
 	}
 }
 ```` 
-### Example 2: create your own messages / errors. 
+### usage #2: create your own messages / errors. 
 To use you own error messages instead of the ones set by default, use 
 exceptions as seen below
 ````php 
 <?php  
 
 if($image["ikea"]){
-	
-	if($image->getSize() > 10000){
-		throw new \Exception('image too tall'); 
-	}
 
-	if($image->getMime() !== 'png'){
-		throw new \Exception('sorry we only accept png'); 
+	if($image->getMime() !== "png"){
+		throw new \Exception("we only accept png"); 
 	}
 
 	if($image->getHeight() > 1000){
-		throw new \Exception('image too tall'); 
+		throw new \Exception("image too tall"); 
 	}
 
-	if ($image->getLocation() != 'images') {
-		// you can also do this \0/
-		$image->setLocation('images'); 
+	if ($image->getLocation() != "images") {
+		// this is possible too
+		$image->setLocation("images"); 
 	} 
 	
-	$upload = $image->upload(); 
-	// since we did not assign a name, it will be auto generated
-	echo $upload->getFullPath(); // images/12212343_dasdasdasdadas.gif
-
-
+	if($image->upload()){
+		// ok
+	}
 }
 ````
-#### Why is this library secure? 
-* uses `exif_imagetype()` to get the true image `.extension` / mime type
-* uses `getimagesize();` to check if image has a valid width/height measurable in pixels.
-* Strips invalid characters from image name.  
-* Generates folder with chmod ugo+rw for storage.
+#### What makes bulletproof secure? 
+* uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
+* checks image using [getimagesize][getimagesize_link] for a valid dimension in pixels.
+* filters image name and folders are created with 0666 permission
 
-
-#### Todo
-* <del> Allow Image Resizing </del> Done.
-* <del> Allow Image Watermarking </del> Done.
-* <del> Allow Image Cropping </del> Done.
-* <del> Handle Errors with Exceptions </del> Done.
-* <del> Backward compatability for PHP 5.3 </del> Done. 
-* [Single Responsibility Principle](http://en.wikipedia.org/wiki/Single_responsibility_principle) ain't gonna happen. 
 
 #### License  
 MIT
+
+[bulletproof_link]: http://github.com/samayo/bulletproof
+[exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
+[getimagesize_link]: http://php.net/manual/en/function.getimagesize.php
