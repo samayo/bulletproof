@@ -1,11 +1,15 @@
 <?php
 namespace ImageUploader;
 
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+
 require_once(dirname(__FILE__).'/../src/bulletproof.php');
 
-use ImageUploader\BulletProof;
+use BulletProof\Image;
 
-class BulletProofOverride extends BulletProof
+class BulletProofOverride extends Image
 {
     public function isUploadedFile($file)
     {

@@ -8,61 +8,33 @@
 <pre>
 <?php
 
-//(new BulletProof\Image($_FILE))->upload(); 
 
 require_once 'src/bulletproof.php';
 
 $image = new BulletProof\Image($_FILES); 
-// $image->setLocation("vacation"); 
-// $image->setName("sky-diving");
-$image->setSize(100, 1135000);
+
+$image->setName("sky-diving");
+$image->setSize(100, 1132224);
 $image->setDimension(11110, 11220);
-// $image->setType(["jpeg", "gif", "png", "jpg"]);
+$image->setMime(["png"]);
 
 
 if($image['cat']){
 
-	// $image->crop(100, 100); 
-	//$image->resize(100, 100, true);
-	$upload = $image->setLocation('ikea')->upload();
-	//$upload = $image->crop(40, 40)->upload();
-	//$upload = $image->watermark('map.png', 'center')->setName('RaT')->upload();
-	//$upload = $image->resize(500, 500, true)->setName('ZZRT')->upload();
+	$upload = $image->upload();
 
 	if($upload){
-		echo $image->name().PHP_EOL; // simon
-		echo $image->size().PHP_EOL; // 56630
-		echo $image->mimeType().PHP_EOL; // gif
-		echo $image->width().PHP_EOL; // 400 
-		echo $image->height().PHP_EOL; // 520 
-		echo $image->location().PHP_EOL; // foo
-		echo $image->fullPath().PHP_EOL;  // foo/simon.gif
-		echo $image->serialize().PHP_EOL; //
+		echo $image->getName().PHP_EOL; // simon
+		echo $image->getSize().PHP_EOL; // 56630
+		echo $image->getMime().PHP_EOL; // gif
+		echo $image->getWidth().PHP_EOL; // 400 
+		echo $image->getHeight().PHP_EOL; // 520 
+		echo $image->getLocation().PHP_EOL; // foo
+		echo $image->getFullPath().PHP_EOL;  // foo/simon.gif
+		echo $image->getJson().PHP_EOL; //
 
 	}else{
 	
-		var_dump($image->error());
+		var_dump($image['error']);
 	}
 }
-
-
-
-// $image->size();
-// $image->name();
-// $image->width();
-// $image->height();
-// $image->fullPath();
-// $image->mimeType();
-// $image->location();
-
-
-
-// /* manipulation*/
-// $image->crop();
-// $image->upload();
-// $image->remove();
-// $image->change();
-// $image->shrink();
-// $image->watermark(); 
-
-
