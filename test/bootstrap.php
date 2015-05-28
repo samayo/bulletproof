@@ -1,22 +1,18 @@
 <?php
-namespace ImageUploader;
+
+namespace BulletProofTest;
 
 
-require dirname(__DIR__) . '/vendor/autoload.php';
-
-
-require_once(dirname(__FILE__).'/../src/bulletproof.php');
+require_once __DIR__ . '/../src/bulletproof.php';
 
 use BulletProof\Image;
 
-class BulletProofOverride extends Image
+class BulletProofOverride extends \BulletProof\Image
 {
-    public function isUploadedFile($file)
-    {
-        return file_exists($file);
-    }
 
-    public function moveUploadedFile($uploaded_file, $new_file) {
-        return copy($uploaded_file,$new_file);
+    public function moveUploadedFile()
+    {
+        return true;
     }
 }
+
