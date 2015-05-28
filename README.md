@@ -3,6 +3,7 @@
 =======================================
 
 A single-class library to upload images in PHP with a bulletproof security.
+previous repo with watermark, resize, shrink features is moved to [nautilus][nautilus]
 
 ### INSTALL
 using git
@@ -33,7 +34,7 @@ require_once  "src/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-if($image["ikea"]){
+if($image["ikea"] && $image->upload()){
 
 	$upload = $image->upload(); 
 
@@ -90,12 +91,11 @@ $image->getFullPath();
 $image->getJson();
 ````
 #### usage #1: setting and getting properties
-To define upload options and get image upload information, see example: 
+To set image options or get upload information, see example: 
 ````php 
 
 $image = new Bulletproof\Image($_FILES);
 
-/* define some values */
 $image->setName("kitten")
       ->setMime(["png", "gif"])
       ->setLocation("lolz");
@@ -110,7 +110,7 @@ if($image["ikea"]){
 	}
 }
 ```` 
-#### usage #2: Handling errors manually
+#### usage #2: Handling response messages / errors manually
 To create you own error messages instead of the ones set by default, use 
 exceptions
 ````php 
@@ -131,20 +131,20 @@ if($image["ikea"]){
 		$image->setLocation("images"); 
 	} 
 	
-	if($image->upload()){
+	if($image->upload() && !$image["error"]){
 		// ok
 	}
 }
 ````
 #### What makes bulletproof secure? 
 * uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
-* checks image using [getimagesize][getimagesize_link] for a valid dimension in pixels.
-* sanitizes image name and safe folder chmoding i.e. `uog+rw`
-
+* uses[getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
+* filters image name and folders for storage are created with limited permissions: `uog+rw`
 
 #### License  
 MIT
 
 [bulletproof_link]: http://github.com/samayo/bulletproof/releases
+[nautilus]: http://github.com/samayo/nautilus
 [exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
 [getimagesize_link]: http://php.net/manual/en/function.getimagesize.php
