@@ -1,9 +1,9 @@
 {
     "name": "samayo/bulletproof",
-    "description": "Secure image uplod crop watermark resize library",
-    "keywords": ["image", "upload","watermark", "crop", "resize"],
+    "description": "A secure and simple PHP image uploader",
+    "keywords": ["image", "image", "upoad"],
     "homepage": "http://github.com/samayo/Bulletproof",
-    "license": "public domain",
+    "license": "MIT",
     "authors": [
         {
             "name": "samayo"
