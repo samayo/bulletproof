@@ -81,9 +81,9 @@ class Image implements \ArrayAccess
     private $image = array();
 
     /**
-     * @var bool storage for any errors
+     * @var string storage for any errors
      */
-    private $error = false;
+    private $error;
 
     /**
      * @param array $image
@@ -414,7 +414,7 @@ class Image implements \ArrayAccess
 
     /**
      * Main upload method.
-     * This is where all the actual validation takes place
+     * This is where all the actual validation/upload takes place
      *
      * @return $this|bool
      */
@@ -425,9 +425,6 @@ class Image implements \ArrayAccess
 
         /* get/create the image name */
         $name = $this->getName();
-
-        /* set and get folder name */
-        $location = $this->setLocation()->getLocation();
 
         /* check for common upload errors */
         $uploadError = $this->uploadErrors($image["error"]);
@@ -477,7 +474,12 @@ class Image implements \ArrayAccess
             $this->error = "Image width should be less than " . $maxWidth . " pixels";
             return;
         }
-    
+ 
+        /* set and get folder name */
+        $location = $this->setLocation()->getLocation();
+
+        $this->fullPath = $location . "/" . $name . "." . $imageMime;
+
         /* gather image info for json storage */
         $this->serialize = array(
             "name"     => $name,
@@ -487,8 +489,6 @@ class Image implements \ArrayAccess
             "size"     => $image["size"],
             "location" => $location
         );
-
-        $this->fullPath = $location . "/" . $name . "." . $imageMime;
 
         if (false == $this->error) {
 
