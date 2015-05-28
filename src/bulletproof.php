@@ -480,11 +480,11 @@ class Image implements \ArrayAccess
     
         /* gather image info for json storage */
         $this->serialize = array(
-            "name" => $name,
-            "mime" => $imageMime,
-            "height" => $this->height,
-            "width" => $this->width,
-            "size" => $image["size"],
+            "name"     => $name,
+            "mime"     => $imageMime,
+            "height"   => $this->height,
+            "width"    => $this->width,
+            "size"     => $image["size"],
             "location" => $location
         );
 
