@@ -2,94 +2,183 @@
 
 class uploadTest extends \PHPUnit_Framework_TestCase
 {
-    /*Test if the upload method uploads image with default settings */
-    public $bulletproof;
-    public $testingImage;
-    public $imageSize = array();
+    public $bulletproof,
+        $testingImage,
+        $image = [];
 
-    function __construct()
+    /**
+     *  Initialize an array to mimic the properties $_FILES global
+     */
+    public function __construct()
     {
-        $this->bulletproof = new \ImageUploader\BulletProofOverride();
-        $this->testingImage = __DIR__ . '/monkey_pic.jpg';
-    }
-
-
-    function testSimpleUpload()
-    {
-        $image = array('name' => $this->testingImage,
+        $image = [
+            'ikea' => [
+                'name' => $this->testingImage = __DIR__ . "/monkey.jpg",
                 'type' => 'image/jpg',
-                'size' => 542,
-                'tmp_name' => $this->testingImage,
-                'error' => 0
-            );
-        $upload = $this->bulletproof
-            ->uploadDir('/tmp')
-            ->upload($image,'bulletproof_test_image');
-        $this->assertEquals('/tmp/bulletproof_test_image.jpeg',$upload);
+                'tmp_name' => $this->testingImage = __DIR__ . "/monkey.jpg",
+                'error' => 0,
+                'size' => 17438,
+            ]
+        ];
+
+        $this->bulletproof = new \BulletProofTest\BulletProofOverride($image);
+
     }
 
-    /* test if it accepts image type rules as declared*/
-    function testFileTypes()
+
+    /**
+     * test array access offset name is created from $_FILES
+     */
+    public function testArrayAccessReadsFileNameFromArray()
     {
-        $bulletproof = $this->bulletproof->uploadDir('/tmp');
-        $image = array('name' => $this->testingImage,
-                       'type' => 'image/jpeg',
-                       'size' => 542,
-                       'tmp_name' => $this->testingImage,
-                       'error' => 0
-        );
-
-        /* should not accept gif*/
-        $bulletproof->fileTypes(array('gif'));
-        $this->setExpectedException('ImageUploader\ImageUploaderException',' This is not allowed file type!
-             Please only upload ( gif ) file types');
-        $upload = $bulletproof->upload($image,'bulletproof_test_image');
-
-
-        /* should not accept png*/
-        $bulletproof->fileTypes(array('png'));
-        $this->setExpectedException('ImageUploader\ImageUploaderException',' This is not allowed file type!
-             Please only upload ( png ) file types');
-        $upload = $bulletproof->upload($image,'bulletproof_test_image');
-
-        /* shouldn't accept this file */
-        $bulletproof->fileTypes(array('exe'));
-        $this->setExpectedException('ImageUploader\ImageUploaderException',' This is not allowed file type!
-             Please only upload ( exe ) file types');
-        $upload = $bulletproof->upload($image,'bulletproof_test_image');
-
-        /* example file is actually jpeg, not jpg */
-        $bulletproof->fileTypes(array('png', 'jpeg'));
-        $upload = $bulletproof->upload($image,'bulletproof_test_image');
-        $this->assertEquals('uploads/bulletproof_test_image.jpeg',$upload);
+        $this->assertEquals($this->bulletproof['ikea'], true);
     }
 
-
-    /* test if it accepts image size rules as declared */
-    function testImageSize()
+    /**
+     * test custom image renaming
+     */
+    public function testImageRenameReturnsNewName()
     {
-        $bulletproof = $this->bulletproof->uploadDir('/tmp');
-        $bulletproof->limitSize(array("min" => 1, "max" => 33122));
-        $image = array('name' => $this->testingImage,
-                       'type' => 'image/jpeg',
-                       'size' => 542,
-                       'tmp_name' => $this->testingImage,
-                       'error' => 0
-        );
-        $upload = $bulletproof->upload($image,'bulletproof_test_image');
-        $this->assertEquals('/tmp/bulletproof_test_image.jpeg',$upload);
+        $this->bulletproof->setName('foo');
+        $this->assertEquals($this->bulletproof->getName(), 'foo');
+    }
 
-        /*give it invalid 'max' size*/
-        $bulletproof = $this->bulletproof;
-        $bulletproof->limitSize(array("min" => 1, "max" => 22));
-        $image = array('name' => $this->testingImage,
-                       'type' => 'image/jpeg',
-                       'size' => 542,
-                       'tmp_name' => $this->testingImage,
-                       'error' => 0
+    /**
+     * test storage creation
+     */
+    public function testImageLocationReturnsAssignedValue()
+    {
+        $this->bulletproof->setLocation('family_pics');
+        $this->assertEquals($this->bulletproof->getLocation(), 'family_pics');
+    }
+
+    /**
+     * test upload fails if image is less than the size set
+     */
+    public function testUploadFailsIfImageSizeIsSmallerThanDefined()
+    {
+        $this->bulletproof['ikea'];
+        $this->bulletproof->setSize(100, 1000);
+        $upload = $this->bulletproof->upload();
+        $this->assertEquals(
+            $this->bulletproof['error'],
+            "Image size should be less than 1 kb"
         );
-        $this->setExpectedException('ImageUploader\ImageUploaderException','File sizes must be between 1 to 22 bytes');
-        $upload = $bulletproof->upload($image,'bulletproof_test_image');
+    }
+
+    /**
+     * test image is uploaded based on the mime types set
+     */
+    public function testImageUploadAcceptsOnlyAllowedMimeTypes()
+    {
+        $this->bulletproof['ikea'];
+        $this->bulletproof->setMime(["png"]);
+        $upload = $this->bulletproof->upload();
+        $this->assertEquals(
+            $this->bulletproof["error"],
+            "Invalid File! Only (png) image types are allowed");
+    }
+
+    /**
+     * test image upload does not pass the defined height limit
+     */
+    public function testImageDimensionDefinesImageHeightAndWidthLimit()
+    {
+        $this->bulletproof['ikea'];
+        $this->bulletproof->setDimension(100, 200);
+        $upload = $this->bulletproof->upload();
+        $this->assertEquals(
+            $this->bulletproof["error"],
+            "Image height should be less than 100 pixels."
+        );
 
     }
+
+    /**
+     * test image name has auto-generated value if name is not provided
+     */
+    public function testReturnValueOfImageNameAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $upload = $this->bulletproof->upload();
+        $this->assertSame(strlen($upload->getName()), 28);
+    }
+
+    /**
+     * test image size return
+     */
+    public function testReturnValueOfImageSizeAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $upload = $this->bulletproof->upload();
+        $this->assertSame($upload->getSize(), 17438);
+    }
+
+    /**
+     * test image mime return
+     */
+    public function testReturnValueOfImageMimeAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $upload = $this->bulletproof->upload();
+        $this->assertSame($upload->getMime(), 'jpeg');
+    }
+
+    /**
+     * test image width return
+     */
+    public function testReturnValueOfImageWidthAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $upload = $this->bulletproof->upload();
+        $this->assertSame($upload->getWidth(), 384);
+    }
+
+    /**
+     * test image height return
+     */
+    public function testReturnValueOfImageHeightAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $upload = $this->bulletproof->upload();
+        $this->assertSame($upload->getHeight(), 345);
+    }
+
+    /**
+     * test image location return
+     */
+    public function testReturnValueOfImageLocationAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $this->bulletproof->setLocation('samayo');
+        $upload = $this->bulletproof->upload();
+        $this->assertSame($upload->getLocation(), 'samayo');
+    }
+
+    /**
+     * test image full path return
+     */
+    public function testReturnValueOfImageFullPathAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $this->bulletproof->setLocation('passport');
+        $this->bulletproof->setName('2012');
+        $upload = $this->bulletproof->upload();
+        $getMime = $this->bulletproof->getMime();
+        $this->assertSame($upload->getFullPath(), 'passport/2012.' . $getMime);
+    }
+
+    /**
+     * test image json value return
+     */
+    public function testReturnValueOfImageJsonInfoAfterImageUpload()
+    {
+        $this->bulletproof['ikea'];
+        $upload = $this->bulletproof->setName('we_belive_in_json')->upload();
+        $this->assertSame($upload->getJson(), '{"name":"we_belive_in_json","mime":"jpeg","height":345,"width":384,"size":17438,"location":"images"}');
+
+    }
+
+
 }
+
