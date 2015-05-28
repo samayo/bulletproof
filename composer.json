@@ -1,7 +1,7 @@
 {
     "name": "samayo/bulletproof",
-    "description": "A secure and simple PHP image uploader",
-    "keywords": ["image", "image", "upoad"],
+    "description": "A simple and secure PHP image uploader",
+    "keywords": ["image", "image", "upload", "secure"],
     "homepage": "http://github.com/samayo/Bulletproof",
     "license": "MIT",
     "authors": [
