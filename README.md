@@ -63,7 +63,7 @@ $image->setLocation($folderName, $optionalPermission);
 $image->setDimension($width, $height);  
 ````
 #### Getting image properties
-To get all image info, before or after upload you can choose the following:
+To get all image info, before or after upload you can use the following:
 ````php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -90,7 +90,7 @@ $image->getFullPath();
 $image->getJson();
 ````
 #### usage #1: setting and getting properties
-To define upload conditions and get image upload status, use: 
+To define upload options and get image upload information, see example: 
 ````php 
 
 $image = new Bulletproof\Image($_FILES);

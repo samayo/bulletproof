@@ -89,7 +89,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
         $upload = $this->bulletproof->upload();
         $this->assertEquals(
             $this->bulletproof["error"],
-            "Image height should be less than 100 pixels."
+            "Image height should be less than 100 pixels"
         );
 
     }
@@ -150,9 +150,9 @@ class uploadTest extends \PHPUnit_Framework_TestCase
     public function testReturnValueOfImageLocationAfterImageUpload()
     {
         $this->bulletproof['ikea'];
-        $this->bulletproof->setLocation('samayo');
+        $this->bulletproof->setLocation('images');
         $upload = $this->bulletproof->upload();
-        $this->assertSame($upload->getLocation(), 'samayo');
+        $this->assertSame($upload->getLocation(), 'images');
     }
 
     /**
@@ -161,11 +161,11 @@ class uploadTest extends \PHPUnit_Framework_TestCase
     public function testReturnValueOfImageFullPathAfterImageUpload()
     {
         $this->bulletproof['ikea'];
-        $this->bulletproof->setLocation('passport');
+        $this->bulletproof->setLocation('images');
         $this->bulletproof->setName('2012');
         $upload = $this->bulletproof->upload();
         $getMime = $this->bulletproof->getMime();
-        $this->assertSame($upload->getFullPath(), 'passport/2012.' . $getMime);
+        $this->assertSame($upload->getFullPath(), 'images/2012.' . $getMime);
     }
 
     /**

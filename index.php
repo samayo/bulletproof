@@ -13,7 +13,7 @@ require_once 'src/bulletproof.php';
 
 $image = new BulletProof\Image($_FILES); 
 
-$image->setName("sky-diving");
+
 $image->setSize(100, 1132224);
 $image->setDimension(11110, 11220);
 $image->setMime(["png"]);

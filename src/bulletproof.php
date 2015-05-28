@@ -224,8 +224,17 @@ class Image implements \ArrayAccess
      *
      * @return $this
      */
-    public function setLocation($dir, $permission = 0666)
+    public function setLocation($dir = null, $permission = 0666)
     {
+        if($this->location){
+            return $this;
+        }
+
+        /* set default folder */
+        if($dir == null){
+            $dir = "images";
+        }
+
         if (!file_exists($dir) && !is_dir($dir)) {
             $createFolder = @mkdir("" . $dir, (int)$permission, true);
             if (!$createFolder) {
@@ -368,7 +377,7 @@ class Image implements \ArrayAccess
     /**
      * Deletes image from storage
      *
-     * @param $fileToDelete
+     * @param $fileToDelete string folder name
      *
      * @return bool
      */
@@ -400,7 +409,7 @@ class Image implements \ArrayAccess
             UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
         );
 
-        $this->error = $errors[$e];
+        return $errors[$e];
     }
 
     /**
@@ -414,19 +423,21 @@ class Image implements \ArrayAccess
 
         $image = $this->image;
 
+        /* get/create the image name */
         $name = $this->getName();
 
-        if ($this->getLocation() == null) {
-            $this->setLocation("images");
+        /* set and get folder name */
+        $location = $this->setLocation()->getLocation();
+
+        /* check for common upload errors */
+        $uploadError = $this->uploadErrors($image["error"]);
+
+        if($image["error"]){
+            $this->error = $uploadError; 
+            return ;
         }
 
-        $location = $this->getLocation();
-
-        if ($image["error"]) {
-            $this->error = $this->uploadErrors($image["error"]);
-            return;
-        }
-
+        /* check image for valid mime types */
         $imageMime = $this->getImageMime($image["tmp_name"]);
 
         if (!in_array($imageMime, $this->mimeTypes)) {
@@ -435,14 +446,13 @@ class Image implements \ArrayAccess
             return;
         }
 
+        /* check image dimension with against defined values */
         $imageDimension = $this->dimensions($image["tmp_name"]);
 
         $this->height = $imageDimension["height"];
         $this->width = $imageDimension["width"];
-        $mimeType = $this->imageMime;
 
-        $this->fullPath = $this->location . '/' . $this->name . '.' . $imageMime;
-
+        /* check image size */
         list($minSize, $maxSize) = $this->size;
 
         if ($image["size"] < $minSize) {
@@ -455,10 +465,11 @@ class Image implements \ArrayAccess
             return;
         }
 
+        /* check image dimension */
         list($maxHeight, $maxWidth) = $this->dimensions;
 
         if ($imageDimension["height"] > $maxHeight) {
-            $this->error = "Image height should be less than " . $maxHeight . " pixels.";
+            $this->error = "Image height should be less than " . $maxHeight . " pixels";
             return;
         }
 
@@ -466,15 +477,18 @@ class Image implements \ArrayAccess
             $this->error = "Image width should be less than " . $maxWidth . " pixels";
             return;
         }
-
+    
+        /* gather image info for json storage */
         $this->serialize = array(
             "name" => $name,
-            "mime" => $mimeType,
-            "height" => $imageDimension["height"],
-            "width" => $imageDimension["width"],
+            "mime" => $imageMime,
+            "height" => $this->height,
+            "width" => $this->width,
             "size" => $image["size"],
             "location" => $location
         );
+
+        $this->fullPath = $location . "/" . $name . "." . $imageMime;
 
         if (false == $this->error) {
 
@@ -483,11 +497,10 @@ class Image implements \ArrayAccess
                 return $this;
             }
 
-            return false;
         }
-
+        
+        $this->error = "Upload failed, Unknown error occured";
         return false;
-
     }
 
     /**
