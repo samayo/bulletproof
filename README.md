@@ -1,8 +1,8 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)[![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)    
+[![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)  [![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)    
 =======================================
 
-A single-class library to upload images in PHP with a bulletproof security.
+A single-class library to upload images in PHP with a bulletproof security.    
 previous repo with watermark, resize, shrink features is moved to [nautilus][nautilus]
 
 ### INSTALL
@@ -14,7 +14,9 @@ using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
-or get the zip format from the [source download][bulletproof_link] page.
+
+#### Manual Download
+To download it manually, based on archived version of release cycles, checkout the [source download][bulletproof_link]
 
 #### Simple example
 
@@ -34,7 +36,7 @@ require_once  "src/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-if($image["ikea"] && $image->upload()){
+if($image["ikea"])
 
 	$upload = $image->upload(); 
 
@@ -90,9 +92,10 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### usage #1: setting and getting properties
+#### Setting and getting properties
 To set image options or get upload information, see example: 
 ````php 
+<?php 
 
 $image = new Bulletproof\Image($_FILES);
 
@@ -110,35 +113,34 @@ if($image["ikea"]){
 	}
 }
 ```` 
-#### usage #2: Handling response messages / errors manually
-To create you own error messages instead of the ones set by default, use 
-exceptions
+#### Creating custom response messages
+To create you own error messages instead of the ones set by default, you can do:
 ````php 
 <?php  
 
 if($image["ikea"]){
 
 	if($image->getMime() !== "png"){
-		throw new \Exception("we only accept png"); 
+		// throw new Exception
 	}
 
 	if($image->getHeight() > 1000){
-		throw new \Exception("Image is too tall");
+		// throw new Exception
 	}
 
 	if ($image->getLocation() != "images") {
-		// this is possible too
+		// or set
 		$image->setLocation("images"); 
 	} 
 	
-	if($image->upload() && !$image["error"]){
+	if($image->upload()){
 		// ok
 	}
 }
 ````
 #### What makes bulletproof secure? 
 * uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
-* uses[getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
+* uses [getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
 * filters image name and folders for storage are created with limited permissions: `uog+rw`
 
 #### License  
