@@ -2,21 +2,22 @@
 [![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)  [![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)    
 =======================================
 
-A single-class library to upload images in PHP with a bulletproof security.    
-previous repo with watermark, resize, shrink features is moved to [nautilus][nautilus]
+Bulletproof is a single-class library to upload images in PHP with a with security.    
+
+The previous repo featuring image watermark, resize, shrink.. features is moved to [nautilus][nautilus]
 
 ### INSTALL
-using git
-````bash
+##### using git
+```bash
 $ git clone https://github.com/samayo/bulletproof.git
-````
-using composer
+```
+##### using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
 
-#### Manual Download
-To download it manually, based on archived version of release cycles, checkout the [source download][bulletproof_link]
+##### Manual Download
+To download it manually, based on archived version of release cycles, checkout the [source download][bulletproof_archive]
 
 #### Simple example
 
@@ -47,8 +48,8 @@ if($image["ikea"])
 	}
 }
 ````
-#### Setting image properties
-To define dimension, size, mime type, location and image name ... use any of the following:
+#### Setting upload options
+To set size, dimension, mime type, location and image name ... use these methods 
 ````php  
 // call if you need to manually rename images
 $image->setName($name); 
@@ -62,10 +63,11 @@ $image->setMime(array($jpeg, $gif));
 // pass string name to create folder and optional chmod 
 $image->setLocation($folderName, $optionalPermission); 
 
-// set max width/height limit in pixels
+// set max width/height limit (in pixels)
 $image->setDimension($width, $height);  
 ````
-#### Getting image properties
+
+#### Getting upload & image info
 To get all image info, before or after upload you can use the following:
 ````php 
 // get the provided or auto-generated image name
@@ -104,7 +106,6 @@ $image->setName("kitten")
       ->setLocation("lolz");
 
 if($image["ikea"]){
-
 	if($image->upload()){
 		echo $image->getName(); // kitten
 		echo $image->getMime(); // gif
@@ -119,23 +120,25 @@ To create you own error messages instead of the ones set by default, you can do:
 <?php  
 
 if($image["ikea"]){
-
+	
+	try{
+		
 	if($image->getMime() !== "png"){
-		// throw new Exception
+		throw new \Exception("only png ..");
 	}
 
 	if($image->getHeight() > 1000){
-		// throw new Exception
+		throw new \Exception("image too tall ..");
 	}
 
-	if ($image->getLocation() != "images") {
-		// or set
-		$image->setLocation("images"); 
-	} 
-	
-	if($image->upload()){
-		// ok
+	if(!$image->upload()){
+		 throw new Exception($image["error"]);
 	}
+
+	}catch(\Exception $e){
+		echo $e->getMessage(); 
+	}
+
 }
 ````
 #### What makes bulletproof secure? 
@@ -146,7 +149,7 @@ if($image["ikea"]){
 #### License  
 MIT
 
-[bulletproof_link]: http://github.com/samayo/bulletproof/releases
+[bulletproof_archive]: http://github.com/samayo/bulletproof/releases
 [nautilus]: http://github.com/samayo/nautilus
 [exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
 [getimagesize_link]: http://php.net/manual/en/function.getimagesize.php

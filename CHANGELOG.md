@@ -4,7 +4,7 @@
 - Removed watermark, resize, crop functionality
 - renamed moaar and added getters and setters
 - changed license to MITgit
-- added getJson() to get image info in json format
-- enabled passing of the $_FILES array through the class constructor.
+- added `getJson()` to get image info in json format
+- enabled passing of the `$_FILES` array through the class constructor.
 - wrote more unit tests
-- class uses ArrayAccess for intuitive file submit detection
+- class uses `\ArrayAccess` for intuitive file submit detection

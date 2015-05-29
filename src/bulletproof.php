@@ -83,7 +83,7 @@ class Image implements \ArrayAccess
     /**
      * @var string storage for any errors
      */
-    private $error;
+    private $error = '';
 
     /**
      * @param array $image
@@ -268,7 +268,7 @@ class Image implements \ArrayAccess
      */
     public function getName()
     {
-        if (null == $this->name) {
+        if (!$this->name) {
             $this->name = uniqid(true) . "_" . str_shuffle(implode(range("e", "q")));
         }
         return $this->name;
@@ -443,7 +443,7 @@ class Image implements \ArrayAccess
             return;
         }
 
-        /* check image dimension with against defined values */
+        /* get and compare image dimension against set value */
         $imageDimension = $this->dimensions($image["tmp_name"]);
 
         $this->height = $imageDimension["height"];
@@ -490,7 +490,7 @@ class Image implements \ArrayAccess
             "location" => $location
         );
 
-        if (false == $this->error) {
+        if ($this->error === '') {
 
             $moveUpload = $this->moveUploadedFile($image['tmp_name'], $this->fullPath);
             if (false !== $moveUpload) {
