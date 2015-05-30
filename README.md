@@ -1,12 +1,14 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)  [![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)    
+[![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)  [![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)
 =======================================
 
 Bulletproof is a single-class library to upload images in PHP with a with security.    
 
 The previous repo featuring image watermark, resize, shrink.. features is moved to [nautilus][nautilus]
 
-### INSTALL
+Install
+-----
+
 ##### using git
 ```bash
 $ git clone https://github.com/samayo/bulletproof.git
@@ -19,7 +21,8 @@ $ php composer.phar require samayo/bulletproof:2.0.*
 ##### Manual Download
 To download it manually, based on archived version of release cycles, checkout the [source download][bulletproof_archive]
 
-#### Simple example
+Usage
+-----
 
 Create an HTML form like this. 
 ````html
@@ -29,11 +32,11 @@ Create an HTML form like this.
 	<input type="submit" value="upload"/>
 </form>
 ````
-Then simply require the class and upload
+Now simply require the class and upload
 ````php 
 <?php
 
-require_once  "src/bulletproof.php";
+require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
@@ -67,7 +70,7 @@ $image->setLocation($folderName, $optionalPermission);
 $image->setDimension($width, $height);  
 ````
 
-#### Getting upload & image info
+#### Getting upload & image properties
 To get all image info, before or after upload you can use the following:
 ````php 
 // get the provided or auto-generated image name
@@ -94,8 +97,8 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Setting and getting properties
-To set image options or get upload information, see example: 
+#### Checking and getting image info
+To set image options and/or get upload information, see example: 
 ````php 
 <?php 
 
@@ -142,9 +145,9 @@ if($image["ikea"]){
 }
 ````
 #### What makes bulletproof secure? 
-* uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
-* uses [getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
-* filters image name and folders for storage are created with limited permissions: `uog+rw`
+* Uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
+* Uses [getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
+* Image names are sanitized, & storage folders are created with limited permissions
 
 #### License  
 MIT
