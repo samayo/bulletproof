@@ -307,7 +307,7 @@ class Image implements \ArrayAccess
             return $this->height;
         }
 
-        list($width, $height) = $this->dimensions($this->image["tmp_name"]);
+        list(, $height) = $this->dimensions($this->image["tmp_name"]);
         return $height;
     }
 
@@ -322,7 +322,7 @@ class Image implements \ArrayAccess
             return $this->width;
         }
 
-        list($width, $height) = $this->dimensions($this->image["tmp_name"]);
+        list($width) = $this->dimensions($this->image["tmp_name"]);
         return $width;
     }
 
