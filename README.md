@@ -95,7 +95,7 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Setting and Getting, .. 
+#### Setting and Getting values, .. 
 To set and get image info, before or after image upload, do: 
 ````php 
 <?php 
@@ -118,7 +118,6 @@ if($image["ikea"]){
 #### Creating custom responses
 To create your own errors and responses, instead of the default class messages, use exceptions:
 ````php 
-//require file .. and do if/else
 
 try{
 
