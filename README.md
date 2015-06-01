@@ -1,10 +1,10 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)  [![License](https://poser.pugx.org/bullet-proof/image-uploader/license.svg)](https://packagist.org/packages/bullet-proof/image-uploader)
+[![Latest Stable Version](https://poser.pugx.org/bullet-proof/image-uploader/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader)
 =======================================
 
 Bulletproof is a single-class library to upload images in PHP with a with security.    
 
-The previous repo featuring image watermark, resize, shrink.. features is moved to [nautilus][nautilus]
+The previous repo with image watermark, resize, shrink.. features is moved to [samayo/nautilus][nautilus]
 
 Install
 -----
@@ -17,8 +17,7 @@ using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
-Manual Download
-To download it manually, based on archived version of release cycles, checkout the [source download][bulletproof_archive]
+To download it manually, based on archived version of release-cycles, checkout the [source download][bulletproof_archive]
 
 Usage
 -----
@@ -31,7 +30,7 @@ Create an HTML form like this.
 	<input type="submit" value="upload"/>
 </form>
 ````
-Now simply require the class and upload
+And simply require the class to upload
 ````php 
 <?php
 
@@ -50,13 +49,13 @@ if($image["ikea"])
 	}
 }
 ````
-#### Setting upload options
-Use these methods to set size, dimension, mime type, location and image name
+#### Setting Options
+Use following methods to set size, dimension, mime type, location and image name
 ````php  
-// call if you need to manually rename images
+// only call to rename image manually
 $image->setName($name); 
 
-// define min/max upload size limit (in bytes) 
+// define min/max upload limit (size in bytes) 
 $image->setSize($min, $max); 
 
 // define acceptable mime types (in array)
@@ -69,8 +68,8 @@ $image->setLocation($folderName, $optionalPermission);
 $image->setDimension($width, $height);  
 ````
 
-#### Getting upload, image properties
-These methods allow you to get image info before and/or after upload. 
+#### Getting Properties
+Use these methods to get image info before and/or after upload. 
 ````php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -96,8 +95,8 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Using getters and setters together
-To set and get image info, before and after image upload, use as: 
+#### Setting limits and Getting properties together
+To set and get image info, before or after image upload, use as: 
 ````php 
 <?php 
 
@@ -105,49 +104,49 @@ $image = new Bulletproof\Image($_FILES);
 
 $image->setName("kitten")
       ->setMime(["png", "gif"])
-      ->setLocation("lolz");
+      ->setLocation("funny");
 
 if($image["ikea"]){
 	if($image->upload()){
 		echo $image->getName(); // kitten
 		echo $image->getMime(); // gif
-		echo $image->getLocation(); // lolz
-		echo $image->getFullPath(); // lolz/kitten.gif
+		echo $image->getLocation(); // funny
+		echo $image->getFullPath(); // funny/kitten.gif
 	}
 }
 ```` 
 #### Creating custom response messages
-If you don't want bulletproof's defaul errors, you can set up yours like:
+To create your own errors and responses, instead of the default class messages, use exceptions:
 ````php 
-<?php  
 
-try{
+if($image["..."]){
 	
-	if($image->getMime() !== "png"){
-		throw new \Exception("only png are allowed ..");
-	}
+  try{
+    
+    if($image->getMime() !== "png"){
+        throw new \Exception("only png are allowed ..");
+    }
 
-	if($image->getHeight() > 1000){
-		throw new \Exception("image height should ..");
-	}
+    if($image->getHeight() > 1000){
+        throw new \Exception("image height should ..");
+    }
 
-	if(!$image->upload()){
-		 throw new Exception($image["error"]);
-	}
+    if(!$image->upload()){
+        throw new \Exception($image["error"]);
+    }
 
-	}catch(\Exception $e){
-		echo $e->getMessage(); 
-	}
+    }catch(\Exception $e){
+        echo $e->getMessage(); 
+    }
+} 
 
-}
 ````
-#### What is this library secure? 
-* Uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
-* Uses [getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
-* Image names are sanitized, & storage folder is created with limited permissions..
+#### Why is this secure? 
+* Uses **[exif_imagetype()][exif_imagetype_link]** to get the true image `.extension` / mime type
+* Uses **[getimagesize()][getimagesize_link]** to check image for a valid height/width in pixels.
+* Sanitized images, strict folder permissions and more... 
 
-#### License  
-MIT
+#### License: MIT
 
 [bulletproof_archive]: http://github.com/samayo/bulletproof/releases
 [nautilus]: http://github.com/samayo/nautilus
