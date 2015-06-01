@@ -9,16 +9,15 @@ The previous repo featuring image watermark, resize, shrink.. features is moved 
 Install
 -----
 
-##### using git
+using git
 ```bash
 $ git clone https://github.com/samayo/bulletproof.git
 ```
-##### using composer
+using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
-
-##### Manual Download
+Manual Download
 To download it manually, based on archived version of release cycles, checkout the [source download][bulletproof_archive]
 
 Usage
@@ -45,14 +44,14 @@ if($image["ikea"])
 	$upload = $image->upload(); 
 
 	if($upload){
-		// OK
+		// success
 	}else{
-		echo $image["error"]; 
+		// fail
 	}
 }
 ````
 #### Setting upload options
-To set size, dimension, mime type, location and image name ... use these methods 
+Use these methods to set size, dimension, mime type, location and image name
 ````php  
 // call if you need to manually rename images
 $image->setName($name); 
@@ -70,8 +69,8 @@ $image->setLocation($folderName, $optionalPermission);
 $image->setDimension($width, $height);  
 ````
 
-#### Getting upload & image properties
-To get all image info, before or after upload you can use the following:
+#### Getting upload, image properties
+These methods allow you to get image info before and/or after upload. 
 ````php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -97,8 +96,8 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Checking and getting image info
-To set image options and/or get upload information, see example: 
+#### Using getters and setters together
+To set and get image info, before and after image upload, use as: 
 ````php 
 <?php 
 
@@ -118,20 +117,18 @@ if($image["ikea"]){
 }
 ```` 
 #### Creating custom response messages
-To create you own error messages instead of the ones set by default, you can do:
+If you don't want bulletproof's defaul errors, you can set up yours like:
 ````php 
 <?php  
 
-if($image["ikea"]){
+try{
 	
-	try{
-		
 	if($image->getMime() !== "png"){
-		throw new \Exception("only png ..");
+		throw new \Exception("only png are allowed ..");
 	}
 
 	if($image->getHeight() > 1000){
-		throw new \Exception("image too tall ..");
+		throw new \Exception("image height should ..");
 	}
 
 	if(!$image->upload()){
@@ -144,10 +141,10 @@ if($image["ikea"]){
 
 }
 ````
-#### What makes bulletproof secure? 
+#### What is this library secure? 
 * Uses [exif_imagetype][exif_imagetype_link] to get the true image `.extension` / mime type
 * Uses [getimagesize][getimagesize_link] to check image for a valid height/width in pixels.
-* Image names are sanitized, & storage folders are created with limited permissions
+* Image names are sanitized, & storage folder is created with limited permissions..
 
 #### License  
 MIT
