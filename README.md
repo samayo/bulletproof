@@ -9,11 +9,11 @@ The previous repo with image watermark, resize, shrink.. features is moved to [`
 Install
 -----
 
-using git
+Using git
 ```bash
 $ git clone https://github.com/samayo/bulletproof.git
 ```
-using composer
+Using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
@@ -69,7 +69,7 @@ $image->setDimension($width, $height);
 ````
 
 #### Getting Properties
-Methods for getting image info before and/or after upload. 
+Methods for getting image info before and / or after upload. 
 ````php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -95,7 +95,7 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Giving and Take, .. 
+#### Setting and Getting, .. 
 To set and get image info, before or after image upload, do: 
 ````php 
 <?php 
@@ -118,24 +118,25 @@ if($image["ikea"]){
 #### Creating custom responses
 To create your own errors and responses, instead of the default class messages, use exceptions:
 ````php 
-	//require file .. and do if/else
+//require file .. and do if/else
 
-    if($image->getMime() !== "png"){
-        throw new \Exception("only png are allowed ..");
-    }
+try{
 
-    if($image->getHeight() > 1000){
-        throw new \Exception("image height should ..");
-    }
+	if($image->getMime() !== "png"){
+	    throw new \Exception("only png are allowed ..");
+	}
 
-    }catch(\Exception $e){
-        echo $e->getMessage(); 
-    }
+	if($image->getHeight() > 1000){
+	    throw new \Exception("image height should ..");
+	}
 
+}catch(\Exception $e){
+    echo $e->getMessage(); 
+}
 ````
 #### Why is this secure? 
-* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image `.extension` / mime type
-* Uses **[`getimagesize()`][getimagesize_link]** to check image for a valid height/width in pixels.
+* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension` type
+* Uses **[`getimagesize()`][getimagesize_link]** to check if image has a valid height / width in pixels.
 * Sanitized images, strict folder permissions and more... 
 
 #### License: MIT
