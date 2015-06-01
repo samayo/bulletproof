@@ -4,7 +4,7 @@
 
 Bulletproof is a single-class library to upload images in PHP with a with security.    
 
-The previous repo with image watermark, resize, shrink.. features is moved to [samayo/nautilus][nautilus]
+The previous repo with image watermark, resize, shrink.. features is moved to [`samayo/nautilus`][nautilus]
 
 Install
 -----
@@ -17,7 +17,7 @@ using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
-To download it manually, based on archived version of release-cycles, checkout the [source download][bulletproof_archive]
+Or [download it manually][bulletproof_archive] based on the archived version of release-cycles
 
 Usage
 -----
@@ -50,7 +50,7 @@ if($image["ikea"])
 }
 ````
 #### Setting Options
-Use following methods to set size, dimension, mime type, location and image name
+Methods for setting size, dimension, mime type, location and image name
 ````php  
 // only call to rename image manually
 $image->setName($name); 
@@ -69,7 +69,7 @@ $image->setDimension($width, $height);
 ````
 
 #### Getting Properties
-Use these methods to get image info before and/or after upload. 
+Methods for getting image info before and/or after upload. 
 ````php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -95,8 +95,8 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Setting limits and Getting properties together
-To set and get image info, before or after image upload, use as: 
+#### Giving and Take, .. 
+To set and get image info, before or after image upload, do: 
 ````php 
 <?php 
 
@@ -115,14 +115,11 @@ if($image["ikea"]){
 	}
 }
 ```` 
-#### Creating custom response messages
+#### Creating custom responses
 To create your own errors and responses, instead of the default class messages, use exceptions:
 ````php 
+	//require file .. and do if/else
 
-if($image["..."]){
-	
-  try{
-    
     if($image->getMime() !== "png"){
         throw new \Exception("only png are allowed ..");
     }
@@ -131,19 +128,14 @@ if($image["..."]){
         throw new \Exception("image height should ..");
     }
 
-    if(!$image->upload()){
-        throw new \Exception($image["error"]);
-    }
-
     }catch(\Exception $e){
         echo $e->getMessage(); 
     }
-} 
 
 ````
 #### Why is this secure? 
-* Uses **[exif_imagetype()][exif_imagetype_link]** to get the true image `.extension` / mime type
-* Uses **[getimagesize()][getimagesize_link]** to check image for a valid height/width in pixels.
+* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image `.extension` / mime type
+* Uses **[`getimagesize()`][getimagesize_link]** to check image for a valid height/width in pixels.
 * Sanitized images, strict folder permissions and more... 
 
 #### License: MIT
