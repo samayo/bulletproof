@@ -164,6 +164,7 @@ class Image implements \ArrayAccess
             $this->image = $this->image[$offset];
             return true;
         }
+        
         if ($offset == 'error') {
             return $this->error;
         }
@@ -182,10 +183,8 @@ class Image implements \ArrayAccess
     {
         if ($isNameGiven) {
             $this->name = filter_var($isNameGiven, FILTER_SANITIZE_STRING);
-        } else {
-            $this->name = uniqid(true) . "_" . str_shuffle(implode(range("e", "q")));
         }
-
+        
         return $this;
     }
 
@@ -453,6 +452,7 @@ class Image implements \ArrayAccess
         list($minSize, $maxSize) = $this->size;
 
         if ($image["size"] < $minSize) {
+            //@TODO: if image is less than 1kb, intval($minSize / 1000) shows it as 0
             $this->error = "Image size should be at least more than " . intval($minSize / 1000) . " kb ";
             return;
         }
@@ -504,7 +504,7 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Final method using php upload method, isolated for testing purposes
+     * Final method using php upload, isolated for testing purposes
      *
      * @param $tmp_name int the temporary location of the image file
      * @param $destination int upload destination
