@@ -40,12 +40,10 @@ $image = new Bulletproof\Image($_FILES);
 
 if($image["ikea"])
 
-	$upload = $image->upload(); 
-
-	if($upload){
-		// success
+	if($image->upload()){
+		// OK
 	}else{
-		// fail
+		// ERR!
 	}
 }
 ````
@@ -102,7 +100,7 @@ To set and get image info, before or after image upload, do:
 
 $image = new Bulletproof\Image($_FILES);
 
-$image->setName("kitten")
+$image->setName("kitten"){
       ->setMime(["png", "gif"])
       ->setLocation("funny");
 
@@ -118,6 +116,8 @@ if($image["ikea"]){
 #### Creating custom responses
 To create your own errors and responses, instead of the default class messages, use exceptions:
 ````php 
+	
+$image = new Bulletproof\Image($_FILES);
 
 try{
 
@@ -127,6 +127,10 @@ try{
 
 	if($image->getHeight() > 1000){
 	    throw new \Exception("image height should ..");
+	}
+
+	if(false == $image->upload()){
+	    throw new \Exception($image["error"]);
 	}
 
 }catch(\Exception $e){
