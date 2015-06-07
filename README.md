@@ -38,12 +38,12 @@ require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-if($image["ikea"])
+if($image["ikea"]){
 
 	if($image->upload()){
 		// OK
 	}else{
-		// ERR!
+		echo $image["error"]; 
 	}
 }
 ````
@@ -116,26 +116,26 @@ if($image["ikea"]){
 #### Creating custom responses
 To create your own errors and responses, instead of the default class messages, use exceptions:
 ````php 
-	
-$image = new Bulletproof\Image($_FILES);
+ try{
 
-try{
+   if($image->getMime()  !== "png" &&
+      $image->getHeight() > 100    &&
+      $image->getWidth()  > 100 
+   ){
+      throw new \Exception(
+      	" Image should be png type, and ... "
+      );
+   }
 
-	if($image->getMime() !== "png"){
-	    throw new \Exception("only png are allowed ..");
-	}
+   if($image->upload()){
+      // OK
+   }else{
+     throw new \Exception($image["error"]);
+   }
 
-	if($image->getHeight() > 1000){
-	    throw new \Exception("image height should ..");
-	}
-
-	if(false == $image->upload()){
-	    throw new \Exception($image["error"]);
-	}
-
-}catch(\Exception $e){
-    echo $e->getMessage(); 
-}
+ }catch(\Exception $e){
+      echo $e->getMessage(); 
+ }
 ````
 #### Why is this secure? 
 * Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension` type
