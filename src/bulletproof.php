@@ -223,15 +223,10 @@ class Image implements \ArrayAccess
      *
      * @return $this
      */
-    public function setLocation($dir = null, $permission = 0666)
+    public function setLocation($dir = "images", $permission = 0666)
     {
         if($this->location){
             return $this;
-        }
-
-        /* set default folder */
-        if($dir == null){
-            $dir = "images";
         }
 
         if (!file_exists($dir) && !is_dir($dir)) {
