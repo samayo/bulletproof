@@ -118,13 +118,8 @@ To create your own errors and responses, instead of the default class messages, 
 ````php 
  try{
 
-   if($image->getMime()  !== "png" &&
-      $image->getHeight() > 100    &&
-      $image->getWidth()  > 100 
-   ){
-      throw new \Exception(
-      	" Image should be png type, and ... "
-      );
+   if($image->getMime()  !== "png" && $image->getHeight() > 100 ){
+      throw new \Exception(" Image should be png type, and ... ");
    }
 
    if($image->upload()){

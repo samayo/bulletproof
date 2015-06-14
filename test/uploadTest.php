@@ -58,11 +58,11 @@ class uploadTest extends \PHPUnit_Framework_TestCase
     public function testUploadFailsIfImageSizeIsSmallerThanDefined()
     {
         $this->bulletproof['ikea'];
-        $this->bulletproof->setSize(100, 1000);
-        $upload = $this->bulletproof->upload();
+        $this->bulletproof->setSize(100, 10000);
+        $upload = $this->bulletproof->upload();        
         $this->assertEquals(
             $this->bulletproof['error'],
-            "Image size should be less than 1 kb"
+            "Image size should be atleast more than min: 1 and less than max: 10 kb"
         );
     }
 
@@ -89,7 +89,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
         $upload = $this->bulletproof->upload();
         $this->assertEquals(
             $this->bulletproof["error"],
-            "Image height should be less than 100 pixels"
+            "Image height/width should be less than ' 100 \ 200 ' pixels"
         );
 
     }
