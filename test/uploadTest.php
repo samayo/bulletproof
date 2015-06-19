@@ -175,7 +175,8 @@ class uploadTest extends \PHPUnit_Framework_TestCase
     {
         $this->bulletproof['ikea'];
         $upload = $this->bulletproof->setName('we_belive_in_json')->upload();
-        $this->assertSame($upload->getJson(), '{"name":"we_belive_in_json","mime":"jpeg","height":345,"width":384,"size":17438,"location":"images"}');
+        $this->assertSame($upload->getJson(), 
+            '{"name":"we_belive_in_json","mime":"jpeg","height":345,"width":384,"size":17438,"location":"images","fullPath":"images\/we_belive_in_json.jpeg"}');
 
     }
 
