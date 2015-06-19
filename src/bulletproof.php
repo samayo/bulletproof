@@ -102,7 +102,7 @@ class Image implements \ArrayAccess
      */
     protected function getImageMime($tmp_name)
     {
-        if (isset($this->imageMimes [exif_imagetype($tmp_name)])) {
+        if (isset($this->imageMimes[exif_imagetype($tmp_name)])) {
             return $this->imageMimes [exif_imagetype($tmp_name)];
         }
         return false;
@@ -364,13 +364,13 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
+        /* for convenience */
+        $image  = $this->image;
 
         /* initialize image values to class properties */
         $this->name   = $this->getName();
         $this->height = $this->getHeight(); 
         $this->width  = $this->getWidth();
-        $image        = $this->image;
-
 
         /* get image sizes */
         list($minSize, $maxSize) = $this->size;
@@ -385,17 +385,15 @@ class Image implements \ArrayAccess
 
         /* validate image mime type */
         if (!in_array($this->imageMime, $this->mimeTypes)) {
-            $mimes = implode(', ', $this->mimeTypes);
-            $this->error = "Invalid File! Only ($mimes) image types are allowed";
+            $ext = implode(', ', $this->mimeTypes);
+            $this->error = "Invalid File! Only ($ext) image types are allowed";
             return ;
         }     
 
         /* check image size based on the settings */
         if ($image["size"] < $minSize || $image["size"] > $maxSize) {
-            $min = intval($minSize / 1000); $max = intval($maxSize / 1000);
-            if(!$min){
-                $min = 1; // to avoid getting '0kb' as size. 
-            }
+            $min = intval($minSize / 1000) ?: 1; $max = intval($maxSize / 1000);
+            
             $this->error = "Image size should be atleast more than min: $min and less than max: $max kb";
             return ;
         }
@@ -418,7 +416,8 @@ class Image implements \ArrayAccess
             "height"   => $this->height,
             "width"    => $this->width,
             "size"     => $image["size"],
-            "location" => $this->location
+            "location" => $this->location,
+            "fullPath" => $this->fullPath
         );
 
         if ($this->error === '') {
