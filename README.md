@@ -17,7 +17,7 @@ Using composer
 ````bash
 $ php composer.phar require samayo/bulletproof:2.0.*
 ````
-Or [download it manually][bulletproof_archive] based on the archived version of release-cycles
+Or [download it manually][bulletproof_archive] based on the archived version of release-cycles.
 
 Usage
 -----
@@ -31,9 +31,7 @@ Create an HTML form like this.
 </form>
 ````
 And simply require the class to upload
-````php 
-<?php
-
+```php 
 require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
@@ -46,24 +44,24 @@ if($image["ikea"]){
 		echo $image["error"]; 
 	}
 }
-````
-#### Setting Options
+```
+#### Setting Properties
 Methods for setting size, dimension, mime type, location and image name
 ````php  
-// only call to rename image manually
+// call if you want to set new image name manually
 $image->setName($name); 
 
-// define min/max upload limit (size in bytes) 
+// define min/max upload limits (size in bytes) 
 $image->setSize($min, $max); 
 
-// define acceptable mime types (in array)
+// define acceptable mime types
 $image->setMime(array($jpeg, $gif));  
 
-// pass string name to create folder and optional chmod 
-$image->setLocation($folderName, $optionalPermission); 
+// set max width/height limits (in pixels)
+$image->setDimension($width, $height); 
 
-// set max width/height limit (in pixels)
-$image->setDimension($width, $height);  
+// pass name to create folder and optional chmod 
+$image->setLocation($folderName, $optionalPermission);  
 ````
 
 #### Getting Properties
@@ -75,7 +73,7 @@ $image->getName();
 // get the image size (in bytes)
 $image->getSize();
 
-// get the image mimetype (extension)
+// get the image mimetype
 $image->getMime();
 
 // get the image width in pixels
@@ -96,20 +94,18 @@ $image->getJson();
 #### Setting and Getting values, .. 
 To set and get image info, before or after image upload, do: 
 ````php 
-<?php 
-
 $image = new Bulletproof\Image($_FILES);
 
-$image->setName("kitten"){
+$image->setName("samayo")
       ->setMime(["png", "gif"])
-      ->setLocation("funny");
+      ->setLocation("avatars");
 
 if($image["ikea"]){
 	if($image->upload()){
-		echo $image->getName(); // kitten
+		echo $image->getName(); // samayo
 		echo $image->getMime(); // gif
-		echo $image->getLocation(); // funny
-		echo $image->getFullPath(); // funny/kitten.gif
+		echo $image->getLocation(); // avatars
+		echo $image->getFullPath(); // avatars/samayo.gif
 	}
 }
 ```` 
@@ -118,8 +114,12 @@ To create your own errors and responses, instead of the default class messages, 
 ````php 
  try{
 
-   if($image->getMime()  !== "png" && $image->getHeight() > 100 ){
-      throw new \Exception(" Image should be png type, and ... ");
+   if($image->getMime()  !== "png"){
+      throw new \Exception(" Image should be png type");
+   }
+
+   if($image->getMime()  !== "png"){
+      throw new \Exception(" Image should be png type");
    }
 
    if($image->upload()){
@@ -135,7 +135,7 @@ To create your own errors and responses, instead of the default class messages, 
 #### Why is this secure? 
 * Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension` type
 * Uses **[`getimagesize()`][getimagesize_link]** to check if image has a valid height / width in pixels.
-* Sanitized images, strict folder permissions and more... 
+* Sanitized images names, strict folder permissions and more... 
 
 #### License: MIT
 
