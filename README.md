@@ -46,7 +46,7 @@ if($image["ikea"]){
 	}
 }
 ```
-#### Setting Properties
+##### Setting Properties
 Methods for defining allowed size, dimensions, mime types, location and image name
 ````php  
 // call if you want to set new image name manually
@@ -65,7 +65,7 @@ $image->setDimension($width, $height);
 $image->setLocation($folderName, $optionalPermission);  
 ````
 
-#### Getting Properties
+##### Getting Properties
 Methods for getting image info before and / or after upload. 
 ````php 
 // get the provided or auto-generated image name
@@ -92,7 +92,7 @@ $image->getFullPath();
 // get the json format value of all the above information
 $image->getJson();
 ````
-#### Setting and Getting values, .. 
+##### Setting and Getting values, .. 
 To set and get image info, before or after image upload, use as: 
 ````php 
 $image = new Bulletproof\Image($_FILES);
@@ -111,7 +111,7 @@ if($image["ikea"]){
 	}
 }
 ```` 
-#### Creating custom responses
+##### Creating custom responses
 To create your own errors and responses, instead of the default error messages, use exceptions:
 ````php 
  try{
