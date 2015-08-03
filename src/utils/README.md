@@ -1,7 +1,8 @@
 Image Manipilation functions. 
 ----- 
-This folder contains a file containing one function for each task. Currently, you can 
-find a `resize()`, `crop()`, and `watermark()` to help you manipulate images. 
+This folder contains a function-per-file lists for changing images. 
+
+Currently, you can find a `resize()`, `crop()`, and `watermark()` functions.  
 
 > **Note** These functions can be use with\without bulletproof. 
 
