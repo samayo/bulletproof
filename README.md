@@ -102,9 +102,8 @@ $image->setName("samayo")
       ->setLocation("avatars");
 
 if($image["ikea"]){
-	$upload = $image->upload(); 
-
-	if($upload){
+	
+	if($image->upload()){
 		echo $image->getName(); // samayo
 		echo $image->getMime(); // gif
 		echo $image->getLocation(); // avatars
@@ -135,15 +134,16 @@ To create your own errors and responses, instead of the default error messages, 
       echo $e->getMessage(); 
  }
 ````
-#### Watermark, Resize, Crop images
-To keep the bulletroof class neat, and only for uploading purposes, the functions to watermark, crop, resize images have been separated and placed inside the [`src/utils`][utils] folder. 
 
-#### Why is this secure? 
-* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension`
+##### Image Manipulation
+To watermark, crop, resize images, checkout the separate list of functions in [`src/utils`][utils]
+
+##### What makes this secure?  
+* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime (`.extension`)
 * Uses **[`getimagesize()`][getimagesize_link]** to check if image has a valid height / width in pixels.
 * Sanitized images names, strict folder permissions and more... 
 
-#### License: MIT
+##### License: MIT
 [utils]: https://github.com/samayo/bulletproof/tree/master/src/utils
 [bulletproof_archive]: http://github.com/samayo/bulletproof/releases
 [exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
