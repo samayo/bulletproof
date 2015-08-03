@@ -49,7 +49,7 @@ if($image["picture"]){
 		// get the image properties and change it to array. 
 		$get = json_decode($upload->getJson(), true); 
 
-		// the crop function takes 6 self-describing arguments. 
+		// the crop function takes 6 self-describing arguments
 		$crop = Bulletproof\crop(
 			$get['fullpath'], 
 			$get['mime'],
