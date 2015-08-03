@@ -7,7 +7,7 @@ Currently, you can find a `resize()`, `crop()`, and `watermark()` functions.
 > **Note** These functions can be use with\without bulletproof. 
 
 
-#### Resizing
+##### Resizing
 ```php 
 // include bulletproof
 require  "path/to/bulletproof.php";
