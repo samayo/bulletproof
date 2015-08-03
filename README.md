@@ -5,9 +5,7 @@
 
 Bulletproof is a single-class library to securely upload images in PHP.    
 
-Additionaly, to resize, shrink, watermark images; you can include a set sperarate functions 
-found inside [`/src/utils`][utils] folder. They are functions that can be used with/without this library. 
-
+Additionally, there are separate functions to help you resize, shrink, watermark images. 
 
 Install
 -----
@@ -137,93 +135,8 @@ To create your own errors and responses, instead of the default error messages, 
       echo $e->getMessage(); 
  }
 ````
-
-Image Altering
------
-To keep the bulletroof class neat, and only for uploading purposes, the functions to watermark, crop, resize images have been separated and placed inside the utils folder. There are 3 files containing three functions, here is how 
-to use them: 
-
-#### Resizing
-```php 
-// include bulletproof
-require  "path/to/bulletproof.php";
-// include image resize function
-require 'src/utils/func.image-resize.php';
-
-$image = new Bulletproof\Image($_FILES);
-
-if($image["picture"]){
-	// upload the image
-	$upload = $image->upload(); 
-
-	if($upload){
-		// get the image properties and change it to array. 
-		$get = json_decode($image->getJson(), true); 
-
-		// the resize function takes 8 self-describing arguments. 
-		// check the function on how to resize based on ratio
-		$resize = Bulletproof\resize(
-			$get['fullpath'], 
-			$get['mime'],
-			$get['width'],
-			$get['height'],
-			50,
-			50
-		);
-
-		// now the uploaded image is cropped to 50x50 pixels. 
-	}
-}
-```
-#### Croping
-```php 
-	// include image crop function
-	require 'src/utils/func.image-crop.php';
-	
-	// assuming the image is uploaded
-	if($upload){
-		// get the image properties and change it to array. 
-		$get = json_decode($upload->getJson(), true); 
-
-		// the crop function takes 6 self-describing arguments. 
-		$crop = Bulletproof\crop(
-			$get['fullpath'], 
-			$get['mime'],
-			$get['width'],
-			$get['height'],
-			50,
-			50
-		);
-
-		// now the uploaded image is cropped to 50x50 pixels. 
-	}
-```
-#### Watermark
-```php 
-// require the watermark function
-require 'src/utils/func.image-watermark.php';
-
-// assuming the image is uploaded
-if($upload){
-	// get full path of logo you want to use
-    $logo = 'my-logo.png';
-    // get the width and heigh of the logo
-	list($logoWidth, $logoHeight) = getimagesize($logo);
-
-	// watermark accepts 8 arguments. 
-	// final arg is for where to place the watermark
-	$watermark = Bulletproof\watermark(
-			$get["fullpath"], 
-			$get["mime"],
-			$get["width"], 
-			$get["height"],
-			$logo, 
-			$logoHeight,
-			$logoWidth,
-			"bottom-right"
-		);
-}
-```
+#### Watermark, Resize, Crop images
+To keep the bulletroof class neat, and only for uploading purposes, the functions to watermark, crop, resize images have been separated and placed inside the [`src/utils`][utils] folder. 
 
 #### Why is this secure? 
 * Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension`
@@ -231,7 +144,7 @@ if($upload){
 * Sanitized images names, strict folder permissions and more... 
 
 #### License: MIT
-[utils]: https://github.com/samayo/bulletproof/tree/master/src/utils/
+[utils]: https://github.com/samayo/bulletproof/tree/master/src/utils
 [bulletproof_archive]: http://github.com/samayo/bulletproof/releases
 [exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
 [getimagesize_link]: http://php.net/manual/en/function.getimagesize.php
