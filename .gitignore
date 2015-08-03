@@ -1,1 +1,7 @@
+.gitignore
+.idea/*
 vendor/*
+images
+composer.phar
+index.php
+test.php
