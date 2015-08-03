@@ -17,11 +17,9 @@ class BulletProofOverride extends \BulletProof\Image
     }
 
     /* prevent class from creating a folder */
-    public function setLocation($dir = "images", $optionalPermision = 0666){
+    public function setLocation($dir = "bulletproof", $optionalPermision = 0666){
 
-    	if($this->location){
-            return $this;
-        }
+    	 
 
     	$this->location = $dir;
     	return $this; 

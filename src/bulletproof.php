@@ -9,7 +9,7 @@
  * @package     BulletProof
  * @version     2.0.0
  * @author      Samayo  /@sama_io
- * @link        https://github.com/samayo/BulletProof
+ * @link        https://github.com/samayo/bulletproof
  * @license     MIT
  */
 namespace BulletProof;
@@ -17,7 +17,7 @@ namespace BulletProof;
 class Image implements \ArrayAccess
 {
     /**
-     * @var string The new image name, provided or auto-generated.
+     * @var string The new image name, to be provided or will be generated.
      */
     protected $name;
 
@@ -34,7 +34,7 @@ class Image implements \ArrayAccess
     /**
      * @var string The image mime type (extension)
      */
-    protected $imageMime;
+    protected $mime;
 
     /**
      * @var string The full image path (dir + image + mime)
@@ -47,9 +47,9 @@ class Image implements \ArrayAccess
     protected $location;
 
     /**
-     * @var array The max height and width image allowed for upload
+     * @var array A json format of all information about an image
      */
-    protected $dimensions = array(500, 5000);
+    protected $serialize = array();
 
     /**
      * @var array The min and max image size allowed for upload (in bytes)
@@ -57,14 +57,14 @@ class Image implements \ArrayAccess
     protected $size = array(100, 50000);
 
     /**
+     * @var array The max height and width image allowed
+     */
+    protected $dimensions = array(500, 5000);
+
+    /**
      * @var array The mime types allowed for upload
      */
     protected $mimeTypes = array("jpeg", "png", "gif");
-
-    /**
-     * @var array A json format of all information about an image
-     */
-    protected $serialize = array();
 
     /**
      * @var array list of known image types
@@ -78,19 +78,19 @@ class Image implements \ArrayAccess
     /**
      * @var array storage for the $_FILES global array
      */
-    private $image = array();
+    private $_files = array();
 
     /**
      * @var string storage for any errors
      */
-    private $error = '';
+    private $error = "";
 
     /**
-     * @param array $image | the $_FILES array passed as dependancy
+     * @param array $_files represents the $_FILES array passed as dependancy
      */
-    public function __construct(array $image = [])
+    public function __construct(array $_files = [])
     {
-        $this->image = $image;
+        $this->_files = $_files;
     }
 
     /**
@@ -109,8 +109,8 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Sets array offset \ArrayAccess
-     * unused methods
+     * array offset \ArrayAccess
+     * unused
      */
     public function offsetSet($offset, $value){}
     public function offsetExists($offset){}
@@ -125,18 +125,15 @@ class Image implements \ArrayAccess
      */
     public function offsetGet($offset)
     {
-        if (isset($this->image[$offset]) && $offset !== 'error') {
-            $this->image = $this->image[$offset];
-            if(!file_exists($this->image["tmp_name"])){
-                return false; 
-            }
-            return true;
-        }
-        
-        if ($offset == 'error') {
+        if ($offset == "error") {
             return $this->error;
         }
 
+        if (isset($this->_files[$offset]) && file_exists($this->_files[$offset]["tmp_name"])) {
+            $this->_files = $this->_files[$offset];
+            return true;
+        }
+        
         return false;
     }
 
@@ -191,14 +188,10 @@ class Image implements \ArrayAccess
      *
      * @return $this
      */
-    public function setLocation($dir = "images", $permission = 0666)
+    public function setLocation($dir = "bulletproof", $permission = 0666)
     {
-        if($this->location){
-            return $this;
-        }
-
-        if (!file_exists($dir) && !is_dir($dir)) {
-            $createFolder = @mkdir("" . $dir, (int)$permission, true);
+        if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
+            $createFolder = @mkdir("" . $dir, (int) $permission, true);
             if (!$createFolder) {
                 $this->error = "Folder " . $dir . " could not be created";
                 return;
@@ -238,15 +231,14 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Returns the full path of the image ex 'location/image.mime'
+     * Returns the full path of the image ex "location/image.mime"
      *
      * @return string
      */
     public function getFullPath()
     {
-        $this->fullPath = $this->location . '/' . $this->name . '.' . $this->imageMime;
+        $this->fullPath = $this->location . "/" . $this->name . "." . $this->mime;
         return $this->fullPath;
-
     }
 
     /**
@@ -256,7 +248,7 @@ class Image implements \ArrayAccess
      */
     public function getSize()
     {
-        return (int) $this->image['size'];
+        return (int) $this->_files["size"];
     }
 
     /**
@@ -266,11 +258,11 @@ class Image implements \ArrayAccess
      */
     public function getHeight()
     {
-        if (null != $this->height) {
+        if ($this->height != null) {
             return $this->height;
         }
 
-        list(, $height) = getImageSize($this->image["tmp_name"]); 
+        list(, $height) = getImageSize($this->_files["tmp_name"]); 
         return $height;
     }
 
@@ -285,7 +277,7 @@ class Image implements \ArrayAccess
             return $this->width;
         }
 
-        list($width) = getImageSize($this->image["tmp_name"]); 
+        list($width) = getImageSize($this->_files["tmp_name"]); 
         return $width;
     }
 
@@ -296,7 +288,11 @@ class Image implements \ArrayAccess
      */
     public function getLocation()
     {
-        return $this->location;
+        if(!$this->location){
+            $this->setLocation(); 
+        }
+
+        return $this->location; 
     }
 
     /**
@@ -316,24 +312,7 @@ class Image implements \ArrayAccess
      */
     public function getMime()
     {
-        return $this->imageMime;
-    }
-
-    /**
-     * Deletes image from storage
-     *
-     * @param $fileToDelete string folder name
-     *
-     * @return bool
-     */
-    public function remove($fileToDelete)
-    {
-        if (file_exists($fileToDelete) && !unlink($fileToDelete)) {
-            $this->error = "File may have been deleted or does not exist";
-            return false;
-        }
-
-        return true;
+        return $this->mime;
     }
 
     /**
@@ -358,81 +337,88 @@ class Image implements \ArrayAccess
 
     /**
      * Main upload method.
-     * This is where all the actual validation/upload takes place
+     * This is where all the monkey business happens
      *
      * @return $this|bool
      */
     public function upload()
     {
-        /* for convenience */
-        $image  = $this->image;
+        /* modify variable names for convenience */
+        $image = $this; 
+        $files = $this->_files;
 
-        /* initialize image values to class properties */
-        $this->name   = $this->getName();
-        $this->height = $this->getHeight(); 
-        $this->width  = $this->getWidth();
+        /* initialize image properties */
+        $image->name     = $image->getName();
+        $image->width    = $image->getWidth();
+        $image->height   = $image->getHeight(); 
+        $image->location = $image->getLocation();
 
         /* get image sizes */
-        list($minSize, $maxSize) = $this->size;
+        list($minSize, $maxSize) = $image->size;
 
         /* check for common upload errors */
-        if($this->error = $this->uploadErrors($image["error"])){
+        if($image->error = $image->uploadErrors($files["error"])){
             return ;
         }
 
         /* check image for valid mime types and return mime */
-        $this->imageMime = $this->getImageMime($image["tmp_name"]);
+        $image->mime = $image->getImageMime($files["tmp_name"]);
 
         /* validate image mime type */
-        if (!in_array($this->imageMime, $this->mimeTypes)) {
-            $ext = implode(', ', $this->mimeTypes);
-            $this->error = "Invalid File! Only ($ext) image types are allowed";
+        if (!in_array($image->mime, $image->mimeTypes)) {
+            $ext = implode(", ", $image->mimeTypes);
+            $image->error = "Invalid File! Only ($ext) image types are allowed";
             return ;
         }     
 
         /* check image size based on the settings */
-        if ($image["size"] < $minSize || $image["size"] > $maxSize) {
+        if ($files["size"] < $minSize || $files["size"] > $maxSize) {
             $min = intval($minSize / 1000) ?: 1; $max = intval($maxSize / 1000);
             
-            $this->error = "Image size should be atleast more than min: $min and less than max: $max kb";
+            $image->error = "Image size should be atleast more than min: $min and less than max: $max kb";
             return ;
         }
 
         /* check image dimension */
-        list($maxHeight, $maxWidth) = $this->dimensions;
+        list($allowedHeight, $allowedWidth) = $image->dimensions;
 
-        if ($this->height > $maxHeight || $this->width > $maxWidth) {
-            $this->error = "Image height/width should be less than ' $maxHeight \ $maxWidth ' pixels";
+        if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
+            $image->error = "Image height/width should be less than ' $allowedHeight \ $allowedWidth ' pixels";
+            return ;
+        }
+
+        if($image->height < 4 || $image->width < 4){
+            $image->error = "Invalid! Image height/width is too small or maybe corrupted"; 
             return ;
         }
  
         /* set and get folder name */
-        $this->fullPath = $this->setLocation()->getLocation(). "/" . $this->name . "." . $this->imageMime;
+        $image->fullPath = $image->location. "/" . $image->name . "." . $image->mime;
 
         /* gather image info for json storage */ 
-        $this->serialize = array(
-            "name"     => $this->name,
-            "mime"     => $this->imageMime,
-            "height"   => $this->height,
-            "width"    => $this->width,
-            "size"     => $image["size"],
-            "location" => $this->location,
-            "fullPath" => $this->fullPath
+        $image->serialize = array(
+            "name"     => $image->name,
+            "mime"     => $image->mime,
+            "height"   => $image->height,
+            "width"    => $image->width,
+            "size"     => $files["size"],
+            "location" => $image->location,
+            "fullpath" => $image->fullPath
         );
 
-        if ($this->error === '') {
-            $moveUpload = $this->moveUploadedFile($image['tmp_name'], $this->fullPath);
+        if ($image->error === "") {
+            $moveUpload = $image->moveUploadedFile($files["tmp_name"], $image->fullPath);
             if (false !== $moveUpload) {
-                return $this;
+                return $image;
             }
         }
         
-        $this->error = "Upload failed, Unknown error occured";
+        $image->error = "Upload failed, Unknown error occured";
         return false;
     }
 
     /**
-     * Final method using php upload, isolated for testing purposes
+     * Final upload method to be called, isolated for testing purposes
      *
      * @param $tmp_name int the temporary location of the image file
      * @param $destination int upload destination

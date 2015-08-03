@@ -1,10 +1,13 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
+
 [![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)
-=======================================
 
-Bulletproof is a single-class library to upload images in PHP with a with security.    
 
-The previous repo with image watermark, resize, shrink.. features is moved to [`samayo/nautilus`][nautilus]
+Bulletproof is a single-class library to securely upload images in PHP.    
+
+Additionaly, to resize, shrink, watermark images; you can include a set sperarate functions 
+found inside [`/src/utils`][utils] folder. They are functions that can be used with/without this library. 
+
 
 Install
 -----
@@ -46,12 +49,12 @@ if($image["ikea"]){
 }
 ```
 #### Setting Properties
-Methods for setting size, dimension, mime type, location and image name
+Methods for defining allowed size, dimensions, mime types, location and image name
 ````php  
 // call if you want to set new image name manually
 $image->setName($name); 
 
-// define min/max upload limits (size in bytes) 
+// define min/max size limits for upload (size in bytes) 
 $image->setSize($min, $max); 
 
 // define acceptable mime types
@@ -60,7 +63,7 @@ $image->setMime(array($jpeg, $gif));
 // set max width/height limits (in pixels)
 $image->setDimension($width, $height); 
 
-// pass name to create folder and optional chmod 
+// pass name (and optional chmod) to create folder for storage
 $image->setLocation($folderName, $optionalPermission);  
 ````
 
@@ -73,7 +76,7 @@ $image->getName();
 // get the image size (in bytes)
 $image->getSize();
 
-// get the image mimetype
+// get the image mime (extension)
 $image->getMime();
 
 // get the image width in pixels
@@ -82,7 +85,7 @@ $image->getWidth();
 // get the image height in pixels
 $image->getHeight();
 
-// get image location or folder name
+// get image location (folder where images are uploaded)
 $image->getLocation();
 
 // get the full image path. ex 'images/logo.jpg'
@@ -92,7 +95,7 @@ $image->getFullPath();
 $image->getJson();
 ````
 #### Setting and Getting values, .. 
-To set and get image info, before or after image upload, do: 
+To set and get image info, before or after image upload, use as: 
 ````php 
 $image = new Bulletproof\Image($_FILES);
 
@@ -101,7 +104,9 @@ $image->setName("samayo")
       ->setLocation("avatars");
 
 if($image["ikea"]){
-	if($image->upload()){
+	$upload = $image->upload(); 
+
+	if($upload){
 		echo $image->getName(); // samayo
 		echo $image->getMime(); // gif
 		echo $image->getLocation(); // avatars
@@ -110,16 +115,16 @@ if($image["ikea"]){
 }
 ```` 
 #### Creating custom responses
-To create your own errors and responses, instead of the default class messages, use exceptions:
+To create your own errors and responses, instead of the default error messages, use exceptions:
 ````php 
  try{
 
-   if($image->getMime()  !== "png"){
-      throw new \Exception(" Image should be png type");
+   if($image->getMime() !== "png"){
+      throw new \Exception(" Image should be a 'png' type ");
    }
 
-   if($image->getMime()  !== "png"){
-      throw new \Exception(" Image should be png type");
+   if($image->getSize() < 1000){
+      throw new \Exception(" Image size too small ");
    }
 
    if($image->upload()){
@@ -132,14 +137,101 @@ To create your own errors and responses, instead of the default class messages, 
       echo $e->getMessage(); 
  }
 ````
+
+Image Altering
+-----
+To keep the bulletroof class neat, and only for uploading purposes, the functions to watermark, crop, resize images have been separated and placed inside the utils folder. There are 3 files containing three functions, here is how 
+to use them: 
+
+#### Resizing
+```php 
+// include bulletproof
+require  "path/to/bulletproof.php";
+// include image resize function
+require 'src/utils/func.image-resize.php';
+
+$image = new Bulletproof\Image($_FILES);
+
+if($image["picture"]){
+	// upload the image
+	$upload = $image->upload(); 
+
+	if($upload){
+		// get the image properties and change it to array. 
+		$get = json_decode($image->getJson(), true); 
+
+		// the resize function takes 8 self-describing arguments. 
+		// check the function on how to resize based on ratio
+		$resize = Bulletproof\resize(
+			$get['fullpath'], 
+			$get['mime'],
+			$get['width'],
+			$get['height'],
+			50,
+			50
+		);
+
+		// now the uploaded image is cropped to 50x50 pixels. 
+	}
+}
+```
+#### Croping
+```php 
+	// include image crop function
+	require 'src/utils/func.image-crop.php';
+	
+	// assuming the image is uploaded
+	if($upload){
+		// get the image properties and change it to array. 
+		$get = json_decode($upload->getJson(), true); 
+
+		// the crop function takes 6 self-describing arguments. 
+		$crop = Bulletproof\crop(
+			$get['fullpath'], 
+			$get['mime'],
+			$get['width'],
+			$get['height'],
+			50,
+			50
+		);
+
+		// now the uploaded image is cropped to 50x50 pixels. 
+	}
+```
+#### Watermark
+```php 
+// require the watermark function
+require 'src/utils/func.image-watermark.php';
+
+// assuming the image is uploaded
+if($upload){
+	// get full path of logo you want to use
+    $logo = 'my-logo.png';
+    // get the width and heigh of the logo
+	list($logoWidth, $logoHeight) = getimagesize($logo);
+
+	// watermark accepts 8 arguments. 
+	// final arg is for where to place the watermark
+	$watermark = Bulletproof\watermark(
+			$get["fullpath"], 
+			$get["mime"],
+			$get["width"], 
+			$get["height"],
+			$logo, 
+			$logoHeight,
+			$logoWidth,
+			"bottom-right"
+		);
+}
+```
+
 #### Why is this secure? 
-* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension` type
+* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime `.extension`
 * Uses **[`getimagesize()`][getimagesize_link]** to check if image has a valid height / width in pixels.
 * Sanitized images names, strict folder permissions and more... 
 
 #### License: MIT
-
+[utils]: https://github.com/samayo/bulletproof/tree/master/src/utils/
 [bulletproof_archive]: http://github.com/samayo/bulletproof/releases
-[nautilus]: http://github.com/samayo/nautilus
 [exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
 [getimagesize_link]: http://php.net/manual/en/function.getimagesize.php
