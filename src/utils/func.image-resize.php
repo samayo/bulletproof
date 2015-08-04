@@ -39,11 +39,11 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
       
     $imgString = file_get_contents($image);
 
-    $image = imagecreatefromstring($imgString);
+    $imageFromString = imagecreatefromstring($imgString);
     $tmp = imagecreatetruecolor($newWidth, $newHeight);
     imagecopyresampled(
         $tmp,
-        $image,
+        $imageFromString,
         0,
         0,
         0,
@@ -71,6 +71,5 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
     }
  
 }
-
 
 
