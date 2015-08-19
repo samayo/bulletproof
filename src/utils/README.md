@@ -16,12 +16,12 @@ require 'src/utils/func.image-crop.php';
 
 // call the function and pass the right arguments. 
 $crop = Bulletproof\crop( 
-    'images/my-car.jpg',  // full image path
-    'jpg', // the mime type of your image
-    100, // the original image width
-    200, // the original image height
-    50, // the new image width
-    25 // the new image height. 
+		'images/my-car.jpg',  // full image path
+		'jpg', // the mime type of your image
+		100, // the original image width
+		200, // the original image height
+		50, // the new image width
+		25 // the new image height. 
 ); 
 // now 'images/my-car.jpg' is cropped to 50x25 pixels.
 ?>
@@ -39,30 +39,31 @@ require "src/utils/func.image-resize.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-if($image["picture"] && $image->upload()){
-      
-  if($upload){
-     $resize = Bulletproof\resize(
-		$image->getFullPath(), 
-		$image->getMime(),
-		$image->getWidth(),
-		$image->getHeight(),
-		50,
-		50
+if($image["picture"]){
+	$upload = $image->upload();
+	
+	if($upload){
+		$resize = Bulletproof\resize(
+			$image->getFullPath(), 
+			$image->getMime(),
+			$image->getWidth(),
+			$image->getHeight(),
+			50,
+			50
 	 );
-   }
+	}
 }
 ```
-The `resize()` method supports resizing by ratio, checkout the file for more. 
+The `crop()` method supports resizing by ratio, checkout the file for more. 
 
 #### Croping
 You can crop images the same way.
 ```php 
 // include bulletproof and the crop function.
 require "src/utils/func.image-crop.php";
-  
+// assuming image is uploaded. 
 if($upload){
-	$resize = Bulletproof\resize(
+	$crop = Bulletproof\crop(
 		$upload->getFullPath(), 
 		$upload->getMime(),
 		$upload->getWidth(),
