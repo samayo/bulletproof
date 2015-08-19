@@ -114,9 +114,9 @@ if($image["ikea"]){
 
 ##### Image Manipulation
 Bulletproof is upload-ONLY library, so image manipulation features are placed in a seperate 
-folder [`src/utils`][utils]. You can require those functions to do whatever you want;
+folder [`src/utils`][utils]. 
 
-This example shows how to resize an image to `80x56`, after uploading.  
+This example shows how to crop an image to `80x56`, after uploading.  
 ```php 
 require "src/bulletproof.php";
 require "src/utils/func.image-crop.php"; // crop function
@@ -124,7 +124,7 @@ require "src/utils/func.image-crop.php"; // crop function
 $image = new Bulletproof\Image($_FILES);
 if($image["ikea"]){
 	if($image->upload()){
-  		$crop = Bulletproof\resize(
+  		$crop = Bulletproof\crop(
 		  	$image->getFullPath(), 
 		  	$image->getMime(),
 		  	$image->getWidth(),
