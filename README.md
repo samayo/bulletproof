@@ -38,8 +38,9 @@ require_once  "path/to/bulletproof.php";
 $image = new Bulletproof\Image($_FILES);
 
 if($image["ikea"]){
-
-	if($image->upload()){
+	$upload = $image->upload(); 
+	
+	if($upload){
 		// OK
 	}else{
 		echo $image["error"]; 
@@ -117,15 +118,11 @@ folder [`src/utils`][utils]. You can require those functions to do whatever you 
 
 This example shows how to resize an image to `80x56`, after uploading.  
 ```php 
-<?
-// include the image-crop function, and the bulletproof class
 require "src/bulletproof.php";
-require "src/utils/func.image-crop.php";
+require "src/utils/func.image-crop.php"; // crop function
 	
 $image = new Bulletproof\Image($_FILES);
-
 if($image["ikea"]){
-	
 	if($image->upload()){
   		$crop = Bulletproof\resize(
 		  	$image->getFullPath(), 
@@ -137,10 +134,9 @@ if($image["ikea"]){
 		);
 	}
 }
-?>
-	// now the image uploaded is resized to 80x56 pixels
+
 ```
-For more examples, check [`src/utils`][utils]
+Uploaded image is now cropped to 80x56, For more examples, check [`src/utils`][utils]
 
 ##### Creating custom responses
 To create your own errors and responses, instead of the default error messages, use exceptions:
