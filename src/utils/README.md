@@ -1,90 +1,111 @@
-Image Manipilation functions. 
+Image Manipilation Functions. 
 ----- 
-This folder contains a function-per-file lists for changing images. 
+This folder is a repository of independant functions useful to 
+watermark, shrink, resize images. 
 
-Currently, you can find a `resize()`, `crop()`, and `watermark()` functions.  
+Install
+-----
+Since these are separate functions, all you have to do is 
+include them in your project, and call the functions like this: 
 
-> **Note** These functions can be use with\without bulletproof. 
+```php 
+<?
+// to crop an image. 
+// get the crop function first. 
+require 'src/utils/func.image-crop.php';
 
+// call the function and pass the right arguments. 
+$crop = Bulletproof\crop( 
+    'images/my-car.jpg',  // full image path
+    'jpg', // the mime type of your image
+    100, // the original image width
+    200, // the original image height
+    50, // the new image width
+    25 // the new image height. 
+); 
+// now 'images/my-car.jpg' is cropped to 50x25 pixels.
+?>
+```
+
+Bulletproof
+-----
+If you want to use these function with the [bulletproof][bulletproof], here are some examples: 
 
 ##### Resizing
 ```php 
-// include bulletproof
-require  "path/to/bulletproof.php";
-// include image resize function
-require 'src/utils/func.image-resize.php';
+// include bulletproof and the resize function.
+require "path/to/bulletproof.php";
+require "src/utils/func.image-resize.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-if($image["picture"]){
-	// upload the image
-	$upload = $image->upload(); 
-
-	if($upload){
-		// get the image properties and change it to array. 
-		$get = json_decode($image->getJson(), true); 
-
-		// the resize function takes 8 self-describing arguments. 
-		// check the function on how to resize based on ratio
-		$resize = Bulletproof\resize(
-			$get['fullpath'], 
-			$get['mime'],
-			$get['width'],
-			$get['height'],
-			50,
-			50
-		);
-
-		// now the uploaded image is cropped to 50x50 pixels. 
-	}
+if($image["picture"] && $image->upload()){
+      
+  if($upload){
+     $resize = Bulletproof\resize(
+		$image->getFullPath(), 
+		$image->getMime(),
+		$image->getWidth(),
+		$image->getHeight(),
+		50,
+		50
+	 );
+   }
 }
 ```
+The `resize()` method supports resizing by ratio, checkout the file for more. 
+
 #### Croping
+You can crop images the same way.
 ```php 
-	// include image crop function
-	require 'src/utils/func.image-crop.php';
-	
-	// assuming the image is uploaded
-	if($upload){
-		// get the image properties and change it to array. 
-		$get = json_decode($upload->getJson(), true); 
-
-		// the crop function takes 6 self-describing arguments
-		$crop = Bulletproof\crop(
-			$get['fullpath'], 
-			$get['mime'],
-			$get['width'],
-			$get['height'],
-			50,
-			50
-		);
-
-		// now the uploaded image is cropped to 50x50 pixels. 
-	}
+// include bulletproof and the crop function.
+require "src/utils/func.image-crop.php";
+  
+if($upload){
+	$resize = Bulletproof\resize(
+		$upload->getFullPath(), 
+		$upload->getMime(),
+		$upload->getWidth(),
+		$upload->getHeight(),
+		50,
+		50
+	);
+}
 ```
 #### Watermark
 ```php 
 // require the watermark function
 require 'src/utils/func.image-watermark.php';
 
-// assuming the image is uploaded
-if($upload){
-	// get full path of logo you want to use
-    $logo = 'my-logo.png';
-    // get the width and heigh of the logo
-	list($logoWidth, $logoHeight) = getimagesize($logo);
+// the image to watermark
+$logo = 'my-logo.png'; 
+// where to place the watermark
+$position = 'center'; 
+// get the width and heigh of the logo
+list($logoWidth, $logoHeight) = getimagesize($logo);
 
-	// watermark accepts 8 arguments. 
-	// final arg is for where to place the watermark
-	$watermark = Bulletproof\watermark(
-			$get["fullpath"], 
-			$get["mime"],
-			$get["width"], 
-			$get["height"],
-			$logo, 
-			$logoHeight,
-			$logoWidth,
-			"bottom-right"
-		);
+if($upload){
+	$resize = Bulletproof\resize(
+		$upload->getFullPath(), 
+		$upload->getMime(),
+		$upload->getWidth(),
+		$upload->getHeight(),
+		$logo, 
+		$logoHeight, 
+		$logoWidth, 
+		$position		
+	);
 }
 ```
+
+Contribution 
+----- 
+
+You are encouraged to add functions for other features (ex: add text, rotate images .. ) 
+
+LICENSE 
+----- 
+Check the main [bulletproof][bulletproof] page for the license. 
+
+
+[bulletproof]: http://github.com/samayo/bulletproof
