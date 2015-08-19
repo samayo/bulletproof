@@ -11,7 +11,7 @@ class BulletProofOverride extends \BulletProof\Image
 {
 
 	// prevent class from using move_file_upload(); function
-    public function moveUploadedFile()
+    public function moveUploadedFile($tmp, $desination)
     {
         return true;
     }
