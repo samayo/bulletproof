@@ -5,7 +5,7 @@
 
 Bulletproof is a single-class library to securely upload images in PHP.    
 
-Additionally, there are separate functions to help you resize, shrink, watermark images. 
+To watermark, resize, crop images checkout [`src/utils`][utils]
 
 Install
 -----
@@ -98,7 +98,7 @@ To set and get image info, before or after image upload, use as:
 $image = new Bulletproof\Image($_FILES);
 
 $image->setName("samayo")
-      ->setMime(["png", "gif"])
+      ->setMime(["gif"])
       ->setLocation("avatars");
 
 if($image["ikea"]){
@@ -110,6 +110,38 @@ if($image["ikea"]){
 	}
 }
 ```` 
+
+##### Image Manipulation
+Bulletproof is upload-ONLY library, so image manipulation features are placed in a seperate 
+folder [`src/utils`][utils]. You can require those functions to do whatever you want;
+
+This example shows how to resize an image to `80x56`, after uploading.  
+```php 
+<?
+// include the image-crop function, and the bulletproof class
+require "src/bulletproof.php";
+require "src/utils/func.image-crop.php";
+	
+$image = new Bulletproof\Image($_FILES);
+
+if($image["ikea"]){
+	
+	if($image->upload()){
+  		$crop = Bulletproof\resize(
+		  	$image->getFullPath(), 
+		  	$image->getMime(),
+		  	$image->getWidth(),
+		  	$image->getHeight(),
+		  	80,
+		  	56
+		);
+	}
+}
+?>
+	// now the image uploaded is resized to 80x56 pixels
+```
+For more examples, check [`src/utils`][utils]
+
 ##### Creating custom responses
 To create your own errors and responses, instead of the default error messages, use exceptions:
 ````php 
@@ -134,8 +166,6 @@ To create your own errors and responses, instead of the default error messages, 
  }
 ````
 
-##### Image Manipulation
-To watermark, crop, resize images, checkout the separate list of functions in [`src/utils`][utils]
 
 ##### What makes this secure?  
 * Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime (`.extension`)
