@@ -71,8 +71,8 @@ class Image implements \ArrayAccess
      */
     protected $imageMimes = array(
         1 => "gif", "jpeg", "png", "swf", "psd",
-        "bmp", "tiff", "jpc", "jp2", "jpx",
-        "jb2", "swc", "iff", "wbmp", "xmb", "ico"
+        "bmp", "tiff", "tiff", "jpc", "jp2", "jpx",
+        "jb2", "swc", "iff", "wbmp", "xbm", "ico"
     );
 
     /**
