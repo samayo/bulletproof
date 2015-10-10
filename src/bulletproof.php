@@ -316,6 +316,15 @@ class Image implements \ArrayAccess
     }
 
     /**
+     * Returns error string or false if no errors occurred
+     *
+     * @return string|bool
+     */
+    public function getError(){
+        return $this->error != "" ? $this->error : false;
+    }
+
+    /**
      * Checks for the common upload errors
      *
      * @param $e int error constant
