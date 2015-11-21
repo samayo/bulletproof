@@ -16,6 +16,20 @@ namespace BulletProof;
 
 class Image implements \ArrayAccess
 {
+    const IMAGE_ERR_INI_SIZE = 1;
+    const IMAGE_ERR_FORM_SIZE = 2;
+    const IMAGE_ERR_PARTIAL = 3;
+    const IMAGE_ERR_NO_FILE = 4;
+    const IMAGE_ERR_NO_TMP_DIR = 5;
+    const IMAGE_ERR_CANT_WRITE = 6;
+    const IMAGE_ERR_EXTENSION = 7;
+    const IMAGE_ERR_REJECTED_FILE_TYPE = 8;
+    const IMAGE_ERR_RESOLUTION_TOO_BIG = 9;
+    const IMAGE_ERR_RESOLUTION_TOO_SMALL = 10;
+    const IMAGE_ERR_INVALID_FILE_SIZE = 11;
+    const IMAGE_ERR_UNKNOWN = 12;
+
+
     /**
      * @var string The new image name, to be provided or will be generated.
      */
@@ -81,9 +95,9 @@ class Image implements \ArrayAccess
     private $_files = array();
 
     /**
-     * @var string storage for any errors
+     * @var int storage for any errors
      */
-    private $error = "";
+    private $error = 0;
 
     /**
      * @param array $_files represents the $_FILES array passed as dependancy
@@ -194,7 +208,7 @@ class Image implements \ArrayAccess
             $createFolder = @mkdir("" . $dir, (int) $permission, true);
             if (!$createFolder) {
                 $this->error = "Folder " . $dir . " could not be created";
-                return;
+                return null;
             }
         }
 
@@ -321,7 +335,7 @@ class Image implements \ArrayAccess
      * @return string|bool
      */
     public function getError(){
-        return $this->error != "" ? $this->error : false;
+        return $this->error;
     }
 
     /**
@@ -332,14 +346,14 @@ class Image implements \ArrayAccess
     protected function uploadErrors($e)
     {
         $errors = array(
-            UPLOAD_ERR_OK           => "",
-            UPLOAD_ERR_INI_SIZE     => "Image is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE    => "Image is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL      => "Image could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE      => "Image is not found",
-            UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, due to server configuration ( No tmp dir found )",
-            UPLOAD_ERR_CANT_WRITE   => "Failed to write file to disk. Please check you file permissions",
-            UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
+            UPLOAD_ERR_OK           => 0,
+            UPLOAD_ERR_INI_SIZE     => Image::IMAGE_ERR_INI_SIZE,
+            UPLOAD_ERR_FORM_SIZE    => Image::IMAGE_ERR_FORM_SIZE,
+            UPLOAD_ERR_PARTIAL      => Image::IMAGE_ERR_PARTIAL,
+            UPLOAD_ERR_NO_FILE      => Image::IMAGE_ERR_NO_FILE,
+            UPLOAD_ERR_NO_TMP_DIR   => Image::IMAGE_ERR_NO_TMP_DIR,
+            UPLOAD_ERR_CANT_WRITE   => Image::IMAGE_ERR_CANT_WRITE,
+            UPLOAD_ERR_EXTENSION    => Image::IMAGE_ERR_EXTENSION
         );
         return $errors[$e];
     }
@@ -367,7 +381,7 @@ class Image implements \ArrayAccess
 
         /* check for common upload errors */
         if($image->error = $image->uploadErrors($files["error"])){
-            return ;
+            return false;
         }
 
         /* check image for valid mime types and return mime */
@@ -376,29 +390,29 @@ class Image implements \ArrayAccess
         /* validate image mime type */
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(", ", $image->mimeTypes);
-            $image->error = "Invalid File! Only ($ext) image types are allowed";
-            return ;
+            $image->error = Image::IMAGE_ERR_REJECTED_FILE_TYPE;
+            return false;
         }     
 
         /* check image size based on the settings */
         if ($files["size"] < $minSize || $files["size"] > $maxSize) {
             $min = intval($minSize / 1000) ?: 1; $max = intval($maxSize / 1000);
             
-            $image->error = "Image size should be atleast more than min: $min and less than max: $max kb";
-            return ;
+            $image->error = Image::IMAGE_ERR_INVALID_FILE_SIZE;
+            return false;
         }
 
         /* check image dimension */
         list($allowedHeight, $allowedWidth) = $image->dimensions;
 
         if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
-            $image->error = "Image height/width should be less than ' $allowedHeight \ $allowedWidth ' pixels";
-            return ;
+            $image->error = Image::IMAGE_ERR_RESOLUTION_TOO_BIG;
+            return false;
         }
 
         if($image->height < 4 || $image->width < 4){
-            $image->error = "Invalid! Image height/width is too small or maybe corrupted"; 
-            return ;
+            $image->error = Image::IMAGE_ERR_RESOLUTION_TOO_SMALL;
+            return false;
         }
  
         /* set and get folder name */
@@ -422,7 +436,7 @@ class Image implements \ArrayAccess
             }
         }
         
-        $image->error = "Upload failed, Unknown error occured";
+        $image->error = Image::IMAGE_ERR_UNKNOWN;
         return false;
     }
 
