@@ -36,7 +36,22 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
         }
     }
 
-      
+    if ($ratio == true)
+    {
+        $source_aspect_ratio = $imgWidth / $imgHeight;
+        $thumbnail_aspect_ratio = $newWidth / $newHeight;
+        if ($imgWidth <= $newWidth && $imgHeight <= $newHeight) {
+            $newWidth = $imgWidth;
+            $newHeight = $imgHeight;
+        } elseif ($thumbnail_aspect_ratio > $source_aspect_ratio) {
+            $newWidth = (int) ($newHeight * $source_aspect_ratio);
+            $newHeight = $newHeight;
+        } else {
+            $newWidth = $newWidth;
+            $newHeight = (int) ($newWidth / $source_aspect_ratio);
+        }
+    }
+            
     $imgString = file_get_contents($image);
 
     $imageFromString = imagecreatefromstring($imgString);
@@ -57,7 +72,7 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
     switch ($mimeType) {
         case "jpeg":
         case "jpg":
-            imagejpeg($tmp, $image, 100);
+            imagejpeg($tmp, $image, 90);
             break;
         case "png":
             imagepng($tmp, $image, 0);
