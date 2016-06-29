@@ -85,7 +85,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
     public function testImageDimensionDefinesImageHeightAndWidthLimit()
     {
         $this->bulletproof['ikea'];
-        $this->bulletproof->setDimension(100, 200);
+        $this->bulletproof->setDimension(200, 100);
         $upload = $this->bulletproof->upload();
         $this->assertEquals(
             $this->bulletproof["error"],
