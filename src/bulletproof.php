@@ -389,7 +389,7 @@ class Image implements \ArrayAccess
         }
 
         /* check image dimension */
-        list($allowedHeight, $allowedWidth) = $image->dimensions;
+        list($allowedWidth, $allowedHeight) = $image->dimensions;
 
         if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
             $image->error = "Image height/width should be less than ' $allowedHeight \ $allowedWidth ' pixels";
