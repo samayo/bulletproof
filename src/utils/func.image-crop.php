@@ -41,18 +41,20 @@ namespace Bulletproof;
     }
 
     $temp = imagecreatetruecolor($newWidth, $newHeight);
-            imagecopyresampled(
-                $temp,
-                $imageCreate,
-                0,
-                0,
-                $widthTrim,
-                $heightTrim,
-                $newWidth,
-                $newHeight,
-                $newWidth,
-                $newHeight
-            );
+    imageAlphaBlending($temp, false);
+    imageSaveAlpha($temp, true);
+    imagecopyresampled(
+        $temp,
+        $imageCreate,
+        0,
+        0,
+        $widthTrim,
+        $heightTrim,
+        $newWidth,
+        $newHeight,
+        $newWidth,
+        $newHeight
+    );
 
 
     if (!$temp) {
