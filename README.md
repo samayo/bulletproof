@@ -1,11 +1,10 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
 
-[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads)](https://packagist.org/packages/samayo/bulletproof) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)
 
 
 Bulletproof is a single-class library to securely upload images in PHP.    
 
-To watermark, resize, crop images checkout [`src/utils`][utils]
 
 Install
 -----
@@ -27,7 +26,7 @@ Create an HTML form like this.
 ````html
 <form method="POST" enctype="multipart/form-data">
 	<input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
-	<input type="file" name="ikea"/>
+	<input type="file" name="pictures"/>
 	<input type="submit" value="upload"/>
 </form>
 ````
@@ -37,7 +36,7 @@ require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
-if($image["ikea"]){
+if($image["pictures"]){
 	$upload = $image->upload(); 
 	
 	if($upload){
@@ -47,7 +46,7 @@ if($image["ikea"]){
 	}
 }
 ```
-##### Setting Properties
+#### Setting Properties
 Methods for defining allowed size, dimensions, mime types, location and image name
 ````php  
 // call if you want to set new image name manually
@@ -66,7 +65,7 @@ $image->setDimension($width, $height);
 $image->setLocation($folderName, $optionalPermission);  
 ````
 
-##### Getting Properties
+#### Getting Properties
 Methods for getting image info before and / or after upload. 
 ````php 
 // get the provided or auto-generated image name
@@ -113,30 +112,8 @@ if($image["ikea"]){
 ```` 
 
 ##### Image Manipulation
-Bulletproof is upload-ONLY library, so image manipulation features are placed in a seperate 
-folder [`src/utils`][utils]. 
-
-This example shows how to crop an image to `80x56`, after uploading.  
-```php 
-require "src/bulletproof.php";
-require "src/utils/func.image-crop.php"; // crop function
-	
-$image = new Bulletproof\Image($_FILES);
-if($image["ikea"]){
-	if($image->upload()){
-  		$crop = Bulletproof\crop(
-		  	$image->getFullPath(), 
-		  	$image->getMime(),
-		  	$image->getWidth(),
-		  	$image->getHeight(),
-		  	80,
-		  	56
-		);
-	}
-}
-
-```
-Uploaded image is now cropped to 80x56, For more examples, check [`src/utils`][utils]
+This library is only about uploading images, to crop, add watermark, resize images
+checkout the reusable and standalone functions in [`src/utils`][utils] folder.
 
 ##### Creating custom responses
 To create your own errors and responses, instead of the default error messages, use exceptions:
@@ -147,9 +124,7 @@ To create your own errors and responses, instead of the default error messages, 
       throw new \Exception(" Image should be a 'png' type ");
    }
 
-   if($image->getSize() < 1000){
-      throw new \Exception(" Image size too small ");
-   }
+   # .. you can do the same for getName(), getSize(), getWidth() ... methods
 
    if($image->upload()){
       // OK
@@ -168,7 +143,7 @@ To create your own errors and responses, instead of the default error messages, 
 * Uses **[`getimagesize()`][getimagesize_link]** to check if image has a valid height / width in pixels.
 * Sanitized images names, strict folder permissions and more... 
 
-##### License: MIT
+#### License: MIT
 [utils]: https://github.com/samayo/bulletproof/tree/master/src/utils
 [bulletproof_archive]: http://github.com/samayo/bulletproof/releases
 [exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php

@@ -7,8 +7,8 @@
  * PHP support 5.3+
  *
  * @package     BulletProof
- * @version     2.0.0
- * @author      Samayo  /@sama_io
+ * @version     2.0.2
+ * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
  */
@@ -108,7 +108,7 @@ class Image implements \ArrayAccess
 	);
 
     /**
-     * @param array $_files represents the $_FILES array passed as dependancy
+     * @param array $_files represents the $_FILES array passed as dependency
      */
     public function __construct(array $_files = [])
     {
@@ -131,11 +131,20 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * array offset \ArrayAccess
-     * unused
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value){}
+
+    /**
+     * @param mixed $offset
+     * @return null
+     */
     public function offsetExists($offset){}
+
+    /**
+     * @param mixed $offset
+     */
     public function offsetUnset($offset){}
 
     /**
@@ -159,11 +168,11 @@ class Image implements \ArrayAccess
         return false;
     }
 
+
     /**
-     * Renames image
+     * Provide image name if not provided
      *
-     * @param null $isNameGiven if null, image will be auto-generated
-     *
+     * @param null $isNameProvided
      * @return $this
      */
     public function setName($isNameProvided = null)
@@ -372,17 +381,23 @@ class Image implements \ArrayAccess
         return $errors[$e];
     }
 
+
     /**
-     * Main upload method.
-     * This is where all the monkey business happens
-     *
-     * @return $this|bool
+     * This methods validates and uploads the image
+     * @return bool|Image|null
+     * @throws ImageUploaderException
      */
     public function upload()
     {
         /* modify variable names for convenience */
-        $image = $this; 
+        $image = $this;
         $files = $this->_files;
+
+        /* check if php_exif is enabled */
+        if(!function_exists('exif_imagetype')){
+            $image->error = "Function 'exif_imagetype' Not found. Please enable \"php_exif\" in your PHP.ini";
+            return null;
+        }
 
         /* initialize image properties */
         $image->name     = $image->getName();
@@ -395,7 +410,7 @@ class Image implements \ArrayAccess
 
         /* check for common upload errors */
         if($image->error = $image->uploadErrors($files["error"])){
-            return ;
+            return null;
         }
 
         /* check image for valid mime types and return mime */
@@ -405,7 +420,7 @@ class Image implements \ArrayAccess
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(", ", $image->mimeTypes);
             $image->error = sprintf($this->error_messages['mime_type'], $ext);
-            return ;
+            return null;
         }
 
         /* check image size based on the settings */
@@ -413,7 +428,7 @@ class Image implements \ArrayAccess
             $min = intval($minSize / 1000) ?: 1; $max = intval($maxSize / 1000);
 
             $image->error = sprintf($this->error_messages['file_size'], $min, $max);
-            return ;
+            return null;
         }
 
         /* check image dimension */
@@ -421,12 +436,12 @@ class Image implements \ArrayAccess
 
         if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
             $image->error = sprintf($this->error_messages['dimensions'], $allowedHeight, $allowedWidth);
-            return ;
+            return null;
         }
 
         if($image->height < 4 || $image->width < 4){
             $image->error = $this->error_messages['too_small'];
-            return ;
+            return null;
         }
  
         /* set and get folder name */
