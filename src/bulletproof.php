@@ -85,6 +85,28 @@ class Image implements \ArrayAccess
      */
     private $error = "";
 
+	/**
+     * @var array error messages strings
+     */
+    private $error_messages = array(
+		'upload' => array(
+            UPLOAD_ERR_OK           => "",
+            UPLOAD_ERR_INI_SIZE     => "Image is larger than the specified amount set by the server",
+            UPLOAD_ERR_FORM_SIZE    => "Image is larger than the specified amount specified by browser",
+            UPLOAD_ERR_PARTIAL      => "Image could not be fully uploaded. Please try again later",
+            UPLOAD_ERR_NO_FILE      => "Image is not found",
+            UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, due to server configuration ( No tmp dir found )",
+            UPLOAD_ERR_CANT_WRITE   => "Failed to write file to disk. Please check you file permissions",
+            UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
+        ),
+		'location'                  => "Folder %s could not be created",
+		'mime_type'                 => "Invalid File! Only (%s) image types are allowed",
+		'file_size'                 => "Image size should be atleast more than min: %s and less than max: %s kb",
+		'dimensions'                => "Image height/width should be less than ' %s \ %s ' pixels",
+		'too_small'                 => "Invalid! Image height/width is too small or maybe corrupted",
+		'unknown'                   => "Upload failed, Unknown error occured"
+	);
+
     /**
      * @param array $_files represents the $_FILES array passed as dependancy
      */
@@ -193,7 +215,7 @@ class Image implements \ArrayAccess
         if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
             $createFolder = @mkdir("" . $dir, (int) $permission, true);
             if (!$createFolder) {
-                $this->error = "Folder " . $dir . " could not be created";
+                $this->error = sprintf($this->error_messages['location'], $dir);
                 return;
             }
         }
@@ -215,6 +237,21 @@ class Image implements \ArrayAccess
         $this->dimensions = array($maxWidth, $maxHeight);
         return $this;
     }
+
+	/**
+	 * Replace error_messages array values with values of given array
+	 *
+	 * @param $new_error_messages array Array containing new error messages
+	 *
+	 * @return $this
+	 */
+	public function setErrorMessages($new_error_messages)
+	{
+		if($new_array = array_replace_recursive($this->error_messages, $new_error_messages)) {
+			$this->error_messages = $new_array;
+		};
+		return $this;
+	}
 
     /**
      * Returns the image name
@@ -331,16 +368,7 @@ class Image implements \ArrayAccess
      */
     protected function uploadErrors($e)
     {
-        $errors = array(
-            UPLOAD_ERR_OK           => "",
-            UPLOAD_ERR_INI_SIZE     => "Image is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE    => "Image is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL      => "Image could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE      => "Image is not found",
-            UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, due to server configuration ( No tmp dir found )",
-            UPLOAD_ERR_CANT_WRITE   => "Failed to write file to disk. Please check you file permissions",
-            UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
-        );
+        $errors = $this->error_messages['upload'];
         return $errors[$e];
     }
 
@@ -376,15 +404,15 @@ class Image implements \ArrayAccess
         /* validate image mime type */
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(", ", $image->mimeTypes);
-            $image->error = "Invalid File! Only ($ext) image types are allowed";
+            $image->error = sprintf($this->error_messages['mime_type'], $ext);
             return ;
-        }     
+        }
 
         /* check image size based on the settings */
         if ($files["size"] < $minSize || $files["size"] > $maxSize) {
             $min = intval($minSize / 1000) ?: 1; $max = intval($maxSize / 1000);
-            
-            $image->error = "Image size should be atleast more than min: $min and less than max: $max kb";
+
+            $image->error = sprintf($this->error_messages['file_size'], $min, $max);
             return ;
         }
 
@@ -392,12 +420,12 @@ class Image implements \ArrayAccess
         list($allowedWidth, $allowedHeight) = $image->dimensions;
 
         if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
-            $image->error = "Image height/width should be less than ' $allowedHeight \ $allowedWidth ' pixels";
+            $image->error = sprintf($this->error_messages['dimensions'], $allowedHeight, $allowedWidth);
             return ;
         }
 
         if($image->height < 4 || $image->width < 4){
-            $image->error = "Invalid! Image height/width is too small or maybe corrupted"; 
+            $image->error = $this->error_messages['too_small'];
             return ;
         }
  
@@ -421,8 +449,8 @@ class Image implements \ArrayAccess
                 return $image;
             }
         }
-        
-        $image->error = "Upload failed, Unknown error occured";
+
+        $image->error =  $this->error_messages['unknown'];
         return false;
     }
 
