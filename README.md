@@ -101,7 +101,7 @@ $image->setName("samayo")
       ->setMime(["gif"])
       ->setLocation("avatars");
 
-if($image["ikea"]){
+if($image["pictures"]){
 	if($image->upload()){
 		echo $image->getName(); // samayo
 		echo $image->getMime(); // gif
