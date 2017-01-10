@@ -56,6 +56,8 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
 
     $imageFromString = imagecreatefromstring($imgString);
     $tmp = imagecreatetruecolor($newWidth, $newHeight);
+    #imagealphablending($tmp, false);
+    #imagesavealpha($tmp, true);
     imagecopyresampled(
         $tmp,
         $imageFromString,
