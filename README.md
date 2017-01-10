@@ -15,7 +15,7 @@ $ git clone https://github.com/samayo/bulletproof.git
 ```
 Using composer
 ````bash
-$ php composer.phar require samayo/bulletproof:2.0.*
+$ composer require samayo/bulletproof:2.0.*
 ````
 Or [download it manually][bulletproof_archive] based on the archived version of release-cycles.
 
