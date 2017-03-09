@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-Copyright (c) 2014 Daniel Lowrey and other contributors (see the CONTRIBUTORS file).
+Copyright (c) 2014 Samson Daniel 
 
 Permission is hereby granted, free of charge, to any person obtaining a 
 copy of this software and associated documentation files (the "Software"),
