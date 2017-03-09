@@ -31,7 +31,7 @@ Create an HTML form like this.
 ```
 And simply copy/paste the code below to upload images
 ```php 
-require __DIR__ . "/src/bulletproof.php";
+require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 

@@ -16,8 +16,8 @@
      "phpunit/phpunit":"3.7.*"
     },
     "autoload": {
-        "files": [
-            "src/bulletproof.php"
-        ]
+            "files": [
+                "src/bulletproof.php"
+            ]
     }
 }

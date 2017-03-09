@@ -1,9 +1,5 @@
 # CHANGELOG
 
-### 3.0.0
- - Allow errors to throw exceptions
- - Revert implementation of configurable error message from v2.0.2
-
 ### 2.0.2
  - enabled checking for 'exif_imagetype' function.
  - added configurable array messages thanks to github.com/lordgiotto
