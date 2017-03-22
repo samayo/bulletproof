@@ -1,9 +1,9 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
 
-[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg)](https://packagist.org/packages/bullet-proof/image-uploader) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads)](https://packagist.org/packages/samayo/bulletproof) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads)](https://packagist.org/packages/samayo/bulletproof) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master) [![Gitter chat](https://img.shields.io/badge/gitter-join--chat-blue.svg)](https://gitter.im/samayo/bulletproof) [![License](https://poser.pugx.org/fastpress/framework/license)](https://packagist.org/packages/samayo/bulletproof)
 
 
-Bulletproof is a single-class library to securely upload images in PHP.    
+Bulletproof is a single-class secure Image uploader in php, with a nice API.
 
 
 Install
@@ -25,29 +25,29 @@ Usage
 Create an HTML form like this. 
 ````html
 <form method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
-	<input type="file" name="pictures"/>
-	<input type="submit" value="upload"/>
+    <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
+    <input type="file" name="pictures"/>
+    <input type="submit" value="upload"/>
 </form>
 ````
-And simply require the class to upload
+And simply copy/paste the code below to upload. 
 ```php 
 require __DIR__ . "/src/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
 
 if($image["pictures"]){
-	$upload = $image->upload(); 
+    $upload = $image->upload(); 
 	
-	if($upload){
-		// OK
-	}else{
-		echo $image["error"]; 
-	}
+    if($upload){
+        echo $image->getFullPath(); 
+    }else{
+        echo $image["error"]; 
+    }
 }
 ```
 #### Setting Properties
-Methods for defining allowed size, dimensions, mime types, location and image name
+To define/set the image size, dimensions, mime types, location and image name use: 
 ````php  
 // call if you want to set new image name manually
 $image->setName($name); 
@@ -66,7 +66,7 @@ $image->setLocation($folderName, $optionalPermission);
 ````
 
 #### Getting Properties
-Methods for getting image info before and / or after upload. 
+Methods for getting image info before/after upload. 
 ````php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -102,19 +102,14 @@ $image->setName("samayo")
       ->setLocation("avatars");
 
 if($image["pictures"]){
-	if($image->upload()){
-		echo $image->getName(); // samayo
-		echo $image->getMime(); // gif
-		echo $image->getLocation(); // avatars
-		echo $image->getFullPath(); // avatars/samayo.gif
-	}
+    if($image->upload()){
+        echo $image->getName(); // samayo
+        echo $image->getMime(); // gif
+        echo $image->getLocation(); // avatars
+        echo $image->getFullPath(); // avatars/samayo.gif
+    }
 }
 ```` 
-
-##### Image Manipulation
-This library is only about uploading images, to crop, add watermark, resize images
-checkout the reusable and standalone functions in [`src/utils`][utils] folder.
-
 ##### Creating custom responses
 To create your own errors and responses, instead of the default error messages, use exceptions:
 ````php 
@@ -136,7 +131,8 @@ To create your own errors and responses, instead of the default error messages, 
       echo $e->getMessage(); 
  }
 ````
-
+##### Image Manipulation
+Bulletproof is for uploading image only. Checkout the functions [`src/utils`][utils] to crop, watermark, resize.. images.
 
 ##### What makes this secure?  
 * Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime (`.extension`)
