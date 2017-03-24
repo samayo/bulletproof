@@ -1,8 +1,14 @@
 # CHANGELOG
 
-### 3.0.0
- - Allow errors to throw exceptions
- - Revert implementation of configurable error message from v2.0.2
+
+### 2.0.5
+ - Add feature to get the mimetype before calling upload() method
+
+### 2.0.4 
+ - fix #60 (JSON throws error due to a forwardslash in error messages)
+
+### 2.0.3
+ - git went haywire, 2.0.3 had to be born
 
 ### 2.0.2
  - enabled checking for 'exif_imagetype' function.
