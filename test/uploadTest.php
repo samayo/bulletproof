@@ -1,6 +1,7 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-class uploadTest extends \PHPUnit_Framework_TestCase
+class uploadTest extends TestCase
 {
     public $bulletproof,
         $testingImage,
@@ -89,7 +90,7 @@ class uploadTest extends \PHPUnit_Framework_TestCase
         $upload = $this->bulletproof->upload();
         $this->assertEquals(
             $this->bulletproof["error"],
-            "Image height/width should be less than ' 100 / 200 ' pixels"
+            "Image height/width should be less than ' 100 \ 200 ' pixels"
         );
 
     }
