@@ -24,9 +24,9 @@ Usage
 Create an HTML form like this. 
 ```html
 <form method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
-	<input type="file" name="pictures"/>
-	<input type="submit" value="upload"/>
+    <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
+    <input type="file" name="pictures"/>
+    <input type="submit" value="upload"/>
 </form>
 ```
 And simply copy/paste the code below to upload images
@@ -36,13 +36,13 @@ require_once  "path/to/bulletproof.php";
 $image = new Bulletproof\Image($_FILES);
 
 if($image["pictures"]){
-	$upload = $image->upload(); 
+    $upload = $image->upload(); 
 	
-	if($upload){
-		echo $upload->getFullPath(); // uploads/cat.gif
-	}else{
-		echo $upload["error"]; 
-	}
+    if($upload){
+        echo $upload->getFullPath(); // uploads/cat.gif
+    }else{
+        echo $upload["error"]; 
+    }
 }
 ```
 That's all. For complete freedom of what, how and where to install, keep reading :)
@@ -107,12 +107,12 @@ $image->setName("samayo")
       ->setLocation("avatars");
 
 if($image["pictures"]){
-	if($image->upload()){
-		echo $image->getName(); // samayo
-		echo $image->getMime(); // gif
-		echo $image->getLocation(); // avatars
-		echo $image->getFullPath(); // avatars/samayo.gif
-	}
+    if($image->upload()){
+        echo $image->getName(); // samayo
+        echo $image->getMime(); // gif
+        echo $image->getLocation(); // avatars
+        echo $image->getFullPath(); // avatars/samayo.gif
+    }
 }
 ``` 
 
