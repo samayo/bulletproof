@@ -2,11 +2,11 @@
 /**
  * BulletProof
  *
- * A single class PHP-library for secure image uploading.
+ * Bulletproof is a single-class secure Image uploader in php, with a nice API.
  *
  * PHP support 5.3+
  *
- * @package     BulletProof
+ * @package     bulletproof
  * @version     2.0.2
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
@@ -54,12 +54,12 @@ class Image implements \ArrayAccess
     /**
      * @var array The min and max image size allowed for upload (in bytes)
      */
-    protected $size = array(100, 50000);
+    protected $size = array(100, 500000);
 
     /**
      * @var array The max height and width image allowed
      */
-    protected $dimensions = array(500, 5000);
+    protected $dimensions = array(5000, 5000);
 
     /**
      * @var array The mime types allowed for upload
@@ -102,7 +102,7 @@ class Image implements \ArrayAccess
 		'location'                  => "Folder %s could not be created",
 		'mime_type'                 => "Invalid File! Only (%s) image types are allowed",
 		'file_size'                 => "Image size should be atleast more than min: %s and less than max: %s kb",
-		'dimensions'                => "Image height/width should be less than ' %s / %s ' pixels",
+		'dimensions'                => "Image height/width should be less than ' %s \ %s ' pixels",
 		'too_small'                 => "Invalid! Image height/width is too small or maybe corrupted",
 		'unknown'                   => "Upload failed, Unknown error occured"
 	);
@@ -110,7 +110,7 @@ class Image implements \ArrayAccess
     /**
      * @param array $_files represents the $_FILES array passed as dependency
      */
-    public function __construct(array $_files = [])
+    public function __construct(array $_files = array())
     {
         $this->_files = $_files;
     }
@@ -127,7 +127,7 @@ class Image implements \ArrayAccess
         if (isset($this->imageMimes[exif_imagetype($tmp_name)])) {
             return $this->imageMimes [exif_imagetype($tmp_name)];
         }
-        return false;
+        return ;
     }
 
     /**
@@ -358,6 +358,9 @@ class Image implements \ArrayAccess
      */
     public function getMime()
     {
+        if(!$this->mime){
+            return $this->getImageMime($this->_files["tmp_name"]);
+        }
         return $this->mime;
     }
 
