@@ -7,7 +7,7 @@
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     2.0.2
+ * @version     2.0.5
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
