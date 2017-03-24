@@ -102,7 +102,7 @@ class Image implements \ArrayAccess
 		'location'                  => "Folder %s could not be created",
 		'mime_type'                 => "Invalid File! Only (%s) image types are allowed",
 		'file_size'                 => "Image size should be atleast more than min: %s and less than max: %s kb",
-		'dimensions'                => "Image height/width should be less than ' %s \ %s ' pixels",
+		'dimensions'                => "Image height/width should be less than ' %s / %s ' pixels",
 		'too_small'                 => "Invalid! Image height/width is too small or maybe corrupted",
 		'unknown'                   => "Upload failed, Unknown error occured"
 	);
