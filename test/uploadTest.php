@@ -1,7 +1,5 @@
 <?php
-use PHPUnit\Framework\TestCase;
-
-class uploadTest extends TestCase
+class uploadTest extends \PHPUnit_Framework_TestCase
 {
     public $bulletproof,
         $testingImage,
