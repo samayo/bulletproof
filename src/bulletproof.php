@@ -384,6 +384,18 @@ class Image implements \ArrayAccess
         return $errors[$e];
     }
 
+    /**
+     * Checks if the image size, of the uploaded file is available
+     * If it returns false, the file is mostly certainly, not an image.
+     * @return bool
+     */
+    protected function validateImageSize(){
+        if ($data = @getimagesize($this->_files["tmp_name"])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * This methods validates and uploads the image
@@ -402,6 +414,13 @@ class Image implements \ArrayAccess
             return null;
         }
 
+        /* Check if the image size is ascertainable */
+        if ($this->validateImageSize() === false){
+            $ext = implode(", ", $image->mimeTypes);
+            $image->error = sprintf($this->error_messages['mime_type'], $ext);
+            return null;
+        }
+        
         /* initialize image properties */
         $image->name     = $image->getName();
         $image->width    = $image->getWidth();
