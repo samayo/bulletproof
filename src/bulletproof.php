@@ -390,7 +390,7 @@ class Image implements \ArrayAccess
      * @return bool
      */
     protected function validateImageSize(){
-        if ($data = @getimagesize($this->_files["tmp_name"])) {
+        if (@getimagesize($this->_files["tmp_name"])) {
             return true;
         } else {
             return false;
@@ -420,7 +420,7 @@ class Image implements \ArrayAccess
             $image->error = sprintf($this->error_messages['mime_type'], $ext);
             return null;
         }
-        
+
         /* initialize image properties */
         $image->name     = $image->getName();
         $image->width    = $image->getWidth();
