@@ -442,7 +442,7 @@ class Image implements \ArrayAccess
             return null;
         }
 
-        if($image->height < 4 || $image->width < 4){
+        if($image->height < 2 || $image->width < 2){
             $image->error = $this->error_messages['too_small'];
             return null;
         }
