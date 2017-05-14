@@ -392,9 +392,8 @@ class Image implements \ArrayAccess
     protected function validateImageSize(){
         if (@getimagesize($this->_files["tmp_name"])) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
