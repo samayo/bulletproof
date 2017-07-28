@@ -5,22 +5,22 @@ class uploadTest extends  TestCase
 {
     public $bulletproof,
         $testingImage,
-        $_files = [];
+        $_files = array();
 
     /**
      *  Initialize an array to mimic the properties $_FILES global
      */
     public function __construct()
     {
-        $files = [
-            'ikea' => [
+        $files = array(
+            'ikea' => array(
                 'name' => $this->testingImage = __DIR__ . "/monkey.jpg",
                 'type' => 'image/jpg',
                 'tmp_name' => $this->testingImage = __DIR__ . "/monkey.jpg",
                 'error' => 0,
                 'size' => 17438,
-            ]
-        ];
+            )
+        );
 
         $this->bulletproof = new \BulletProofTest\BulletProofOverride($files);
 
