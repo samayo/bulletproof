@@ -73,7 +73,7 @@ class uploadTest extends  TestCase
     public function testImageUploadAcceptsOnlyAllowedMimeTypes()
     {
         $this->bulletproof['ikea'];
-        $this->bulletproof->setMime(["png"]);
+        $this->bulletproof->setMime(array("png"));
         $upload = $this->bulletproof->upload();
         $this->assertEquals(
             $this->bulletproof["error"],
