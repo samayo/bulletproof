@@ -1,0 +1,32 @@
+filter:
+    paths: { }
+tools:
+    php_cpd:
+        enabled: true
+        command: phpcpd
+        excluded_dirs: { }
+        names: ['*.php']
+        min_lines: 5
+        min_tokens: 70
+        filter:
+            paths: { }
+    php_pdepend:
+        excluded_dirs: ['test']
+        enabled: true
+        command: pdepend
+        configuration_file: null
+        suffixes:
+            - php
+    php_loc:
+        enabled: true
+    php_mess_detector:
+        enabled: true
+        filter:
+            paths: ["src/*"]
+    php_analyzer: true
+    php_analyzer:
+        filter:
+            paths: ["src/*", "tests/*"]
+    sensiolabs_security_checker: true
+    external_code_coverage:
+        timeout: 1800 # Timeout in seconds.
