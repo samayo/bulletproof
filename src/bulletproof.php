@@ -2,12 +2,12 @@
 /**
  * BulletProof
  *
- * Bulletproof is a single-class secure Image uploader in php, with a nice API.
+ * Bulletproof is a single-class, secure and user-friendly Image uploader in php.
  *
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     2.0.5
+ * @version     3.0.0
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -85,33 +85,31 @@ class Image implements \ArrayAccess
      */
     private $error = "";
 
-	/**
+    /**
      * @var array error messages strings
      */
-    private $error_messages = array(
-		'upload' => array(
-            UPLOAD_ERR_OK           => "",
-            UPLOAD_ERR_INI_SIZE     => "Image is larger than the specified amount set by the server",
-            UPLOAD_ERR_FORM_SIZE    => "Image is larger than the specified amount specified by browser",
-            UPLOAD_ERR_PARTIAL      => "Image could not be fully uploaded. Please try again later",
-            UPLOAD_ERR_NO_FILE      => "Image is not found",
-            UPLOAD_ERR_NO_TMP_DIR   => "Can't write to disk, due to server configuration ( No tmp dir found )",
-            UPLOAD_ERR_CANT_WRITE   => "Failed to write file to disk. Please check you file permissions",
-            UPLOAD_ERR_EXTENSION    => "A PHP extension has halted this file upload process"
-        ),
-		'location'                  => "Folder %s could not be created",
-		'mime_type'                 => "Invalid File! Only (%s) image types are allowed",
-		'file_size'                 => "Image size should be atleast more than min: %s and less than max: %s kb",
-		'dimensions'                => "Image height/width should be less than ' %s \ %s ' pixels",
-		'too_small'                 => "Invalid! Image height/width is too small or maybe corrupted",
-		'unknown'                   => "Upload failed, Unknown error occured"
-	);
+    protected $common_upload_errors = array(
+        UPLOAD_ERR_OK => "",
+        UPLOAD_ERR_INI_SIZE => "Image is larger than the specified amount set by the server",
+        UPLOAD_ERR_FORM_SIZE => "Image is larger than the specified amount specified by browser",
+        UPLOAD_ERR_PARTIAL => "Image could not be fully uploaded. Please try again later",
+        UPLOAD_ERR_NO_FILE => "Image is not found",
+        UPLOAD_ERR_NO_TMP_DIR => "Can't write to disk, due to server configuration ( No tmp dir found )",
+        UPLOAD_ERR_CANT_WRITE => "Failed to write file to disk. Please check you file permissions",
+        UPLOAD_ERR_EXTENSION => "A PHP extension has halted this file upload process"
+    );
 
     /**
      * @param array $_files represents the $_FILES array passed as dependency
      */
     public function __construct(array $_files = array())
     {
+        /* check if php_exif is enabled */
+        if (!function_exists('exif_imagetype')) {
+            $this->error = "Function 'exif_imagetype' Not found. Please enable \"php_exif\" in your PHP.ini";
+            return null;
+        }
+
         $this->_files = $_files;
     }
 
@@ -124,28 +122,37 @@ class Image implements \ArrayAccess
      */
     protected function getImageMime($tmp_name)
     {
-        if (isset($this->imageMimes[exif_imagetype($tmp_name)])) {
-            return $this->imageMimes [exif_imagetype($tmp_name)];
+        $mime = @$this->imageMimes[exif_imagetype($tmp_name)];
+
+        if (!$mime) {
+            return null;
         }
-        return ;
+
+        return $mime;
     }
 
     /**
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value){}
+    public function offsetSet($offset, $value)
+    {
+    }
 
     /**
      * @param mixed $offset
      * @return null
      */
-    public function offsetExists($offset){}
+    public function offsetExists($offset)
+    {
+    }
 
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset){}
+    public function offsetUnset($offset)
+    {
+    }
 
     /**
      * Gets array value \ArrayAccess
@@ -164,7 +171,7 @@ class Image implements \ArrayAccess
             $this->_files = $this->_files[$offset];
             return true;
         }
-        
+
         return false;
     }
 
@@ -180,7 +187,7 @@ class Image implements \ArrayAccess
         if ($isNameProvided) {
             $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
         }
-        
+
         return $this;
     }
 
@@ -222,10 +229,10 @@ class Image implements \ArrayAccess
     public function setLocation($dir = "bulletproof", $permission = 0666)
     {
         if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
-            $createFolder = @mkdir("" . $dir, (int) $permission, true);
+            $createFolder = @mkdir("" . $dir, (int)$permission, true);
             if (!$createFolder) {
-                $this->error = sprintf($this->error_messages['location'], $dir);
-                return;
+                $this->error = "Error! Folder " . $dir . " could not be created";
+                return false;
             }
         }
 
@@ -247,21 +254,6 @@ class Image implements \ArrayAccess
         return $this;
     }
 
-	/**
-	 * Replace error_messages array values with values of given array
-	 *
-	 * @param $new_error_messages array Array containing new error messages
-	 *
-	 * @return $this
-	 */
-	public function setErrorMessages($new_error_messages)
-	{
-		if($new_array = array_replace_recursive($this->error_messages, $new_error_messages)) {
-			$this->error_messages = $new_array;
-		};
-		return $this;
-	}
-
     /**
      * Returns the image name
      *
@@ -270,7 +262,7 @@ class Image implements \ArrayAccess
     public function getName()
     {
         if (!$this->name) {
-           return  uniqid(true) . "_" . str_shuffle(implode(range("e", "q")));
+            return uniqid(true) . "_" . str_shuffle(implode(range("e", "q")));
         }
 
         return $this->name;
@@ -294,7 +286,7 @@ class Image implements \ArrayAccess
      */
     public function getSize()
     {
-        return (int) $this->_files["size"];
+        return (int)$this->_files["size"];
     }
 
     /**
@@ -308,7 +300,7 @@ class Image implements \ArrayAccess
             return $this->height;
         }
 
-        list(, $height) = getImageSize($this->_files["tmp_name"]); 
+        list(, $height) = getImageSize($this->_files["tmp_name"]);
         return $height;
     }
 
@@ -323,7 +315,7 @@ class Image implements \ArrayAccess
             return $this->width;
         }
 
-        list($width) = getImageSize($this->_files["tmp_name"]); 
+        list($width) = getImageSize($this->_files["tmp_name"]);
         return $width;
     }
 
@@ -334,11 +326,11 @@ class Image implements \ArrayAccess
      */
     public function getLocation()
     {
-        if(!$this->location){
-            $this->setLocation(); 
+        if (!$this->location) {
+            $this->setLocation();
         }
 
-        return $this->location; 
+        return $this->location;
     }
 
     /**
@@ -358,7 +350,7 @@ class Image implements \ArrayAccess
      */
     public function getMime()
     {
-        if(!$this->mime){
+        if (!$this->mime) {
             return $this->getImageMime($this->_files["tmp_name"]);
         }
         return $this->mime;
@@ -369,7 +361,8 @@ class Image implements \ArrayAccess
      *
      * @return string|bool
      */
-    public function getError(){
+    public function getError()
+    {
         return $this->error != "" ? $this->error : false;
     }
 
@@ -378,17 +371,14 @@ class Image implements \ArrayAccess
      *
      * @param $e int error constant
      */
-    protected function uploadErrors($e)
+    protected function commonUploadErrors($e)
     {
-        $errors = $this->error_messages['upload'];
-        return $errors[$e];
+        return $this->common_upload_errors[$e];
     }
-
 
     /**
      * This methods validates and uploads the image
      * @return bool|Image|null
-     * @throws ImageUploaderException
      */
     public function upload()
     {
@@ -396,23 +386,8 @@ class Image implements \ArrayAccess
         $image = $this;
         $files = $this->_files;
 
-        /* check if php_exif is enabled */
-        if(!function_exists('exif_imagetype')){
-            $image->error = "Function 'exif_imagetype' Not found. Please enable \"php_exif\" in your PHP.ini";
-            return null;
-        }
-
-        /* initialize image properties */
-        $image->name     = $image->getName();
-        $image->width    = $image->getWidth();
-        $image->height   = $image->getHeight(); 
-        $image->location = $image->getLocation();
-
-        /* get image sizes */
-        list($minSize, $maxSize) = $image->size;
-
         /* check for common upload errors */
-        if($image->error = $image->uploadErrors($files["error"])){
+        if ($image->error || $image->error = $image->commonUploadErrors($files["error"])) {
             return null;
         }
 
@@ -422,15 +397,24 @@ class Image implements \ArrayAccess
         /* validate image mime type */
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(", ", $image->mimeTypes);
-            $image->error = sprintf($this->error_messages['mime_type'], $ext);
+            $image->error = "Invalid File! Only ($ext) image types are allowed";
             return null;
         }
 
+
+        /* initialize image properties */
+        $image->name = $image->getName();
+        $image->width = $image->getWidth();
+        $image->height = $image->getHeight();
+        $image->location = $image->getLocation();
+
+        /* get image sizes */
+        list($minSize, $maxSize) = $image->size;
+
         /* check image size based on the settings */
         if ($files["size"] < $minSize || $files["size"] > $maxSize) {
-            $min = intval($minSize / 1000) ?: 1; $max = intval($maxSize / 1000);
-
-            $image->error = sprintf($this->error_messages['file_size'], $min, $max);
+            $min = intval($minSize / 1000) ?: 1;
+            $image->error = "Image size should be at least more than " . $min . " kb";
             return null;
         }
 
@@ -438,25 +422,25 @@ class Image implements \ArrayAccess
         list($allowedWidth, $allowedHeight) = $image->dimensions;
 
         if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
-            $image->error = sprintf($this->error_messages['dimensions'], $allowedHeight, $allowedWidth);
+            $image->error = "Image height/width should be less than " . $allowedHeight . "/" . $allowedWidth . " pixels";
             return null;
         }
 
-        if($image->height < 2 || $image->width < 2){
-            $image->error = $this->error_messages['too_small'];
+        if ($image->height < 2 || $image->width < 2) {
+            $image->error = "Image height/width too small or corrupted.";
             return null;
         }
- 
+
         /* set and get folder name */
-        $image->fullPath = $image->location. "/" . $image->name . "." . $image->mime;
+        $image->fullPath = $image->location . "/" . $image->name . "." . $image->mime;
 
-        /* gather image info for json storage */ 
+        /* gather image info for json storage */
         $image->serialize = array(
-            "name"     => $image->name,
-            "mime"     => $image->mime,
-            "height"   => $image->height,
-            "width"    => $image->width,
-            "size"     => $files["size"],
+            "name" => $image->name,
+            "mime" => $image->mime,
+            "height" => $image->height,
+            "width" => $image->width,
+            "size" => $files["size"],
             "location" => $image->location,
             "fullpath" => $image->fullPath
         );
@@ -468,7 +452,7 @@ class Image implements \ArrayAccess
             }
         }
 
-        $image->error =  $this->error_messages['unknown'];
+        $image->error = "Upload failed, Unknown error occured";
         return false;
     }
 
