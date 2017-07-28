@@ -1,6 +1,6 @@
 <?php
 /**
- * Image Croping Function. 
+ * Image Croping Function.
  *
  * @author     Daniel, Simon <samayo@gmail.com>
  * @link       https://github.com/samayo/bulletproof
@@ -9,7 +9,8 @@
  */
 namespace Bulletproof;
 
- function crop($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight){
+function crop($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight)
+{
 
     switch ($mimeType) {
         case "jpg":
@@ -37,7 +38,7 @@ namespace Bulletproof;
     // Can't crop to a bigger size, ex: 
     // an image with 100X100 can not be cropped to 200X200. Image can only be cropped to smaller size.
     if ($widthTrim < 0 && $heightTrim < 0) {
-        return ;
+        return;
     }
 
     $temp = imagecreatetruecolor($newWidth, $newHeight);

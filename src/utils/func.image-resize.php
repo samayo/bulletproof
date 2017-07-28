@@ -1,6 +1,6 @@
 <?php
 /**
- * Image Resizing Function. 
+ * Image Resizing Function.
  *
  * @author     Daniel, Simon <samayo@gmail.com>
  * @link       https://github.com/samayo/bulletproof
@@ -9,8 +9,9 @@
  */
 namespace Bulletproof;
 
-function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = FALSE, $upsize = TRUE){           
-    
+function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = FALSE, $upsize = TRUE)
+{
+
     // First, calculate the height.
     $height = intval($newWidth / $imgWidth * $imgHeight);
 
@@ -36,22 +37,21 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
         }
     }
 
-    if ($ratio == true)
-    {
+    if ($ratio == true) {
         $source_aspect_ratio = $imgWidth / $imgHeight;
         $thumbnail_aspect_ratio = $newWidth / $newHeight;
         if ($imgWidth <= $newWidth && $imgHeight <= $newHeight) {
             $newWidth = $imgWidth;
             $newHeight = $imgHeight;
         } elseif ($thumbnail_aspect_ratio > $source_aspect_ratio) {
-            $newWidth = (int) ($newHeight * $source_aspect_ratio);
+            $newWidth = (int)($newHeight * $source_aspect_ratio);
             $newHeight = $newHeight;
         } else {
             $newWidth = $newWidth;
-            $newHeight = (int) ($newWidth / $source_aspect_ratio);
+            $newHeight = (int)($newWidth / $source_aspect_ratio);
         }
     }
-            
+
     $imgString = file_get_contents($image);
 
     $imageFromString = imagecreatefromstring($imgString);
@@ -86,7 +86,7 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
             throw new \Exception(" Only jpg, jpeg, png and gif files can be resized ");
             break;
     }
- 
+
 }
 
 

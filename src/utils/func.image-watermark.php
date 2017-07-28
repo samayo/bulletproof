@@ -1,6 +1,6 @@
 <?php
 /**
- * Image Watermark Function. 
+ * Image Watermark Function.
  *
  * @author     D, Simon <samayo@gmail.com>
  * @link       https://github.com/samayo/bulletproof
@@ -9,33 +9,34 @@
  */
 namespace Bulletproof;
 
- function watermark($image, $mimeType, $imgWidth, $imgHeight, $watermark, $watermarkHeight, $watermarkWidth, $position = "center"){
+function watermark($image, $mimeType, $imgWidth, $imgHeight, $watermark, $watermarkHeight, $watermarkWidth, $position = "center")
+{
 
     // Calculate the watermark position
     switch ($position) {
         case "center":
-            $marginBottom  = round($imgHeight / 2);
-            $marginRight   = round($imgWidth / 2) - round($watermarkWidth / 2);
+            $marginBottom = round($imgHeight / 2);
+            $marginRight = round($imgWidth / 2) - round($watermarkWidth / 2);
             break;
 
         case "top-left":
-            $marginBottom  = round($imgHeight - $watermarkHeight);
-            $marginRight   = round($imgWidth - $watermarkWidth);
+            $marginBottom = round($imgHeight - $watermarkHeight);
+            $marginRight = round($imgWidth - $watermarkWidth);
             break;
 
         case "bottom-left":
-            $marginBottom  = 5;
-            $marginRight   = round($imgWidth - $watermarkWidth);
+            $marginBottom = 5;
+            $marginRight = round($imgWidth - $watermarkWidth);
             break;
 
         case "top-right":
-            $marginBottom  = round($imgHeight - $watermarkHeight);
-            $marginRight   = 5;
+            $marginBottom = round($imgHeight - $watermarkHeight);
+            $marginRight = 5;
             break;
 
         default:
-            $marginBottom  = 2;
-            $marginRight   = 2;
+            $marginBottom = 2;
+            $marginRight = 2;
             break;
     }
 
@@ -78,15 +79,15 @@ namespace Bulletproof;
     switch ($mimeType) {
         case "jpeg":
         case "jpg":
-             imagejpeg($createImage, $image);
+            imagejpeg($createImage, $image);
             break;
 
         case "png":
-             imagepng($createImage, $image);
+            imagepng($createImage, $image);
             break;
 
         case "gif":
-             imagegif($createImage, $image);
+            imagegif($createImage, $image);
             break;
 
         default:
