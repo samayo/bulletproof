@@ -118,7 +118,7 @@ class Image implements \ArrayAccess
      *
      * @param $tmp_name string The upload tmp directory
      *
-     * @return bool|string
+     * @return null|string
      */
     protected function getImageMime($tmp_name)
     {
@@ -370,6 +370,8 @@ class Image implements \ArrayAccess
      * Checks for the common upload errors
      *
      * @param $e int error constant
+     *
+     * @return string
      */
     protected function commonUploadErrors($e)
     {
@@ -378,7 +380,7 @@ class Image implements \ArrayAccess
 
     /**
      * This methods validates and uploads the image
-     * @return bool|Image|null
+     * @return bool|false
      */
     public function upload()
     {
@@ -388,7 +390,7 @@ class Image implements \ArrayAccess
 
         /* check for common upload errors */
         if ($image->error || $image->error = $image->commonUploadErrors($files['error'])) {
-            return null;
+            return false;
         }
 
         /* check image for valid mime types and return mime */
@@ -397,8 +399,8 @@ class Image implements \ArrayAccess
         /* validate image mime type */
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(', ', $image->mimeTypes);
-            $image->error = "Invalid File! Only ($ext) image types are allowed";
-            return null;
+            $image->error = sprintf("Invalid File! Only (%s) image types are allowed", $ext);
+            return false;
         }
 
 
@@ -415,7 +417,7 @@ class Image implements \ArrayAccess
         if ($files['size'] < $minSize || $files['size'] > $maxSize) {
             $min = intval($minSize / 1000) ?: 1;
             $image->error = 'Image size should be at least more than ' . $min . ' kb';
-            return null;
+            return false;
         }
 
         /* check image dimension */
@@ -423,12 +425,12 @@ class Image implements \ArrayAccess
 
         if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
             $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
-            return null;
+            return false;
         }
 
         if ($image->height < 2 || $image->width < 2) {
             $image->error = 'Image height/width too small or corrupted.';
-            return null;
+            return false;
         }
 
         /* set and get folder name */

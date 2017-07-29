@@ -52,12 +52,14 @@ checks:
         psr2_switch_declaration: true
         psr2_class_declaration: true
         property_assignments: true
+        properties_in_camelcaps: false
         prefer_while_loop_over_for_loop: true
         precedence_mistakes: true
         precedence_in_conditions: true
         phpunit_assertions: true
         php5_style_constructor: true
         parse_doc_comments: true
+        parameters_in_camelcaps: false
         parameter_non_unique: true
         parameter_doc_comments: true
         param_doc_comment_if_not_inferrable: true
@@ -139,5 +141,4 @@ checks:
         avoid_aliased_php_functions: true
         assignment_of_null_return: true
         argument_type_checks: true
-        align_assignments: true
-
+        align_assignments: false
