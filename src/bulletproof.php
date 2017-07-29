@@ -159,7 +159,7 @@ class Image implements \ArrayAccess
      *
      * @param mixed $offset
      *
-     * @return bool|mixed
+     * @return bool
      */
     public function offsetGet($offset)
     {
@@ -369,18 +369,18 @@ class Image implements \ArrayAccess
     /**
      * Checks for the common upload errors
      *
-     * @param $e int error constant
+     * @param $errors int error constant
      *
      * @return string
      */
-    protected function commonUploadErrors($e)
+    protected function commonUploadErrors($errors)
     {
-        return $this->common_upload_errors[$e];
+        return $this->common_upload_errors[$errors];
     }
 
     /**
      * This methods validates and uploads the image
-     * @return bool|false
+     * @return false|Image
      */
     public function upload()
     {
@@ -399,7 +399,7 @@ class Image implements \ArrayAccess
         /* validate image mime type */
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(', ', $image->mimeTypes);
-            $image->error = sprintf("Invalid File! Only (%s) image types are allowed", $ext);
+            $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
             return false;
         }
 
