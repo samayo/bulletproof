@@ -24,7 +24,7 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
 
     // If we don't allow upsizing check if the new width or height are too big.
     if (!$upsize) {
-        // If the given width is larger then the image height, then resize it.
+        // If the given width is larger than the image width, then resize it
         if ($newWidth > $imgWidth) {
             $newWidth = $imgWidth;
             $height = intval($newWidth / $imgWidth * $imgHeight);
