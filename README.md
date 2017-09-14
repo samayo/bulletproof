@@ -16,7 +16,7 @@ $ git clone https://github.com/samayo/bulletproof.git
 ```
 Or composer
 ```bash
-$ composer require samayo/bulletproof:2.0.*
+$ composer require samayo/bulletproof:.0.*
 ```
 Or [download it manually][bulletproof_archive] based on the archived version of release-cycles.
 
@@ -27,7 +27,7 @@ Create an HTML form like this.
 ```html
 <form method="POST" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
-    <input type="file" name="pictures"/>
+    <input type="file" name="pictures" accept="image/*"/>
     <input type="submit" value="upload"/>
 </form>
 ```
@@ -106,7 +106,7 @@ $image = new Bulletproof\Image($_FILES);
 
 $image->setName("samayo")
       ->setMime(["gif"])
-      ->setLocation("avatars");
+      ->setLocation(__DIR__ . "/avatars");
 
 if($image["pictures"]){
     if($image->upload()){
