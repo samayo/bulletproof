@@ -69,7 +69,7 @@ class uploadTest extends  \PHPUnit\Framework\TestCase
         $upload = $this->bulletproof->upload();        
         $this->assertEquals(
             $this->bulletproof['error'],
-            "Image size should be at least more than 1 kb"
+            "Image size should be at least 1 KB, and no more than 10 KB"
         );
     }
 
@@ -108,7 +108,7 @@ class uploadTest extends  \PHPUnit\Framework\TestCase
     {
         $this->bulletproof['ikea'];
         $upload = $this->bulletproof->upload();
-        $this->assertSame(strlen($upload->getName()), 28);
+        $this->assertSame(strlen($upload->getName()), 37);
     }
 
     /**
