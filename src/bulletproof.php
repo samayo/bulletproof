@@ -1,13 +1,13 @@
 <?php
 /**
- * BulletProof
+ * BULLETPROOF 
  *
- * Bulletproof is a single-class, secure and user-friendly Image uploader in php.
+ * Bulletproof is a single-class library to upload images in PHP with security.
  *
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     3.0.0
+ * @version     3.1.0
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -89,14 +89,14 @@ class Image implements \ArrayAccess
      * @var array error messages strings
      */
     protected $common_upload_errors = array(
-        UPLOAD_ERR_OK => '',
-        UPLOAD_ERR_INI_SIZE => 'Image is larger than the specified amount set by the server',
-        UPLOAD_ERR_FORM_SIZE => 'Image is larger than the specified amount specified by browser',
-        UPLOAD_ERR_PARTIAL => 'Image could not be fully uploaded. Please try again later',
-        UPLOAD_ERR_NO_FILE => 'Image is not found',
+        UPLOAD_ERR_OK         => '',
+        UPLOAD_ERR_INI_SIZE   => 'Image is larger than the specified amount set by the server',
+        UPLOAD_ERR_FORM_SIZE  => 'Image is larger than the specified amount specified by browser',
+        UPLOAD_ERR_PARTIAL    => 'Image could not be fully uploaded. Please try again later',
+        UPLOAD_ERR_NO_FILE    => 'Image is not found',
         UPLOAD_ERR_NO_TMP_DIR => 'Can\'t write to disk, due to server configuration ( No tmp dir found )',
         UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
-        UPLOAD_ERR_EXTENSION => 'A PHP extension has halted this file upload process'
+        UPLOAD_ERR_EXTENSION  => 'A PHP extension has halted this file upload process'
     );
 
     /**
@@ -167,6 +167,20 @@ class Image implements \ArrayAccess
             return $this->error;
         }
 
+        if(!isset($this->_files[$offset])){
+            return ;
+        }
+
+        /* check for common upload errors */
+        if ($this->_files[$offset]['error'] == 2) {
+            $this->error = "Image is larger than specified by the browser";
+            return ;
+        }
+
+        if ($this->error || $this->error = $this->commonUploadErrors($this->_files[$offset]['error'])) {
+            return false;
+        }
+
         if (isset($this->_files[$offset]) && file_exists($this->_files[$offset]['tmp_name'])) {
             $this->_files = $this->_files[$offset];
             return true;
@@ -228,12 +242,19 @@ class Image implements \ArrayAccess
      */
     public function setLocation($dir = 'bulletproof', $permission = 0666)
     {
+
         if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
             $createFolder = @mkdir('' . $dir, (int)$permission, true);
             if (!$createFolder) {
                 $this->error = 'Error! Folder ' . $dir . ' could not be created';
                 return false;
             }
+        }
+        
+        /* check if we can create a file in the directory */
+        if (!is_writable($dir)) {
+            $this->error =  "The images directory \"" . $dir . "\" is not writable!";
+            return false;
         }
 
         $this->location = $dir;
@@ -262,7 +283,7 @@ class Image implements \ArrayAccess
     public function getName()
     {
         if (!$this->name) {
-            return uniqid(true) . '_' . str_shuffle(implode(range('e', 'q')));
+            return uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
         }
 
         return $this->name;
@@ -388,11 +409,6 @@ class Image implements \ArrayAccess
         $image = $this;
         $files = $this->_files;
 
-        /* check for common upload errors */
-        if ($image->error || $image->error = $image->commonUploadErrors($files['error'])) {
-            return false;
-        }
-
         /* check image for valid mime types and return mime */
         $image->mime = $image->getImageMime($files['tmp_name']);
 
@@ -416,8 +432,9 @@ class Image implements \ArrayAccess
         /* check image size based on the settings */
         if ($files['size'] < $minSize || $files['size'] > $maxSize) {
             $min = intval($minSize / 1000) ?: 1;
-            $image->error = 'Image size should be at least more than ' . $min . ' kb';
-            return false;
+            $max = intval($maxSize / 1000) ?: 1;
+            $image->error = "Image size should be at least " . $min . " KB, and no more than " . $max . " KB";
+            return null;
         }
 
         /* check image dimension */
