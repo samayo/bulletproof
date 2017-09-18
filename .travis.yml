@@ -1,4 +1,5 @@
 language: php
+dist: precise
 before_script:
   - composer install --dev --no-interaction
 php:
