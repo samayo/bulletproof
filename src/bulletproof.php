@@ -138,7 +138,7 @@ class Image implements \ArrayAccess
      *
      * @param mixed $offset
      *
-     * @return bool
+     * @return string|boolean
      */
     public function offsetGet($offset)
     {   
@@ -236,7 +236,7 @@ class Image implements \ArrayAccess
     /**
      * Returns the image mime type
      *
-     * @return string
+     * @return null|string
      */
     public function getMime()
     {
@@ -280,7 +280,7 @@ class Image implements \ArrayAccess
     /**
      * Returns error string or false if no errors occurred
      *
-     * @return string|bool
+     * @return string|false
      */
     public function getError()
     {
@@ -297,11 +297,7 @@ class Image implements \ArrayAccess
         $image = $this;
         $files = $this->_files;
 
-        if ($this->error) {
-            return false;
-        }
-
-        if (!isset($files['tmp_name'])) {
+        if ($this->error || !isset($files['tmp_name'])) {
             return false;
         }
 
@@ -327,7 +323,7 @@ class Image implements \ArrayAccess
         if ($files['size'] < $minSize || $files['size'] > $maxSize) {
             $min = intval($minSize / 1000) ?: 1;
             $max = intval($maxSize / 1000) ?: 1;
-            $image->error = "Image size should be at least " . $min . " KB, and no more than " . $max . " KB";
+            $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
             return null;
         }
 
@@ -463,7 +459,7 @@ class Image implements \ArrayAccess
 
         /* check if we can create a file in the directory */
         if (!is_writable($dir)) {
-            $this->error = "The images directory \"" . $dir . "\" is not writable!";
+            $this->error = 'The images directory \'' . $dir . '\' is not writable!';
             return false;
         }
 
