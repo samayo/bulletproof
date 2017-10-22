@@ -1,13 +1,13 @@
 <?php
 /**
- * BULLETPROOF 
+ * BULLETPROOF
  *
- * Bulletproof is a single-class library to upload images in PHP with security.
+ * Bulletproof is a single-class PHP library to upload images securely.
  *
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     3.1.0
+ * @version     3.2.0
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -64,7 +64,7 @@ class Image implements \ArrayAccess
     /**
      * @var array The mime types allowed for upload
      */
-    protected $mimeTypes = array('jpeg', 'png', 'gif');
+    protected $mimeTypes = array('jpeg', 'png', 'gif', 'jpg');
 
     /**
      * @var array list of known image types
@@ -74,17 +74,6 @@ class Image implements \ArrayAccess
         'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
         'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
     );
-
-    /**
-     * @var array storage for the $_FILES global array
-     */
-    private $_files = array();
-
-    /**
-     * @var string storage for any errors
-     */
-    private $error = '';
-
     /**
      * @var array error messages strings
      */
@@ -98,6 +87,14 @@ class Image implements \ArrayAccess
         UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
         UPLOAD_ERR_EXTENSION  => 'A PHP extension has halted this file upload process'
     );
+    /**
+     * @var array storage for the $_FILES global array
+     */
+    private $_files = array();
+    /**
+     * @var string storage for any errors
+     */
+    private $error = '';
 
     /**
      * @param array $_files represents the $_FILES array passed as dependency
@@ -111,24 +108,6 @@ class Image implements \ArrayAccess
         }
 
         $this->_files = $_files;
-    }
-
-    /**
-     * Gets the real image mime type
-     *
-     * @param $tmp_name string The upload tmp directory
-     *
-     * @return null|string
-     */
-    protected function getImageMime($tmp_name)
-    {
-        $mime = @$this->imageMimes[exif_imagetype($tmp_name)];
-
-        if (!$mime) {
-            return null;
-        }
-
-        return $mime;
     }
 
     /**
@@ -162,103 +141,37 @@ class Image implements \ArrayAccess
      * @return bool
      */
     public function offsetGet($offset)
-    {
+    {   
+        /* return error if requested */
         if ($offset == 'error') {
             return $this->error;
         }
-
-        if(!isset($this->_files[$offset])){
-            return ;
+        
+        /* return false if $image['key'] isn't found */
+        if (!isset($this->_files[$offset])) {
+            return false;
         }
+
+        $this->_files = $this->_files[$offset];
 
         /* check for common upload errors */
-        if ($this->_files[$offset]['error'] == 2) {
-            $this->error = "Image is larger than specified by the browser";
-            return ;
+        if (isset($this->_files['error'])) {
+            $this->error = $this->commonUploadErrors($this->_files['error']);
         }
 
-        if ($this->error || $this->error = $this->commonUploadErrors($this->_files[$offset]['error'])) {
-            return false;
-        }
-
-        if (isset($this->_files[$offset]) && file_exists($this->_files[$offset]['tmp_name'])) {
-            $this->_files = $this->_files[$offset];
-            return true;
-        }
-
-        return false;
-    }
-
-
-    /**
-     * Provide image name if not provided
-     *
-     * @param null $isNameProvided
-     * @return $this
-     */
-    public function setName($isNameProvided = null)
-    {
-        if ($isNameProvided) {
-            $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
-        }
-
-        return $this;
+        return true;
     }
 
     /**
-     * Define a mime type for uploading
+     * Checks for the common upload errors
      *
-     * @param array $fileTypes
+     * @param $errors int error constant
      *
-     * @return $this
+     * @return string
      */
-    public function setMime(array $fileTypes)
+    protected function commonUploadErrors($errors)
     {
-        $this->mimeTypes = $fileTypes;
-        return $this;
-    }
-
-    /**
-     * Define a min and max image size for uploading
-     *
-     * @param $min int minimum value in bytes
-     * @param $max int maximum value in bytes
-     *
-     * @return $this
-     */
-    public function setSize($min, $max)
-    {
-        $this->size = array($min, $max);
-        return $this;
-    }
-
-    /**
-     * Creates a location for upload storage
-     *
-     * @param $dir string the folder name to create
-     * @param int $permission chmod permission
-     *
-     * @return $this
-     */
-    public function setLocation($dir = 'bulletproof', $permission = 0666)
-    {
-
-        if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
-            $createFolder = @mkdir('' . $dir, (int)$permission, true);
-            if (!$createFolder) {
-                $this->error = 'Error! Folder ' . $dir . ' could not be created';
-                return false;
-            }
-        }
-        
-        /* check if we can create a file in the directory */
-        if (!is_writable($dir)) {
-            $this->error =  "The images directory \"" . $dir . "\" is not writable!";
-            return false;
-        }
-
-        $this->location = $dir;
-        return $this;
+        return $this->common_upload_errors[$errors];
     }
 
     /**
@@ -273,20 +186,6 @@ class Image implements \ArrayAccess
     {
         $this->dimensions = array($maxWidth, $maxHeight);
         return $this;
-    }
-
-    /**
-     * Returns the image name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        if (!$this->name) {
-            return uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
-        }
-
-        return $this->name;
     }
 
     /**
@@ -311,47 +210,17 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Returns the image height in pixels
+     * Define a min and max image size for uploading
      *
-     * @return int
-     */
-    public function getHeight()
-    {
-        if ($this->height != null) {
-            return $this->height;
-        }
-
-        list(, $height) = getImageSize($this->_files['tmp_name']);
-        return $height;
-    }
-
-    /**
-     * Returns the image width
+     * @param $min int minimum value in bytes
+     * @param $max int maximum value in bytes
      *
-     * @return int
+     * @return $this
      */
-    public function getWidth()
+    public function setSize($min, $max)
     {
-        if ($this->width != null) {
-            return $this->width;
-        }
-
-        list($width) = getImageSize($this->_files['tmp_name']);
-        return $width;
-    }
-
-    /**
-     * Returns the storage / folder name
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        if (!$this->location) {
-            $this->setLocation();
-        }
-
-        return $this->location;
+        $this->size = array($min, $max);
+        return $this;
     }
 
     /**
@@ -378,6 +247,37 @@ class Image implements \ArrayAccess
     }
 
     /**
+     * Define a mime type for uploading
+     *
+     * @param array $fileTypes
+     *
+     * @return $this
+     */
+    public function setMime(array $fileTypes)
+    {
+        $this->mimeTypes = $fileTypes;
+        return $this;
+    }
+
+    /**
+     * Gets the real image mime type
+     *
+     * @param $tmp_name string The upload tmp directory
+     *
+     * @return null|string
+     */
+    protected function getImageMime($tmp_name)
+    {
+        $mime = @$this->imageMimes[exif_imagetype($tmp_name)];
+
+        if (!$mime) {
+            return null;
+        }
+
+        return $mime;
+    }
+
+    /**
      * Returns error string or false if no errors occurred
      *
      * @return string|bool
@@ -385,18 +285,6 @@ class Image implements \ArrayAccess
     public function getError()
     {
         return $this->error != '' ? $this->error : false;
-    }
-
-    /**
-     * Checks for the common upload errors
-     *
-     * @param $errors int error constant
-     *
-     * @return string
-     */
-    protected function commonUploadErrors($errors)
-    {
-        return $this->common_upload_errors[$errors];
     }
 
     /**
@@ -409,16 +297,22 @@ class Image implements \ArrayAccess
         $image = $this;
         $files = $this->_files;
 
+        if ($this->error) {
+            return false;
+        }
+
+        if (!isset($files['tmp_name'])) {
+            return false;
+        }
+
         /* check image for valid mime types and return mime */
         $image->mime = $image->getImageMime($files['tmp_name']);
-
         /* validate image mime type */
         if (!in_array($image->mime, $image->mimeTypes)) {
             $ext = implode(', ', $image->mimeTypes);
             $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
             return false;
         }
-
 
         /* initialize image properties */
         $image->name = $image->getName();
@@ -473,6 +367,108 @@ class Image implements \ArrayAccess
 
         $image->error = 'Upload failed, Unknown error occured';
         return false;
+    }
+
+    /**
+     * Returns the image name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        if (!$this->name) {
+            return uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
+        }
+
+        return $this->name;
+    }
+
+    /**
+     * Provide image name if not provided
+     *
+     * @param null $isNameProvided
+     * @return $this
+     */
+    public function setName($isNameProvided = null)
+    {
+        if ($isNameProvided) {
+            $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns the image width
+     *
+     * @return int
+     */
+    public function getWidth()
+    {
+        if ($this->width != null) {
+            return $this->width;
+        }
+
+        list($width) = getImageSize($this->_files['tmp_name']);
+        return $width;
+    }
+
+    /**
+     * Returns the image height in pixels
+     *
+     * @return int
+     */
+    public function getHeight()
+    {
+        if ($this->height != null) {
+            return $this->height;
+        }
+
+        list(, $height) = getImageSize($this->_files['tmp_name']);
+        return $height;
+    }
+
+    /**
+     * Returns the storage / folder name
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        if (!$this->location) {
+            $this->setLocation();
+        }
+
+        return $this->location;
+    }
+
+    /**
+     * Creates a location for upload storage
+     *
+     * @param $dir string the folder name to create
+     * @param int $permission chmod permission
+     *
+     * @return $this
+     */
+    public function setLocation($dir = 'bulletproof', $permission = 0666)
+    {
+
+        if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
+            $createFolder = @mkdir('' . $dir, (int)$permission, true);
+            if (!$createFolder) {
+                $this->error = 'Error! Folder ' . $dir . ' could not be created';
+                return false;
+            }
+        }
+
+        /* check if we can create a file in the directory */
+        if (!is_writable($dir)) {
+            $this->error = "The images directory \"" . $dir . "\" is not writable!";
+            return false;
+        }
+
+        $this->location = $dir;
+        return $this;
     }
 
     /**
