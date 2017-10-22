@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 3.2.0
+- Fix some issues related to upload. (when file isn't uploaded, error wasn't shown)
+- Fix PHPUnit namespace related error. (can't re-declare class .... error)
+- Add .jpg to the list of default mime types
+- re-write phpunit test class to use autoloader
+
 ### 3.0.0
  - revert back changes added by lordgiotto on v2.0.2 avoid complicating bulletproof
  - add improvements mentioned in issue #62
