@@ -4,7 +4,10 @@ namespace BulletProofTest;
 
 require __DIR__ . '../../src/bulletproof.php';
 
-class BulletProofOverride extends \Bulletproof\Image
+// only way to get around of phpunit's retarded errors
+use Bulletproof\Image as BaseClass; 
+
+class BulletProofOverride extends BaseClass
 {
 
 	// prevent class from using move_file_upload(); function
