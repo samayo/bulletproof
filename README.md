@@ -2,7 +2,7 @@
 
 
 [![StackOverflow badge](http://so.badge.link/badges/bulletproof.svg)](http://stackoverflow.com/questions/tagged/bulletproof)
-[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads)](https://packagist0org/packages/samayo/bulletproof) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)  [![Gitter chat](https://img.shields.io/badge/gitter-join--chat-blue.svg)](https://gitter.im/fastpress/fastpress) [![License](https://poser.pugx.org/samayo/bulletproof/license)](https://packagist.org/packages/fastpress/framework)
+[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads)](https://packagist.org/packages/samayo/bulletproof) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)  [![Gitter chat](https://img.shields.io/badge/gitter-join--chat-blue.svg)](https://gitter.im/fastpress/fastpress) [![License](https://poser.pugx.org/samayo/bulletproof/license)](https://packagist.org/packages/fastpress/framework)
 
 
 Bulletproof is a single-class library to upload images in PHP with security.
@@ -16,7 +16,7 @@ $ git clone https://github.com/samayo/bulletproof.git
 ```
 Or composer
 ```bash
-$ composer require samayo/bulletproof:3.0.*
+$ composer require samayo/bulletproof:3.2.*
 ```
 Or [download it manually][bulletproof_archive] based on the archived version of release-cycles.
 
