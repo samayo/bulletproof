@@ -93,6 +93,7 @@ class uploadTest extends  \PHPUnit\Framework\TestCase
     {
         $this->bulletproof['ikea'];
         $this->bulletproof->setDimension(200, 100);
+        $this->bulletproof->setMime(['jpg', 'png', 'jpeg']);
         $upload = $this->bulletproof->upload();
         $this->assertEquals(
             $this->bulletproof["error"],
