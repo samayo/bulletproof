@@ -6,6 +6,7 @@ if (!class_exists('\PHPUnit\Framework\TestCase') &&
     class_alias('\PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
 }
 
+use TestBootstrap\BulletproofTest; 
  
 class uploadTest extends  \PHPUnit\Framework\TestCase
 {
@@ -28,7 +29,7 @@ class uploadTest extends  \PHPUnit\Framework\TestCase
             )
         );
 
-        $this->bulletproof = new \BulletProofTest\BulletProofOverride($files);
+        $this->bulletproof = new BulletproofTest($files);
 
     }
 
