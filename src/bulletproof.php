@@ -351,6 +351,25 @@ class Image implements \ArrayAccess
     }
 
     /**
+     * Validate directory/permission before creating a folder
+     * 
+     * @param $dir string the folder name to check
+     * 
+     * @return bool
+     */
+    private function isDirectoryValid($dir) 
+    {
+        $isValid = file_exists($dir) || is_dir($dir) || !is_writable($dir); 
+
+        if(!$isValid){
+            $this->error = 'Can not create a folder \'' . $dir . '\', please permission issues ';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Creates a location for upload storage
      *
      * @param $dir string the folder name to create
@@ -360,17 +379,16 @@ class Image implements \ArrayAccess
      */
     public function setLocation($dir = 'bulletproof', $permission = 0666)
     {
-        if (!file_exists($dir) && !is_dir($dir)) {
-            $createFolder = @mkdir('' . $dir, (int) $permission, true);
-            if (!$createFolder) {
-                $this->error = 'Error! Folder ' . $dir . ' could not be created';
-                return false;
-            }
-        }
+        $isDirectoryValid = $this->isDirectoryValid($dir); 
 
-        /* check if we can create a file in the directory */
-        if (!is_writable($dir)) {
-            $this->error = 'The images directory \'' . $dir . '\' is not writable!';
+        if(!$isDirectoryValid){
+            return false;
+        }
+      
+        $create = @mkdir('' . $dir, (int) $permission, true);
+
+        if (!$create) {
+            $this->error = 'Error! Folder ' . $dir . ' could not be created';
             return false;
         }
 
