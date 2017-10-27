@@ -47,11 +47,6 @@ class Image implements \ArrayAccess
     protected $location;
 
     /**
-     * @var array A json format of all information about an image
-     */
-    protected $serialize = array();
-
-    /**
      * @var array The min and max image size allowed for upload (in bytes)
      */
     protected $size = array(100, 500000);
@@ -230,7 +225,18 @@ class Image implements \ArrayAccess
      */
     public function getJson()
     {
-        return json_encode($this->serialize);
+        /* gather image info for json storage */
+        return json_encode (
+            array(
+                'name'      => $this->name,
+                'mime'      => $this->mime,
+                'height'    => $this->height,
+                'width'     => $this->width,
+                'size'      => $this->_files['size'],
+                'location'  => $this->location,
+                'fullpath'  => $this->fullPath
+            )
+        );
     }
 
     /**
@@ -289,7 +295,7 @@ class Image implements \ArrayAccess
 
     /**
      * This methods validates and uploads the image
-     * @return false|Image
+     * @return false|null|Image
      */
     public function upload()
     {
@@ -315,6 +321,8 @@ class Image implements \ArrayAccess
         $image->width = $image->getWidth();
         $image->height = $image->getHeight();
         $image->location = $image->getLocation();
+        
+        $image->getFullPath();
 
         /* get image sizes */
         list($minSize, $maxSize) = $image->size;
@@ -339,20 +347,6 @@ class Image implements \ArrayAccess
             $image->error = 'Image height/width too small or corrupted.';
             return false;
         }
-
-        /* set and get folder name */
-        $image->fullPath = $image->location . '/' . $image->name . '.' . $image->mime;
-
-        /* gather image info for json storage */
-        $image->serialize = array(
-            'name' => $image->name,
-            'mime' => $image->mime,
-            'height' => $image->height,
-            'width' => $image->width,
-            'size' => $files['size'],
-            'location' => $image->location,
-            'fullpath' => $image->fullPath
-        );
 
         if ($image->error === '') {
             $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
