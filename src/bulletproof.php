@@ -146,7 +146,6 @@ class Image implements \ArrayAccess
         $this->_files = $this->_files[$offset];
 
         // check for common upload errors
-
         if(isset($this->_files['error'])){
             $this->error = $this->commonUploadErrors[$this->_files['error']];
         }
@@ -361,7 +360,7 @@ class Image implements \ArrayAccess
      */
     public function setLocation($dir = 'bulletproof', $permission = 0666)
     {
-        if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
+        if (!file_exists($dir) && !is_dir($dir)) {
             $createFolder = @mkdir('' . $dir, (int) $permission, true);
             if (!$createFolder) {
                 $this->error = 'Error! Folder ' . $dir . ' could not be created';
@@ -381,7 +380,7 @@ class Image implements \ArrayAccess
 
     /**
      * This methods validates and uploads the image
-     * @return false|null|Image
+     * @return false|Image
      */
     public function upload()
     {
