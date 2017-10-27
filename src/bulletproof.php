@@ -7,7 +7,7 @@
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     3.2.0
+ * @version     3.2.1
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -64,7 +64,7 @@ class Image implements \ArrayAccess
     /**
      * @var array list of known image types
      */
-    protected $imageMimes = array(
+    protected $acceptedMimes = array(
         1 => 'gif', 'jpeg', 'png', 'swf', 'psd',
         'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
         'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
@@ -72,7 +72,7 @@ class Image implements \ArrayAccess
     /**
      * @var array error messages strings
      */
-    protected $common_upload_errors = array(
+    protected $commonUploadErrors = array(
         UPLOAD_ERR_OK         => '',
         UPLOAD_ERR_INI_SIZE   => 'Image is larger than the specified amount set by the server',
         UPLOAD_ERR_FORM_SIZE  => 'Image is larger than the specified amount specified by browser',
@@ -108,25 +108,21 @@ class Image implements \ArrayAccess
     /**
      * @param mixed $offset
      * @param mixed $value
+     * @return null
      */
-    public function offsetSet($offset, $value)
-    {
-    }
+    public function offsetSet($offset, $value){}
 
     /**
      * @param mixed $offset
      * @return null
      */
-    public function offsetExists($offset)
-    {
-    }
+    public function offsetExists($offset){}
 
     /**
      * @param mixed $offset
+     * @return null
      */
-    public function offsetUnset($offset)
-    {
-    }
+    public function offsetUnset($offset){}
 
     /**
      * Gets array value \ArrayAccess
@@ -137,40 +133,29 @@ class Image implements \ArrayAccess
      */
     public function offsetGet($offset)
     {   
-        /* return error if requested */
+        // return error if requested
         if ($offset == 'error') {
             return $this->error;
         }
         
-        /* return false if $image['key'] isn't found */
+        // return false if $image['key'] isn't found
         if (!isset($this->_files[$offset])) {
             return false;
         }
 
         $this->_files = $this->_files[$offset];
 
-        /* check for common upload errors */
-        if (isset($this->_files['error'])) {
-            $this->error = $this->commonUploadErrors($this->_files['error']);
+        // check for common upload errors
+
+        if(isset($this->_files['error'])){
+            $this->error = $this->commonUploadErrors[$this->_files['error']];
         }
 
         return true;
     }
 
     /**
-     * Checks for the common upload errors
-     *
-     * @param $errors int error constant
-     *
-     * @return string
-     */
-    protected function commonUploadErrors($errors)
-    {
-        return $this->common_upload_errors[$errors];
-    }
-
-    /**
-     * Sets acceptable max image height and width
+     * Sets max image height and width limit
      *
      * @param $maxWidth int max width value
      * @param $maxHeight int max height value
@@ -201,7 +186,7 @@ class Image implements \ArrayAccess
      */
     public function getSize()
     {
-        return (int)$this->_files['size'];
+        return (int) $this->_files['size'];
     }
 
     /**
@@ -274,7 +259,7 @@ class Image implements \ArrayAccess
      */
     protected function getImageMime($tmp_name)
     {
-        $mime = @$this->imageMimes[exif_imagetype($tmp_name)];
+        $mime = @ $this->acceptedMimes[exif_imagetype($tmp_name)];
 
         if (!$mime) {
             return null;
@@ -291,72 +276,6 @@ class Image implements \ArrayAccess
     public function getError()
     {
         return $this->error != '' ? $this->error : false;
-    }
-
-    /**
-     * This methods validates and uploads the image
-     * @return false|null|Image
-     */
-    public function upload()
-    {
-        /* modify variable names for convenience */
-        $image = $this;
-        $files = $this->_files;
-
-        if ($this->error || !isset($files['tmp_name'])) {
-            return false;
-        }
-
-        /* check image for valid mime types and return mime */
-        $image->mime = $image->getImageMime($files['tmp_name']);
-        /* validate image mime type */
-        if (!in_array($image->mime, $image->mimeTypes)) {
-            $ext = implode(', ', $image->mimeTypes);
-            $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
-            return false;
-        }
-
-        /* initialize image properties */
-        $image->name = $image->getName();
-        $image->width = $image->getWidth();
-        $image->height = $image->getHeight();
-        $image->location = $image->getLocation();
-        
-        $image->getFullPath();
-
-        /* get image sizes */
-        list($minSize, $maxSize) = $image->size;
-
-        /* check image size based on the settings */
-        if ($files['size'] < $minSize || $files['size'] > $maxSize) {
-            $min = intval($minSize / 1000) ?: 1;
-            $max = intval($maxSize / 1000) ?: 1;
-            $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
-            return null;
-        }
-
-        /* check image dimension */
-        list($allowedWidth, $allowedHeight) = $image->dimensions;
-
-        if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
-            $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
-            return false;
-        }
-
-        if ($image->height < 2 || $image->width < 2) {
-            $image->error = 'Image height/width too small or corrupted.';
-            return false;
-        }
-
-        if ($image->error === '') {
-            $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
-            if (false !== $moveUpload) {
-                return $image;
-            }
-        }
-
-        $image->error = 'Upload failed, Unknown error occured';
-        return false;
     }
 
     /**
@@ -442,9 +361,8 @@ class Image implements \ArrayAccess
      */
     public function setLocation($dir = 'bulletproof', $permission = 0666)
     {
-
         if (!file_exists($dir) && !is_dir($dir) && !$this->location) {
-            $createFolder = @mkdir('' . $dir, (int)$permission, true);
+            $createFolder = @mkdir('' . $dir, (int) $permission, true);
             if (!$createFolder) {
                 $this->error = 'Error! Folder ' . $dir . ' could not be created';
                 return false;
@@ -460,6 +378,73 @@ class Image implements \ArrayAccess
         $this->location = $dir;
         return $this;
     }
+
+    /**
+     * This methods validates and uploads the image
+     * @return false|null|Image
+     */
+    public function upload()
+    {
+        /* modify variable names for convenience */
+        $image = $this;
+        $files = $this->_files;
+
+        if ($this->error || !isset($files['tmp_name'])) {
+            return false;
+        }
+
+        /* check image for valid mime types and return mime */
+        $image->mime = $image->getImageMime($files['tmp_name']);
+        /* validate image mime type */
+        if (!in_array($image->mime, $image->mimeTypes)) {
+            $ext = implode(', ', $image->mimeTypes);
+            $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
+            return false;
+        }
+
+        /* initialize image properties */
+        $image->name = $image->getName();
+        $image->width = $image->getWidth();
+        $image->height = $image->getHeight();
+        $image->location = $image->getLocation();
+        
+        $image->getFullPath();
+
+        /* get image sizes */
+        list($minSize, $maxSize) = $image->size;
+
+        /* check image size based on the settings */
+        if ($files['size'] < $minSize || $files['size'] > $maxSize) {
+            $min = intval($minSize / 1000) ?: 1;
+            $max = intval($maxSize / 1000) ?: 1;
+            $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
+            return false;
+        }
+
+        /* check image dimension */
+        list($allowedWidth, $allowedHeight) = $image->dimensions;
+
+        if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
+            $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
+            return false;
+        }
+
+        if ($image->height < 2 || $image->width < 2) {
+            $image->error = 'Image height/width too small or corrupted.';
+            return false;
+        }
+
+        if ($image->error === '') {
+            $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
+            if (false !== $moveUpload) {
+                return $image;
+            }
+        }
+
+        $image->error = 'Upload failed, Unknown error occured';
+        return false;
+    }
+
 
     /**
      * Final upload method to be called, isolated for testing purposes
