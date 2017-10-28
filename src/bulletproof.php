@@ -174,8 +174,7 @@ class Image implements \ArrayAccess
      */
     public function getFullPath()
     {
-        $this->fullPath = $this->location . '/' . $this->name . '.' . $this->mime;
-        return $this->fullPath;
+       return $this->fullPath = $this->getLocation() . '/' . $this->getName() . '.' . $this->getMime();
     }
 
     /**
@@ -359,14 +358,7 @@ class Image implements \ArrayAccess
      */
     private function isDirectoryValid($dir) 
     {
-        $isValid = file_exists($dir) || is_dir($dir) || !is_writable($dir); 
-
-        if(!$isValid){
-            $this->error = 'Can not create a folder \'' . $dir . '\', please permission issues ';
-            return false;
-        }
-
-        return true;
+       return !file_exists($dir) && !is_dir($dir) || is_writable($dir); 
     }
 
     /**
@@ -382,10 +374,11 @@ class Image implements \ArrayAccess
         $isDirectoryValid = $this->isDirectoryValid($dir); 
 
         if(!$isDirectoryValid){
+            $this->error = 'Can not create a folder \'' . $dir . '\', please check your dir permission issues';
             return false;
         }
       
-        $create = @mkdir('' . $dir, (int) $permission, true);
+        $create = !is_dir($dir) ? @mkdir('' . $dir, (int) $permission, true) : true; 
 
         if (!$create) {
             $this->error = 'Error! Folder ' . $dir . ' could not be created';
@@ -423,9 +416,8 @@ class Image implements \ArrayAccess
         $image->name = $image->getName();
         $image->width = $image->getWidth();
         $image->height = $image->getHeight();
-        $image->location = $image->getLocation();
-        
         $image->getFullPath();
+        
 
         /* get image sizes */
         list($minSize, $maxSize) = $image->size;
@@ -458,7 +450,7 @@ class Image implements \ArrayAccess
             }
         }
 
-        $image->error = 'Upload failed, Unknown error occured';
+       
         return false;
     }
 
