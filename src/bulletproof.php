@@ -7,12 +7,12 @@
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     3.2.1
+ * @version     4.0.0
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
  */
-namespace BulletProof;
+namespace Bulletproof;
 
 class Image implements \ArrayAccess
 {
@@ -99,7 +99,6 @@ class Image implements \ArrayAccess
         /* check if php_exif is enabled */
         if (!function_exists('exif_imagetype')) {
             $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your PHP.ini';
-            return null;
         }
 
         $this->_files = $_files;
