@@ -69,6 +69,7 @@ class Image implements \ArrayAccess
         'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
         'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
     );
+
     /**
      * @var array error messages strings
      */
@@ -82,10 +83,12 @@ class Image implements \ArrayAccess
         UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
         UPLOAD_ERR_EXTENSION  => 'A PHP extension has halted this file upload process'
     );
+    
     /**
      * @var array storage for the $_FILES global array
      */
     private $_files = array();
+
     /**
      * @var string storage for any errors
      */
@@ -125,9 +128,8 @@ class Image implements \ArrayAccess
 
     /**
      * Gets array value \ArrayAccess
-     *
+     * 
      * @param mixed $offset
-     *
      * @return string|boolean
      */
     public function offsetGet($offset)
@@ -157,7 +159,6 @@ class Image implements \ArrayAccess
      *
      * @param $maxWidth int max width value
      * @param $maxHeight int max height value
-     *
      * @return $this
      */
     public function setDimension($maxWidth, $maxHeight)
@@ -207,7 +208,6 @@ class Image implements \ArrayAccess
      */
     public function getJson()
     {
-        /* gather image info for json storage */
         return json_encode (
             array(
                 'name'      => $this->name,
@@ -229,8 +229,10 @@ class Image implements \ArrayAccess
     public function getMime()
     {
         if (!$this->mime) {
+            
             return $this->getImageMime($this->_files['tmp_name']);
         }
+
         return $this->mime;
     }
 
@@ -238,7 +240,6 @@ class Image implements \ArrayAccess
      * Define a mime type for uploading
      *
      * @param array $fileTypes
-     *
      * @return $this
      */
     public function setMime(array $fileTypes)
@@ -251,7 +252,6 @@ class Image implements \ArrayAccess
      * Gets the real image mime type
      *
      * @param $tmp_name string The upload tmp directory
-     *
      * @return null|string
      */
     protected function getImageMime($tmp_name)
@@ -260,6 +260,12 @@ class Image implements \ArrayAccess
 
         if (!$mime) {
             return null;
+        }
+
+        if (!in_array($mime, $this->mimeTypes)) {
+            $ext = implode(', ', $this->mimeTypes);
+            $this->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
+            return false;
         }
 
         return $mime;
@@ -352,7 +358,6 @@ class Image implements \ArrayAccess
      * Validate directory/permission before creating a folder
      * 
      * @param $dir string the folder name to check
-     * 
      * @return bool
      */
     private function isDirectoryValid($dir) 
@@ -365,7 +370,6 @@ class Image implements \ArrayAccess
      *
      * @param $dir string the folder name to create
      * @param int $permission chmod permission
-     *
      * @return $this
      */
     public function setLocation($dir = 'bulletproof', $permission = 0666)
@@ -390,6 +394,7 @@ class Image implements \ArrayAccess
 
     /**
      * This methods validates and uploads the image
+     * 
      * @return false|Image
      */
     public function upload()
@@ -403,13 +408,8 @@ class Image implements \ArrayAccess
         }
 
         /* check image for valid mime types and return mime */
-        $image->mime = $image->getImageMime($files['tmp_name']);
-        /* validate image mime type */
-        if (!in_array($image->mime, $image->mimeTypes)) {
-            $ext = implode(', ', $image->mimeTypes);
-            $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
-            return false;
-        }
+        $image->getImageMime($files['tmp_name']);
+ 
 
         /* initialize image properties */
         $image->name = $image->getName();

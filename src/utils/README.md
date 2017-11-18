@@ -1,25 +1,28 @@
-UTILS
------ 
-the utils/ folder contains 3 seperate function to crop, rezize or watermark images
+### bulletproof\utils 
+
+This utils/ folder contains seperate function to crop, rezize or watermark images
 
 Install
 -----
-Since these are separate functions, all you have to do is 
+Since these are separate, standalone functions, all you have to do is 
 include them in your project, and call the functions like this: 
 
 ```php 
-require 'src/utils/func.image-crop.php';
+require_once 'src/utils/func.image-crop.php';
 
+/**
+ * $image : full image path
+ * $mime : the mime type of the image
+ * $width : the image width
+ * $height : the image height
+ * $newWidth : the new width of the image
+ * $newHeight : the new height of the image:
+ */
+$crop = bulletproof\utils\crop($image, $mime, $width, $height, $newWidth, $newHeight); 
 // call the function and pass the right arguments. 
-$crop = Bulletproof\crop( 
-	'images/my-car.jpg',  // full image path
-	'jpg', // the mime type of your image
-	100, // the original image width
-	200, // the original image height
-	50, // the new image width
-	25 // the new image height. 
+$crop = bulletproof\utils\crop( 
+	'images/my-car.jpg', 'jpg', 100, 200, 50, 25
 ); 
-
 // now 'images/my-car.jpg' is cropped to 50x25 pixels.
 ```
 
@@ -39,7 +42,7 @@ if($image["picture"]){
 	$upload = $image->upload();
 	
 	if($upload){
-		$resize = Bulletproof\resize(
+		bulletproof\utils\resize(
 			$image->getFullPath(), 
 			$image->getMime(),
 			$image->getWidth(),

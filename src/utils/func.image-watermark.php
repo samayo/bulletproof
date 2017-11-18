@@ -1,13 +1,18 @@
 <?php
 /**
- * Image Watermark Function.
+ * bulletproof\utils\watermark 
  *
- * @author     D, Simon <samayo@gmail.com>
- * @link       https://github.com/samayo/bulletproof
- * @copyright  Copyright (c) 2015 Simon Daniel
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * Image watermark function for bulletproof library
+ *
+ * PHP support 5.3+
+ *
+ * @package     bulletproof
+ * @version     3.2.0
+ * @author      https://twitter.com/_samayo
+ * @link        https://github.com/samayo/bulletproof
+ * @license     MIT
  */
-namespace Bulletproof;
+namespace Bulletproof\Utils;
 
 function watermark($image, $mimeType, $imgWidth, $imgHeight, $watermark, $watermarkHeight, $watermarkWidth, $position = "center")
 {

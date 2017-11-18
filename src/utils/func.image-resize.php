@@ -1,13 +1,18 @@
 <?php
 /**
- * Image Resizing Function.
+ * bulletproof\utils\resize 
  *
- * @author     Daniel, Simon <samayo@gmail.com>
- * @link       https://github.com/samayo/bulletproof
- * @copyright  Copyright (c) 2015 Simon Daniel
- * @license    http://www.opensource.org/licenses/mit-license.html  MIT License
+ * Image resize function for bulletproof library
+ *
+ * PHP support 5.3+
+ *
+ * @package     bulletproof
+ * @version     3.2.0
+ * @author      https://twitter.com/_samayo
+ * @link        https://github.com/samayo/bulletproof
+ * @license     MIT
  */
-namespace Bulletproof;
+namespace Bulletproof\Utils;
 
 function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = FALSE, $upsize = TRUE)
 {
