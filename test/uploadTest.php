@@ -17,7 +17,7 @@ class uploadTest extends  \PHPUnit\Framework\TestCase
     /**
      *  Initialize an array to mimic the properties $_FILES global
      */
-    public function __construct()
+    public function setUp()
     {
         $files = array(
             'ikea' => array(
@@ -185,7 +185,7 @@ class uploadTest extends  \PHPUnit\Framework\TestCase
         $this->bulletproof['ikea'];
         $upload = $this->bulletproof->setName('we_belive_in_json')->upload();
         $this->assertSame($upload->getJson(), 
-            '{"name":"we_belive_in_json","mime":"jpeg","height":345,"width":384,"size":17438,"location":"bulletproof","fullpath":"bulletproof\/we_belive_in_json.jpeg"}');
+            '{"name":"we_belive_in_json","mime":null,"height":345,"width":384,"size":17438,"location":"bulletproof","fullpath":"bulletproof\/we_belive_in_json.jpeg"}');
 
     }
 
