@@ -2,12 +2,12 @@
 /**
  * BULLETPROOF
  *
- * Bulletproof is a single-class PHP library to upload images securely.
+ * A single-class PHP library to upload images securely.
  *
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     4.0.0
+ * @version     3.4.0
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -66,8 +66,8 @@ class Image implements \ArrayAccess
      */
     protected $acceptedMimes = array(
         1 => 'gif', 'jpeg', 'png', 'swf', 'psd',
-        'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
-        'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
+             'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
+             'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
     );
 
     /**
@@ -101,7 +101,7 @@ class Image implements \ArrayAccess
     {
         /* check if php_exif is enabled */
         if (!function_exists('exif_imagetype')) {
-            $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your PHP.ini';
+            $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini';
         }
 
         $this->_files = $_files;
@@ -110,18 +110,21 @@ class Image implements \ArrayAccess
     /**
      * @param mixed $offset
      * @param mixed $value
+     * 
      * @return null
      */
     public function offsetSet($offset, $value){}
 
     /**
      * @param mixed $offset
+     * 
      * @return null
      */
     public function offsetExists($offset){}
 
     /**
      * @param mixed $offset
+     * 
      * @return null
      */
     public function offsetUnset($offset){}
@@ -159,6 +162,7 @@ class Image implements \ArrayAccess
      *
      * @param $maxWidth int max width value
      * @param $maxHeight int max height value
+     * 
      * @return $this
      */
     public function setDimension($maxWidth, $maxHeight)
@@ -228,8 +232,8 @@ class Image implements \ArrayAccess
      */
     public function getMime()
     {
+        var_dump($this->_files);
         if (!$this->mime) {
-            
             return $this->getImageMime($this->_files['tmp_name']);
         }
 
@@ -240,6 +244,7 @@ class Image implements \ArrayAccess
      * Define a mime type for uploading
      *
      * @param array $fileTypes
+     * 
      * @return $this
      */
     public function setMime(array $fileTypes)
@@ -252,6 +257,7 @@ class Image implements \ArrayAccess
      * Gets the real image mime type
      *
      * @param $tmp_name string The upload tmp directory
+     * 
      * @return null|string
      */
     protected function getImageMime($tmp_name)
@@ -260,12 +266,6 @@ class Image implements \ArrayAccess
 
         if (!$mime) {
             return null;
-        }
-
-        if (!in_array($mime, $this->mimeTypes)) {
-            $ext = implode(', ', $this->mimeTypes);
-            $this->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
-            return false;
         }
 
         return $mime;
@@ -278,7 +278,7 @@ class Image implements \ArrayAccess
      */
     public function getError()
     {
-        return $this->error != '' ? $this->error : false;
+        return $this->error;
     }
 
     /**
@@ -289,7 +289,7 @@ class Image implements \ArrayAccess
     public function getName()
     {
         if (!$this->name) {
-            return uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
+            $this->name = uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
         }
 
         return $this->name;
@@ -409,7 +409,12 @@ class Image implements \ArrayAccess
 
         /* check image for valid mime types and return mime */
         $image->getImageMime($files['tmp_name']);
- 
+        /* validate image mime type */
+        if (!in_array($image->mime, $image->mimeTypes)) {
+            $ext = implode(', ', $image->mimeTypes);
+            $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
+            return false;
+        }
 
         /* initialize image properties */
         $image->name = $image->getName();
