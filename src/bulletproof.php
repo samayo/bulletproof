@@ -14,6 +14,7 @@
  */
 namespace Bulletproof;
 
+
 class Image implements \ArrayAccess
 {
     /**
@@ -65,23 +66,23 @@ class Image implements \ArrayAccess
      * @var array list of known image types
      */
     protected $acceptedMimes = array(
-        1 => 'gif', 'jpeg', 'png', 'swf', 'psd',
-             'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
-             'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
+      1 => 'gif', 'jpeg', 'png', 'swf', 'psd',
+            'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
+            'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
     );
 
     /**
      * @var array error messages strings
      */
     protected $commonUploadErrors = array(
-        UPLOAD_ERR_OK         => '',
-        UPLOAD_ERR_INI_SIZE   => 'Image is larger than the specified amount set by the server',
-        UPLOAD_ERR_FORM_SIZE  => 'Image is larger than the specified amount specified by browser',
-        UPLOAD_ERR_PARTIAL    => 'Image could not be fully uploaded. Please try again later',
-        UPLOAD_ERR_NO_FILE    => 'Image is not found',
-        UPLOAD_ERR_NO_TMP_DIR => 'Can\'t write to disk, due to server configuration ( No tmp dir found )',
-        UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
-        UPLOAD_ERR_EXTENSION  => 'A PHP extension has halted this file upload process'
+      UPLOAD_ERR_OK         => '',
+      UPLOAD_ERR_INI_SIZE   => 'Image is larger than the specified amount set by the server',
+      UPLOAD_ERR_FORM_SIZE  => 'Image is larger than the specified amount specified by browser',
+      UPLOAD_ERR_PARTIAL    => 'Image could not be fully uploaded. Please try again later',
+      UPLOAD_ERR_NO_FILE    => 'Image is not found',
+      UPLOAD_ERR_NO_TMP_DIR => 'Can\'t write to disk, due to server configuration ( No tmp dir found )',
+      UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
+      UPLOAD_ERR_EXTENSION  => 'A PHP extension has halted this file upload process'
     );
     
     /**
@@ -99,12 +100,12 @@ class Image implements \ArrayAccess
      */
     public function __construct(array $_files = array())
     {
-        /* check if php_exif is enabled */
-        if (!function_exists('exif_imagetype')) {
-            $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini';
-        }
+      /* check if php_exif is enabled */
+      if (!function_exists('exif_imagetype')) {
+          $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini';
+      }
 
-        $this->_files = $_files;
+      $this->_files = $_files;
     }
 
     /**
@@ -137,24 +138,25 @@ class Image implements \ArrayAccess
      */
     public function offsetGet($offset)
     {   
-        // return error if requested
-        if ($offset == 'error') {
-            return $this->error;
-        }
-        
-        // return false if $image['key'] isn't found
-        if (!isset($this->_files[$offset])) {
-            return false;
-        }
+      // return error if requested
+      if ($offset == 'error') {
+          return $this->error;
+      }
+      
+      // return false if $image['key'] isn't found
+      if (!isset($this->_files[$offset])) {
+          $this->error = "No file input found with name: $offset";
+          return false;
+      }
 
-        $this->_files = $this->_files[$offset];
+      $this->_files = $this->_files[$offset];
 
-        // check for common upload errors
-        if(isset($this->_files['error'])){
-            $this->error = $this->commonUploadErrors[$this->_files['error']];
-        }
+      // check for common upload errors
+      if(isset($this->_files['error'])){
+          $this->error = $this->commonUploadErrors[$this->_files['error']];
+      }
 
-        return true;
+      return true;
     }
 
     /**
@@ -167,8 +169,8 @@ class Image implements \ArrayAccess
      */
     public function setDimension($maxWidth, $maxHeight)
     {
-        $this->dimensions = array($maxWidth, $maxHeight);
-        return $this;
+      $this->dimensions = array($maxWidth, $maxHeight);
+      return $this;
     }
 
     /**
@@ -178,7 +180,7 @@ class Image implements \ArrayAccess
      */
     public function getFullPath()
     {
-       return $this->fullPath = $this->getLocation() . '/' . $this->getName() . '.' . $this->getMime();
+      return $this->fullPath = $this->getLocation() . '/' . $this->getName() . '.' . $this->getMime();
     }
 
     /**
@@ -188,7 +190,7 @@ class Image implements \ArrayAccess
      */
     public function getSize()
     {
-        return (int) $this->_files['size'];
+      return (int) $this->_files['size'];
     }
 
     /**
@@ -201,8 +203,8 @@ class Image implements \ArrayAccess
      */
     public function setSize($min, $max)
     {
-        $this->size = array($min, $max);
-        return $this;
+      $this->size = array($min, $max);
+      return $this;
     }
 
     /**
@@ -232,11 +234,10 @@ class Image implements \ArrayAccess
      */
     public function getMime()
     {
-      var_dump($this->_files);
-      if (!$this->mime) {
-          return $this->getImageMime($this->_files['tmp_name']);
+      if(!$this->mime){
+        $this->mime = $this->getImageMime($this->_files['tmp_name']);
       }
-
+      
       return $this->mime;
     }
 
@@ -262,13 +263,12 @@ class Image implements \ArrayAccess
      */
     protected function getImageMime($tmp_name)
     {
-      $mime = @ $this->acceptedMimes[exif_imagetype($tmp_name)];
-
-      if (!$mime) {
-          return null;
+      $this->mime = @$this->acceptedMimes[exif_imagetype($tmp_name)];
+      if (!$this->mime) {
+        return null;
       }
 
-      return $mime;
+      return $this->mime;
     }
 
     /**
@@ -289,7 +289,7 @@ class Image implements \ArrayAccess
     public function getName()
     {
       if (!$this->name) {
-          $this->name = uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
+        $this->name = uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
       }
 
       return $this->name;
@@ -304,7 +304,7 @@ class Image implements \ArrayAccess
     public function setName($isNameProvided = null)
     {
       if ($isNameProvided) {
-          $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
+        $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
       }
 
       return $this;
@@ -318,7 +318,7 @@ class Image implements \ArrayAccess
     public function getWidth()
     {
       if ($this->width != null) {
-          return $this->width;
+        return $this->width;
       }
 
       list($width) = getImageSize($this->_files['tmp_name']);
@@ -333,7 +333,7 @@ class Image implements \ArrayAccess
     public function getHeight()
     {
       if ($this->height != null) {
-          return $this->height;
+        return $this->height;
       }
 
       list(, $height) = getImageSize($this->_files['tmp_name']);
@@ -348,7 +348,7 @@ class Image implements \ArrayAccess
     public function getLocation()
     {
       if (!$this->location) {
-          $this->setLocation();
+        $this->setLocation();
       }
 
       return $this->location;
@@ -377,15 +377,15 @@ class Image implements \ArrayAccess
       $isDirectoryValid = $this->isDirectoryValid($dir); 
 
       if(!$isDirectoryValid){
-          $this->error = 'Can not create a folder \'' . $dir . '\', please check your dir permission issues';
-          return false;
+        $this->error = 'Can not create a directory  \'' . $dir . '\', please check your dir permission';
+        return false;
       }
     
       $create = !is_dir($dir) ? @mkdir('' . $dir, (int) $permission, true) : true; 
 
       if (!$create) {
-          $this->error = 'Error! Folder ' . $dir . ' could not be created';
-          return false;
+        $this->error = 'Error! directory \'' . $dir . '\' could not be created';
+        return false;
       }
 
       $this->location = $dir;
@@ -393,27 +393,26 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * This methods validates and uploads the image
+     * Validate image and upload
      * 
      * @return false|Image
      */
     public function upload()
     {
-      /* modify variable names for convenience */
       $image = $this;
       $files = $this->_files;
 
       if ($this->error || !isset($files['tmp_name'])) {
-          return false;
+        return false;
       }
 
       /* check image for valid mime types and return mime */
-      $image->getImageMime($files['tmp_name']);
+     $mime =  $image->getImageMime($files['tmp_name']);
       /* validate image mime type */
       if (!in_array($image->mime, $image->mimeTypes)) {
-          $ext = implode(', ', $image->mimeTypes);
-          $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
-          return false;
+        $ext = implode(', ', $image->mimeTypes);
+        $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
+        return false;
       }
 
       /* initialize image properties */
@@ -428,30 +427,30 @@ class Image implements \ArrayAccess
 
       /* check image size based on the settings */
       if ($files['size'] < $minSize || $files['size'] > $maxSize) {
-          $min = intval($minSize / 1000) ?: 1;
-          $max = intval($maxSize / 1000) ?: 1;
-          $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
-          return false;
+        $min = intval($minSize / 1000) ?: 1;
+        $max = intval($maxSize / 1000) ?: 1;
+        $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
+        return false;
       }
 
       /* check image dimension */
       list($allowedWidth, $allowedHeight) = $image->dimensions;
 
       if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
-          $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
-          return false;
+        $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
+        return false;
       }
 
       if ($image->height < 2 || $image->width < 2) {
-          $image->error = 'Image height/width too small or corrupted.';
-          return false;
+        $image->error = 'Image height/width too small or corrupted.';
+        return false;
       }
 
       if ($image->error === '') {
-          $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
-          if (false !== $moveUpload) {
-              return $image;
-          }
+        $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
+        if (false !== $moveUpload) {
+          return $image;
+        }
       }
 
       
