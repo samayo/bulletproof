@@ -145,7 +145,7 @@ class Image implements \ArrayAccess
       
       // return false if $image['key'] isn't found
       if (!isset($this->_files[$offset])) {
-          $this->error = "No file input found with name: $offset";
+          $this->error = sprintf('No file input found with name: (%s)', $offset); 
           return false;
       }
 
@@ -407,7 +407,7 @@ class Image implements \ArrayAccess
       }
 
       /* check image for valid mime types and return mime */
-     $mime =  $image->getImageMime($files['tmp_name']);
+      $image->getImageMime($files['tmp_name']);
       /* validate image mime type */
       if (!in_array($image->mime, $image->mimeTypes)) {
         $ext = implode(', ', $image->mimeTypes);
@@ -446,15 +446,7 @@ class Image implements \ArrayAccess
         return false;
       }
 
-      if ($image->error === '') {
-        $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
-        if (false !== $moveUpload) {
-          return $image;
-        }
-      }
-
-      
-      return false;
+      $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
     }
 
 
@@ -468,6 +460,13 @@ class Image implements \ArrayAccess
      */
     public function moveUploadedFile($tmp_name, $destination)
     {
-      return move_uploaded_file($tmp_name, $destination);
+      if ($image->error === '') {
+        $moveUpload = move_uploaded_file($tmp_name, $destination);;
+        if (false !== $moveUpload) {
+          return $this;
+        } else {
+          $this->image['erro'] = "Unknow error occured. Image could not be uploaded"; 
+        }
+      }
     }
 }
