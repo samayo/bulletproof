@@ -26,12 +26,12 @@ Usage
 Create an HTML form like this. 
 ```html
 <form method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
-    <input type="file" name="pictures" accept="image/*"/>
-    <input type="submit" value="upload"/>
+  <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
+  <input type="file" name="pictures" accept="image/*"/>
+  <input type="submit" value="upload"/>
 </form>
 ```
-And simply copy/paste the code below to upload images
+And copy & paste the following code to upload the image
 ```php 
 require_once  "path/to/bulletproof.php";
 
@@ -47,9 +47,10 @@ if($image["pictures"]){
     }
 }
 ```
-That's all. For complete freedom of what, how and where to install, keep reading :)
+To use the full potential of bulletproof, check the following codes & examples.
 
-Config
+
+Configs
 -----
 
 #### Setting Properties
@@ -72,7 +73,7 @@ $image->setLocation($folderName, $optionalPermission);
 ```
 
 #### Getting Properties
-More methods for getting image info before/after upload. 
+Methods for getting image info before/after upload. 
 ```php 
 // get the provided or auto-generated image name
 $image->getName();
@@ -119,8 +120,7 @@ if($image["pictures"]){
 ``` 
 
 ##### Image Manipulation
-Bulletproof is for uploading image sonly, to watermark, crop, resize images, checkout 
-the separate functions in [`src/utils`][utils]
+If you want to crop, resize or watermark images, use the functions in the separate folder:    [`src/utils`][utils]
 
 #### Creating your own custom errors
 To create your own errors and responses, instead of the default error messages, use exceptions:

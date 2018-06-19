@@ -212,17 +212,17 @@ class Image implements \ArrayAccess
      */
     public function getJson()
     {
-        return json_encode (
-            array(
-                'name'      => $this->name,
-                'mime'      => $this->mime,
-                'height'    => $this->height,
-                'width'     => $this->width,
-                'size'      => $this->_files['size'],
-                'location'  => $this->location,
-                'fullpath'  => $this->fullPath
-            )
-        );
+      return json_encode (
+        array(
+          'name'      => $this->name,
+          'mime'      => $this->mime,
+          'height'    => $this->height,
+          'width'     => $this->width,
+          'size'      => $this->_files['size'],
+          'location'  => $this->location,
+          'fullpath'  => $this->fullPath
+        )
+      );
     }
 
     /**
@@ -232,12 +232,12 @@ class Image implements \ArrayAccess
      */
     public function getMime()
     {
-        var_dump($this->_files);
-        if (!$this->mime) {
-            return $this->getImageMime($this->_files['tmp_name']);
-        }
+      var_dump($this->_files);
+      if (!$this->mime) {
+          return $this->getImageMime($this->_files['tmp_name']);
+      }
 
-        return $this->mime;
+      return $this->mime;
     }
 
     /**
@@ -249,8 +249,8 @@ class Image implements \ArrayAccess
      */
     public function setMime(array $fileTypes)
     {
-        $this->mimeTypes = $fileTypes;
-        return $this;
+      $this->mimeTypes = $fileTypes;
+      return $this;
     }
 
     /**
@@ -262,13 +262,13 @@ class Image implements \ArrayAccess
      */
     protected function getImageMime($tmp_name)
     {
-        $mime = @ $this->acceptedMimes[exif_imagetype($tmp_name)];
+      $mime = @ $this->acceptedMimes[exif_imagetype($tmp_name)];
 
-        if (!$mime) {
-            return null;
-        }
+      if (!$mime) {
+          return null;
+      }
 
-        return $mime;
+      return $mime;
     }
 
     /**
@@ -278,7 +278,7 @@ class Image implements \ArrayAccess
      */
     public function getError()
     {
-        return $this->error;
+      return $this->error;
     }
 
     /**
@@ -288,11 +288,11 @@ class Image implements \ArrayAccess
      */
     public function getName()
     {
-        if (!$this->name) {
-            $this->name = uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
-        }
+      if (!$this->name) {
+          $this->name = uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
+      }
 
-        return $this->name;
+      return $this->name;
     }
 
     /**
@@ -303,11 +303,11 @@ class Image implements \ArrayAccess
      */
     public function setName($isNameProvided = null)
     {
-        if ($isNameProvided) {
-            $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
-        }
+      if ($isNameProvided) {
+          $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
+      }
 
-        return $this;
+      return $this;
     }
 
     /**
@@ -317,12 +317,12 @@ class Image implements \ArrayAccess
      */
     public function getWidth()
     {
-        if ($this->width != null) {
-            return $this->width;
-        }
+      if ($this->width != null) {
+          return $this->width;
+      }
 
-        list($width) = getImageSize($this->_files['tmp_name']);
-        return $width;
+      list($width) = getImageSize($this->_files['tmp_name']);
+      return $width;
     }
 
     /**
@@ -332,12 +332,12 @@ class Image implements \ArrayAccess
      */
     public function getHeight()
     {
-        if ($this->height != null) {
-            return $this->height;
-        }
+      if ($this->height != null) {
+          return $this->height;
+      }
 
-        list(, $height) = getImageSize($this->_files['tmp_name']);
-        return $height;
+      list(, $height) = getImageSize($this->_files['tmp_name']);
+      return $height;
     }
 
     /**
@@ -347,11 +347,11 @@ class Image implements \ArrayAccess
      */
     public function getLocation()
     {
-        if (!$this->location) {
-            $this->setLocation();
-        }
+      if (!$this->location) {
+          $this->setLocation();
+      }
 
-        return $this->location;
+      return $this->location;
     }
 
     /**
@@ -362,7 +362,7 @@ class Image implements \ArrayAccess
      */
     private function isDirectoryValid($dir) 
     {
-       return !file_exists($dir) && !is_dir($dir) || is_writable($dir); 
+      return !file_exists($dir) && !is_dir($dir) || is_writable($dir); 
     }
 
     /**
@@ -374,22 +374,22 @@ class Image implements \ArrayAccess
      */
     public function setLocation($dir = 'bulletproof', $permission = 0666)
     {
-        $isDirectoryValid = $this->isDirectoryValid($dir); 
+      $isDirectoryValid = $this->isDirectoryValid($dir); 
 
-        if(!$isDirectoryValid){
-            $this->error = 'Can not create a folder \'' . $dir . '\', please check your dir permission issues';
-            return false;
-        }
-      
-        $create = !is_dir($dir) ? @mkdir('' . $dir, (int) $permission, true) : true; 
+      if(!$isDirectoryValid){
+          $this->error = 'Can not create a folder \'' . $dir . '\', please check your dir permission issues';
+          return false;
+      }
+    
+      $create = !is_dir($dir) ? @mkdir('' . $dir, (int) $permission, true) : true; 
 
-        if (!$create) {
-            $this->error = 'Error! Folder ' . $dir . ' could not be created';
-            return false;
-        }
+      if (!$create) {
+          $this->error = 'Error! Folder ' . $dir . ' could not be created';
+          return false;
+      }
 
-        $this->location = $dir;
-        return $this;
+      $this->location = $dir;
+      return $this;
     }
 
     /**
@@ -399,63 +399,63 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
-        /* modify variable names for convenience */
-        $image = $this;
-        $files = $this->_files;
+      /* modify variable names for convenience */
+      $image = $this;
+      $files = $this->_files;
 
-        if ($this->error || !isset($files['tmp_name'])) {
-            return false;
-        }
+      if ($this->error || !isset($files['tmp_name'])) {
+          return false;
+      }
 
-        /* check image for valid mime types and return mime */
-        $image->getImageMime($files['tmp_name']);
-        /* validate image mime type */
-        if (!in_array($image->mime, $image->mimeTypes)) {
-            $ext = implode(', ', $image->mimeTypes);
-            $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
-            return false;
-        }
+      /* check image for valid mime types and return mime */
+      $image->getImageMime($files['tmp_name']);
+      /* validate image mime type */
+      if (!in_array($image->mime, $image->mimeTypes)) {
+          $ext = implode(', ', $image->mimeTypes);
+          $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
+          return false;
+      }
 
-        /* initialize image properties */
-        $image->name = $image->getName();
-        $image->width = $image->getWidth();
-        $image->height = $image->getHeight();
-        $image->getFullPath();
-        
+      /* initialize image properties */
+      $image->name = $image->getName();
+      $image->width = $image->getWidth();
+      $image->height = $image->getHeight();
+      $image->getFullPath();
+      
 
-        /* get image sizes */
-        list($minSize, $maxSize) = $image->size;
+      /* get image sizes */
+      list($minSize, $maxSize) = $image->size;
 
-        /* check image size based on the settings */
-        if ($files['size'] < $minSize || $files['size'] > $maxSize) {
-            $min = intval($minSize / 1000) ?: 1;
-            $max = intval($maxSize / 1000) ?: 1;
-            $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
-            return false;
-        }
+      /* check image size based on the settings */
+      if ($files['size'] < $minSize || $files['size'] > $maxSize) {
+          $min = intval($minSize / 1000) ?: 1;
+          $max = intval($maxSize / 1000) ?: 1;
+          $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
+          return false;
+      }
 
-        /* check image dimension */
-        list($allowedWidth, $allowedHeight) = $image->dimensions;
+      /* check image dimension */
+      list($allowedWidth, $allowedHeight) = $image->dimensions;
 
-        if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
-            $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
-            return false;
-        }
+      if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
+          $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
+          return false;
+      }
 
-        if ($image->height < 2 || $image->width < 2) {
-            $image->error = 'Image height/width too small or corrupted.';
-            return false;
-        }
+      if ($image->height < 2 || $image->width < 2) {
+          $image->error = 'Image height/width too small or corrupted.';
+          return false;
+      }
 
-        if ($image->error === '') {
-            $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
-            if (false !== $moveUpload) {
-                return $image;
-            }
-        }
+      if ($image->error === '') {
+          $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
+          if (false !== $moveUpload) {
+              return $image;
+          }
+      }
 
-       
-        return false;
+      
+      return false;
     }
 
 
@@ -469,6 +469,6 @@ class Image implements \ArrayAccess
      */
     public function moveUploadedFile($tmp_name, $destination)
     {
-        return move_uploaded_file($tmp_name, $destination);
+      return move_uploaded_file($tmp_name, $destination);
     }
 }
