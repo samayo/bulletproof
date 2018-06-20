@@ -401,48 +401,45 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
-      $image = $this;
-      $files = $this->_files;
-
-      if ($this->error || !isset($files['tmp_name'])) {
+      if ($this->error || !isset($this->_files['tmp_name'])) {
         return false;
       }
 
       /* check image for valid mime types and return mime */
-      $image->getImageMime($files['tmp_name']);
+      $this->getImageMime($this->_files['tmp_name']);
       /* validate image mime type */
-      if (!in_array($image->mime, $image->mimeTypes)) {
-        $image->error = sprintf('Invalid File! Only (%s) image types are allowed', implode(', ', $image->mimeTypes));
+      if (!in_array($this->mime, $this->mimeTypes)) {
+        $this->error = sprintf('Invalid File! Only (%s) image types are allowed', implode(', ', $this->mimeTypes));
         return false;
       }
 
       /* initialize image properties */
-      $image->width = $image->getWidth();
-      $image->height = $image->getHeight();
-      $image->getFullPath();
+      $this->width = $this->getWidth();
+      $this->height = $this->getHeight();
+      $this->getFullPath();
       
       /* get image sizes */
-      list($minSize, $maxSize) = $image->size;
+      list($minSize, $maxSize) = $this->size;
 
       /* check image size based on the settings */
-      if ($files['size'] < $minSize || $files['size'] > $maxSize) {
+      if ($this->_files['size'] < $minSize || $this->_files['size'] > $maxSize) {
         $min = $minSize . ' bytes ('.intval($minSize / 1000) .' kb)';
         $max = $maxSize . ' bytes ('.intval($maxSize / 1000) .' kb)';
-        $image->error = 'Image size should be minumum ' . $min . ', upto maximum ' . $max;
+        $this->error = 'Image size should be minumum ' . $min . ', upto maximum ' . $max;
         return false;
       }
 
       /* check image dimension */
-      list($maxWidth, $maxHeight) = $image->dimensions;
+      list($maxWidth, $maxHeight) = $this->dimensions;
 
-      if ($image->height > $maxHeight || $image->width > $maxWidth ) {
-        $image->error = 'Image height/width should be less than ' . $maxHeight . '/' . $maxWidth . ' pixels';
+      if ($this->height > $maxHeight || $this->width > $maxWidth ) {
+        $this->error = 'Image height/width should be less than ' . $maxHeight . '/' . $maxWidth . ' pixels';
         return false;
       }
 
-      $isSaved = $image->isSaved($files['tmp_name'], $image->fullPath);
+      $isSaved = $this->isSaved($this->_files['tmp_name'], $this->fullPath);
 
-      return $isSaved ? $image : false;
+      return $isSaved ? $this : false;
     }
 
 
