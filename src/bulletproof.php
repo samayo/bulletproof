@@ -436,17 +436,19 @@ class Image implements \ArrayAccess
       /* check image dimension */
       list($allowedWidth, $allowedHeight) = $image->dimensions;
 
-      if ($image->height > $allowedHeight || $image->width > $allowedWidth) {
+      if (
+          $image->height > $allowedHeight || 
+          $image->width > $allowedWidth ||
+          $image->height < 2 ||
+          $image->width < 2
+        ) {
         $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
         return false;
       }
 
-      if ($image->height < 2 || $image->width < 2) {
-        $image->error = 'Image height/width too small or corrupted.';
-        return false;
-      }
+      $isSaved = $image->isSaved($files['tmp_name'], $image->fullPath);
 
-      $moveUpload = $image->moveUploadedFile($files['tmp_name'], $image->fullPath);
+      return $isSaved ? $image : false;
     }
 
 
@@ -458,15 +460,8 @@ class Image implements \ArrayAccess
      *
      * @return bool
      */
-    public function moveUploadedFile($tmp_name, $destination)
+    protected function isSaved($tmp_name, $destination)
     {
-      if ($image->error === '') {
-        $moveUpload = move_uploaded_file($tmp_name, $destination);;
-        if (false !== $moveUpload) {
-          return $this;
-        } else {
-          $this->image['erro'] = "Unknow error occured. Image could not be uploaded"; 
-        }
-      }
+      return move_uploaded_file($tmp_name, $destination);
     }
 }

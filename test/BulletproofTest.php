@@ -8,7 +8,7 @@ class BulletproofTest extends \Bulletproof\Image {
      * Return true at this point since we can't upload files
      * during test (or can we? I don't know!)
      */
-    public function moveUploadedFile($tmp, $desination)
+    public function isSaved($tmp, $desination)
     {
         return true;
     }
