@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### 4.0.0
+ - I'm not going to lie, most changes were done to get the perfect scrutinizer code quality
+ - Also removed getting errors with `$image['error']` use `$image->getError()` instead
+ - PHPunit requirement is ^6 - so tests for < php7.0 won't work (sorry)
+ - Trying to upload images less or equal than 2px (width/height) is not longer prevented.
+   Honestly, who am I to judge how many pixels an image should be?
+ - Code is more refractored, it should be ready to eat now
+
 ### 3.2.0
 - Fix some issues related to upload. (when file isn't uploaded, error wasn't shown)
 - Fix PHPUnit namespace related error. (can't re-declare class .... error)

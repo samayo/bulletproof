@@ -397,7 +397,7 @@ class Image implements \ArrayAccess
     /**
      * Validate image and upload
      * 
-     * @return false|Image
+     * @return false|null|Image
      */
     public function upload()
     {
