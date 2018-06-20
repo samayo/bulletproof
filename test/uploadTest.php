@@ -112,14 +112,14 @@ class uploadTest extends TestCase {
     public function testMimeTypeFailWithMsg () {
       $this->bulletproof->setMime(['gif']);
       $upload = $this->bulletproof->upload();
-      $this->assertEquals($this->bulletproof['error'], 'Invalid File! Only (gif) image types are allowed');
+      $this->assertEquals($this->bulletproof->getError(), 'Invalid File! Only (gif) image types are allowed');
     }
 
     // check invalid size with msg
     public function testImageSizeFailWithMsg () {
       $this->bulletproof->setSize(888, 9999);
       $upload = $this->bulletproof->upload();
-       $this->assertEquals($this->bulletproof['error'], 'Image size should be at least 1 KB, and no more than 9 KB');
+       $this->assertEquals($this->bulletproof->getError(), 'Image size should be at least 1 KB, and no more than 9 KB');
     }
 
  
@@ -128,7 +128,7 @@ class uploadTest extends TestCase {
     public function testImageDimensionFailWithMsg () {
       $this->bulletproof->setDimension(42, 43);
       $upload = $this->bulletproof->upload();
-       $this->assertEquals($this->bulletproof['error'], 'Image height/width should be less than 43/42 pixels');
+       $this->assertEquals($this->bulletproof->getError(), 'Image height/width should be less than 43/42 pixels');
     }
 
 

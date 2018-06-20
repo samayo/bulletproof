@@ -7,7 +7,7 @@
  * PHP support 5.3+
  *
  * @package     bulletproof
- * @version     3.4.0
+ * @version     4.0.0
  * @author      https://twitter.com/_samayo
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
@@ -137,11 +137,7 @@ class Image implements \ArrayAccess
      * @return string|boolean
      */
     public function offsetGet($offset)
-    {   
-      // return error if requested
-      if ($offset == 'error') {
-          return $this->error;
-      }
+    { 
       
       // return false if $image['key'] isn't found
       if (!isset($this->_files[$offset])) {
@@ -391,6 +387,7 @@ class Image implements \ArrayAccess
       $this->location = $dir;
       return $this;
     }
+
 
     /**
      * Validate image and upload
