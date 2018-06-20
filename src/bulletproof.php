@@ -165,7 +165,12 @@ class Image implements \ArrayAccess
      */
     public function setDimension($maxWidth, $maxHeight)
     {
-      $this->dimensions = array($maxWidth, $maxHeight);
+      if((int) $maxWidth && (int) $maxHeight){
+        $this->dimensions = array($maxWidth, $maxHeight);
+      }else{
+        $this->error = "Invalid dimention! Values must be integers"; 
+      }
+
       return $this;
     }
 
@@ -392,7 +397,7 @@ class Image implements \ArrayAccess
     /**
      * Validate image and upload
      * 
-     * @return false|null|Image
+     * @return false|Image
      */
     public function upload()
     {
@@ -413,12 +418,10 @@ class Image implements \ArrayAccess
       }
 
       /* initialize image properties */
-      $image->name = $image->getName();
       $image->width = $image->getWidth();
       $image->height = $image->getHeight();
       $image->getFullPath();
       
-
       /* get image sizes */
       list($minSize, $maxSize) = $image->size;
 
@@ -433,12 +436,7 @@ class Image implements \ArrayAccess
       /* check image dimension */
       list($allowedWidth, $allowedHeight) = $image->dimensions;
 
-      if (
-          $image->height > $allowedHeight || 
-          $image->width > $allowedWidth ||
-          $image->height < 2 ||
-          $image->width < 2
-        ) {
+      if ($image->height > $allowedHeight || $image->width > $allowedWidth ) {
         $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
         return false;
       }
