@@ -168,7 +168,7 @@ class Image implements \ArrayAccess
       if((int) $maxWidth && (int) $maxHeight){
         $this->dimensions = array($maxWidth, $maxHeight);
       }else{
-        $this->error = "Invalid dimention! Values must be integers"; 
+        $this->error = 'Invalid dimention! Values must be integers'; 
       }
 
       return $this;
@@ -412,8 +412,7 @@ class Image implements \ArrayAccess
       $image->getImageMime($files['tmp_name']);
       /* validate image mime type */
       if (!in_array($image->mime, $image->mimeTypes)) {
-        $ext = implode(', ', $image->mimeTypes);
-        $image->error = sprintf('Invalid File! Only (%s) image types are allowed', $ext);
+        $image->error = sprintf('Invalid File! Only (%s) image types are allowed', implode(', ', $image->mimeTypes));
         return false;
       }
 
@@ -427,9 +426,9 @@ class Image implements \ArrayAccess
 
       /* check image size based on the settings */
       if ($files['size'] < $minSize || $files['size'] > $maxSize) {
-        $min = intval($minSize / 1000) ?: 1;
-        $max = intval($maxSize / 1000) ?: 1;
-        $image->error = 'Image size should be at least ' . $min . ' KB, and no more than ' . $max . ' KB';
+        $min = $minSize . ' bytes ('.intval($minSize / 1000) .' kb)';
+        $max = $maxSize . ' bytes ('.intval($maxSize / 1000) .' kb)';
+        $image->error = 'Image size should be minumum ' . $min . ', upto maximum ' . $max;
         return false;
       }
 

@@ -119,7 +119,7 @@ class uploadTest extends TestCase {
     public function testImageSizeFailWithMsg () {
       $this->bulletproof->setSize(888, 9999);
       $upload = $this->bulletproof->upload();
-       $this->assertEquals($this->bulletproof->getError(), 'Image size should be at least 1 KB, and no more than 9 KB');
+       $this->assertEquals($this->bulletproof->getError(), 'Image size should be minumum 888 bytes (0 kb), upto maximum 9999 bytes (9 kb)');
     }
 
  
