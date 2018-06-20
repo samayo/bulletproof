@@ -67,8 +67,8 @@ class Image implements \ArrayAccess
      */
     protected $acceptedMimes = array(
       1 => 'gif', 'jpeg', 'png', 'swf', 'psd',
-            'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
-            'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
+           'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
+           'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
     );
 
     /**
@@ -141,15 +141,15 @@ class Image implements \ArrayAccess
       
       // return false if $image['key'] isn't found
       if (!isset($this->_files[$offset])) {
-          $this->error = sprintf('No file input found with name: (%s)', $offset); 
-          return false;
+        $this->error = sprintf('No file input found with name: (%s)', $offset); 
+        return false;
       }
 
       $this->_files = $this->_files[$offset];
 
       // check for common upload errors
       if(isset($this->_files['error'])){
-          $this->error = $this->commonUploadErrors[$this->_files['error']];
+        $this->error = $this->commonUploadErrors[$this->_files['error']];
       }
 
       return true;
@@ -165,7 +165,7 @@ class Image implements \ArrayAccess
      */
     public function setDimension($maxWidth, $maxHeight)
     {
-      if((int) $maxWidth && (int) $maxHeight){
+      if( (int) $maxWidth && (int) $maxHeight){
         $this->dimensions = array($maxWidth, $maxHeight);
       }else{
         $this->error = 'Invalid dimention! Values must be integers'; 
@@ -433,10 +433,10 @@ class Image implements \ArrayAccess
       }
 
       /* check image dimension */
-      list($allowedWidth, $allowedHeight) = $image->dimensions;
+      list($maxWidth, $maxHeight) = $image->dimensions;
 
-      if ($image->height > $allowedHeight || $image->width > $allowedWidth ) {
-        $image->error = 'Image height/width should be less than ' . $allowedHeight . '/' . $allowedWidth . ' pixels';
+      if ($image->height > $maxHeight || $image->width > $maxWidth ) {
+        $image->error = 'Image height/width should be less than ' . $maxHeight . '/' . $maxWidth . ' pixels';
         return false;
       }
 
