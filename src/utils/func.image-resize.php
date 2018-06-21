@@ -1,6 +1,6 @@
 <?php
 /**
- * bulletproof\utils\resize 
+ * bulletproof\utils\resize
  *
  * Image resize function for bulletproof library
  *
@@ -14,7 +14,7 @@
  */
 namespace Bulletproof\Utils;
 
-function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = FALSE, $upsize = TRUE)
+function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = false, $upsize = true)
 {
 
     // First, calculate the height.
@@ -22,7 +22,6 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
 
     // If the height is too large, set it to the maximum height and calculate the width.
     if ($height > $newHeight) {
-
         $height = $newHeight;
         $newWidth = intval($height / $imgHeight * $imgWidth);
     }
@@ -91,7 +90,4 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
             throw new \Exception(" Only jpg, jpeg, png and gif files can be resized ");
             break;
     }
-
 }
-
-

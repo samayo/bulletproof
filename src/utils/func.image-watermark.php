@@ -1,6 +1,6 @@
 <?php
 /**
- * bulletproof\utils\watermark 
+ * bulletproof\utils\watermark
  *
  * Image watermark function for bulletproof library
  *

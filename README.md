@@ -38,13 +38,13 @@ require_once  "path/to/bulletproof.php";
 $image = new Bulletproof\Image($_FILES);
 
 if($image["pictures"]){
-    $upload = $image->upload(); 
-	
-    if($upload){
-        echo $upload->getFullPath(); // uploads/cat.gif
-    }else{
-        echo $image["error"]; 
-    }
+  $upload = $image->upload(); 
+
+  if($upload){
+    echo $upload->getFullPath(); // uploads/cat.gif
+  }else{
+    echo $image["error"]; 
+  }
 }
 ```
 To use the full potential of bulletproof, check the following codes & examples.
@@ -110,12 +110,12 @@ $image->setName("samayo")
       ->setLocation(__DIR__ . "/avatars");
 
 if($image["pictures"]){
-    if($image->upload()){
-        echo $image->getName(); // samayo
-        echo $image->getMime(); // gif
-        echo $image->getLocation(); // avatars
-        echo $image->getFullPath(); // avatars/samayo.gif
-    }
+  if($image->upload()){
+    echo $image->getName(); // samayo
+    echo $image->getMime(); // gif
+    echo $image->getLocation(); // avatars
+    echo $image->getFullPath(); // avatars/samayo.gif
+  }
 }
 ``` 
 
@@ -125,23 +125,32 @@ If you want to crop, resize or watermark images, use the functions in the separa
 #### Creating your own custom errors
 To create your own errors and responses, instead of the default error messages, use exceptions:
 ```php 
- try{
+$image = new Bulletproof\Image($_FILES);
 
-   if($image->getMime() !== "png"){
-      throw new \Exception(" Image should be a 'png' type ");
-   }
+try {
 
-   // use the same to validate getSize(), getWidth(), getHeight() ...
+  if(!$image['pictures']){
+    throw new \Exception('Image not found')
+  }
 
-   if($image->upload()){
-      $image->getFullPath(); // insert to db 
-   }else{
-     throw new \Exception($image["error"]);
-   }
+  if($image->getMime() !== 'png'){
+    throw new \Exception('Only PNG image types are allowed')
+  }
 
- }catch(\Exception $e){
-      echo $e->getMessage(); 
- }
+  if($image->getSize() > 10000){
+    throw new \Exception('Image size too large')
+  }
+
+  if(!$upload = $image->upload()){
+    // if you cover all the possible scenarios, you don't have to rely on getError();
+    throw new \Exception($image->getError());
+  }else{
+    // uploded
+  }
+  
+} catch (\Exception $e){
+  echo "Image not uploaded! ": $e->getMessage();
+}
 ```
 
 #### What makes this secure?  

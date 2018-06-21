@@ -1,6 +1,6 @@
 <?php
 /**
- * bulletproof\utils\crop 
+ * bulletproof\utils\crop
  *
  * Image croping function for bulletproof library
  *
@@ -16,7 +16,6 @@ namespace Bulletproof\Utils;
 
 function crop($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight)
 {
-
     switch ($mimeType) {
         case "jpg":
         case "jpeg":
@@ -40,7 +39,7 @@ function crop($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight)
     $widthTrim = ceil(($imgWidth - $newWidth) / 2);
     $heightTrim = ceil(($imgHeight - $newHeight) / 2);
 
-    // Can't crop to a bigger size, ex: 
+    // Can't crop to a bigger size, ex:
     // an image with 100X100 can not be cropped to 200X200. Image can only be cropped to smaller size.
     if ($widthTrim < 0 && $heightTrim < 0) {
         return;
@@ -68,6 +67,4 @@ function crop($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight)
     } else {
         imagejpeg($temp, $image);
     }
-
 }
-

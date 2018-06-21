@@ -41,10 +41,10 @@ class uploadTest extends TestCase {
       $this->assertEquals($upload->getMime(), 'jpeg');
     }
 
-    // check dimensions limit
-    public function testDimentions () {
+    // check dimensions params
+    public function testDimensions () {
       // give it out of range (minimum dimentions than the class requires)
-      $this->bulletproof->setDimension(1, 1);
+      $this->bulletproof->setDimension(1, 'b');
       $upload = $this->bulletproof->upload();
       $this->assertFalse($upload);
     }
@@ -122,14 +122,12 @@ class uploadTest extends TestCase {
        $this->assertEquals($this->bulletproof->getError(), 'Image size should be minumum 888 bytes (0 kb), upto maximum 9999 bytes (9 kb)');
     }
 
- 
-
     // check invalid dimension fails with msg
-    public function testImageDimensionFailWithMsg () {
-      $this->bulletproof->setDimension(42, 43);
-      $upload = $this->bulletproof->upload();
-       $this->assertEquals($this->bulletproof->getError(), 'Image height/width should be less than 43/42 pixels');
-    }
+public function testImageDimensionFailWithMsg () {
+  $this->bulletproof->setDimension(42, 43);
+  $this->bulletproof->upload();
+    $this->assertEquals($this->bulletproof->getError(), 'Image height/width should be less than 43/42 pixels');
+}
 
 
 }
