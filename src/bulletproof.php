@@ -162,7 +162,7 @@ class Image implements \ArrayAccess
      */
     public function setDimension($maxWidth, $maxHeight)
     {
-      if ((int) $maxWidth && (int) $maxHeight) {
+      if ( (int) $maxWidth && (int) $maxHeight) {
         $this->dimensions = array($maxWidth, $maxHeight);
       } else {
         $this->error = 'Invalid dimension! Values must be integers';
@@ -384,10 +384,10 @@ class Image implements \ArrayAccess
         return false;
       }
 
-      $create = !is_dir($dir) ? @mkdir(''.$dir, (int) $permission, true) : true;
+      $create = !is_dir($dir) ? @mkdir('' . $dir, (int) $permission, true) : true;
 
       if (!$create) {
-        $this->error = 'Error! directory \''.$dir.'\' could not be created';
+        $this->error = 'Error! directory \'' . $dir . '\' could not be created';
         return false;
       }
 

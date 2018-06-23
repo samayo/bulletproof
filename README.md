@@ -125,31 +125,30 @@ If you want to crop, resize or watermark images, use the functions in the separa
 #### Creating your own custom errors
 To create your own errors and responses, instead of the default error messages, use exceptions:
 ```php 
-$image = new Bulletproof\Image($_FILES);
+if($image['pics']){
 
-try {
+  try {
+    if($image->getMime() !== 'png'){
+      throw new \Exception('Only PNG image types are allowed');
+    }
 
-  if(!$image['pictures']){
-    throw new \Exception('Image not found')
+    if($image->getSize() > 10000){
+      throw new \Exception('Image size too large');
+    }
+
+    if($image->getHeight() > 100){
+      throw new \Exception('max image height is 100px');
+    }
+
+    if(!$upload = $image->upload()){
+      throw new \Exception($image->getError());
+    } else {
+      echo $image->getFullPath();
+    }
+    
+  } catch (\Exception $e){
+    echo "Error " . $e->getMessage();
   }
-
-  if($image->getMime() !== 'png'){
-    throw new \Exception('Only PNG image types are allowed')
-  }
-
-  if($image->getSize() > 10000){
-    throw new \Exception('Image size too large')
-  }
-
-  if(!$upload = $image->upload()){
-    // if you cover all the possible scenarios, you don't have to rely on getError();
-    throw new \Exception($image->getError());
-  }else{
-    // uploded
-  }
-  
-} catch (\Exception $e){
-  echo "Image not uploaded! ": $e->getMessage();
 }
 ```
 
