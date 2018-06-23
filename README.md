@@ -13,7 +13,7 @@ $ git clone https://github.com/samayo/bulletproof.git
 ```
 Or composer
 ```bash
-$ composer require samayo/bulletproof:3.2.*
+$ composer require samayo/bulletproof:4.0.*
 ```
 Or [download it manually][bulletproof_archive] based on the archived version of release-cycles.
 
