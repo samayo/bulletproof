@@ -64,7 +64,6 @@ function crop($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight)
 
     if (!$temp) {
         throw new \Exception("Failed to crop image. Please pass the right parameters");
-    } else {
+    } 
         imagejpeg($temp, $image);
-    }
 }
