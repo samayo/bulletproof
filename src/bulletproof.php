@@ -99,30 +99,36 @@ class Image implements \ArrayAccess
     public function __construct(array $_files = array())
     {
       if (!function_exists('exif_imagetype')) {
-          $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini';
+        $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini';
       }
 
       $this->_files = $_files;
     }
 
     /**
+     * \ArrayAccess unused method
+     * 
      * @param mixed $offset
      * @param mixed $value
      */
     public function offsetSet($offset, $value) {}
 
     /**
+     * \ArrayAccess unused method
+     * 
      * @param mixed $offset
      */
     public function offsetExists($offset){}
 
     /**
+     * \ArrayAccess unused method
+     * 
      * @param mixed $offset
      */
     public function offsetUnset($offset){}
 
     /**
-     * Gets array value \ArrayAccess.
+     * \ArrayAccess - get array value from object
      *
      * @param mixed $offset
      *
@@ -393,7 +399,7 @@ class Image implements \ArrayAccess
     /**
      * Validate image size, dimension or mimetypes
      *
-     * @return true|false
+     * @return boolean
      */
     protected function contraintsValidator()
     {
@@ -418,8 +424,6 @@ class Image implements \ArrayAccess
 
       /* check image dimension */
       list($maxWidth, $maxHeight) = $this->dimensions;
-
-      /* initialize image properties */
       $this->width = $this->getWidth();
       $this->height = $this->getHeight();
 
@@ -438,19 +442,15 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
-      if ($this->error || !isset($this->_files['tmp_name'])) {
+      if ($this->error) {
         return false;
       }
 
       $isValid = $this->contraintsValidator();
 
-      if (!$isValid) {
-        return false;
-      }
+      $isSuccess = $isValid && $this->isSaved($this->_files['tmp_name'], $this->getFullPath());
 
-      $isSaved = $this->isSaved($this->_files['tmp_name'], $this->getFullPath());
-
-      return $isSaved ? $this : false;
+      return $isSuccess ? $this : false;
     }
 
     /**
