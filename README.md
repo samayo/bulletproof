@@ -40,7 +40,7 @@ if($image["pictures"]){
   if($upload){
     echo $upload->getFullPath(); // uploads/cat.gif
   }else{
-    echo $image["error"]; 
+    echo $image->getError(); 
   }
 }
 ```
