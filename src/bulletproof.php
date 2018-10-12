@@ -1,5 +1,6 @@
 <?php 
 /**
+ * test
  * BULLETPROOF.
  * 
  * A single-class PHP library to upload images securely.
