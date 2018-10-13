@@ -95,7 +95,8 @@ class Image implements \ArrayAccess
         'ERROR_05' => 'Error! directory (%1$s) could not be created',
         'ERROR_06' => 'Invalid File! Only (%1$s) image types are allowed',
         'ERROR_07' => 'Image size should be minumum (%1$s), upto maximum (%2$s)',
-        'ERROR_08' => 'Image height/width should be less than (%1$s)/(%2$s) pixels'
+        'ERROR_08' => 'Image height/width should be less than (%1$s)/(%2$s) pixels',
+        'ERROR_09' => 'Error! the language could not found',
       ),
     );
 
@@ -209,7 +210,7 @@ class Image implements \ArrayAccess
       if (isset($this->commonUploadErrors[$lang])) {
         $this->language = $lang;
       } else {
-        //$this->error = '...';
+        $this->error = $this->commonUploadErrors[$this->language]['ERROR_09'];
       }
 
       return $this;
