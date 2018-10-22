@@ -442,7 +442,7 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
-      if ($this->error) {
+      if ($this->error !== '') {
         return false;
       }
 
