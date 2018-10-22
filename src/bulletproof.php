@@ -272,7 +272,7 @@ class Image implements \ArrayAccess
     /**
      * Returns error string or false if no errors occurred.
      *
-     * @return string|false
+     * @return string
      */
     public function getError()
     {
