@@ -270,7 +270,7 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Returns error string or false if no errors occurred.
+     * Returns error string
      *
      * @return string
      */
