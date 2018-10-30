@@ -35,9 +35,9 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
         }
 
         // If the given height is larger then the image height, then resize it.
-        if ($height > $imgHeight) {
-            $height = $imgHeight;
-            $newWidth = intval($height / $imgHeight * $imgWidth);
+        if ($newHeight > $imgHeight) {
+            $newHeight = $imgHeight;
+            $newWidth = intval($newHeight / $imgHeight * $imgWidth);
         }
     }
 
