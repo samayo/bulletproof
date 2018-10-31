@@ -270,9 +270,9 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Returns error string or false if no errors occurred.
+     * Returns error string
      *
-     * @return string|false
+     * @return string
      */
     public function getError()
     {
@@ -442,7 +442,7 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
-      if ($this->error) {
+      if ($this->error !== '') {
         return false;
       }
 
