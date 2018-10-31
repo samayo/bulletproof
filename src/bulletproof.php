@@ -70,17 +70,34 @@ class Image implements \ArrayAccess
     );
 
     /**
+     * @var string The language
+     */
+    protected $language = 'en';
+
+    /**
      * @var array error messages strings
      */
     protected $commonUploadErrors = array(
-      UPLOAD_ERR_OK => '',
-      UPLOAD_ERR_INI_SIZE => 'Image is larger than the specified amount set by the server',
-      UPLOAD_ERR_FORM_SIZE => 'Image is larger than the specified amount specified by browser',
-      UPLOAD_ERR_PARTIAL => 'Image could not be fully uploaded. Please try again later',
-      UPLOAD_ERR_NO_FILE => 'Image is not found',
-      UPLOAD_ERR_NO_TMP_DIR => 'Can\'t write to disk, due to server configuration ( No tmp dir found )',
-      UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
-      UPLOAD_ERR_EXTENSION => 'A PHP extension has halted this file upload process',
+      'en' => array(
+        UPLOAD_ERR_OK => '',
+        UPLOAD_ERR_INI_SIZE => 'Image is larger than the specified amount set by the server',
+        UPLOAD_ERR_FORM_SIZE => 'Image is larger than the specified amount specified by browser',
+        UPLOAD_ERR_PARTIAL => 'Image could not be fully uploaded. Please try again later',
+        UPLOAD_ERR_NO_FILE => 'Image is not found',
+        UPLOAD_ERR_NO_TMP_DIR => 'Can\'t write to disk, due to server configuration ( No tmp dir found )',
+        UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk. Please check you file permissions',
+        UPLOAD_ERR_EXTENSION => 'A PHP extension has halted this file upload process',
+
+        'ERROR_01' => 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini',
+        'ERROR_02' => 'No file input found with name: (%1$s)',
+        'ERROR_03' => 'Invalid dimension! Values must be integers',
+        'ERROR_04' => 'Can not create a directory (%1$s), please check write permission',
+        'ERROR_05' => 'Error! directory (%1$s) could not be created',
+        'ERROR_06' => 'Invalid File! Only (%1$s) image types are allowed',
+        'ERROR_07' => 'Image size should be minumum %1$s, upto maximum %2$s',
+        'ERROR_08' => 'Image height/width should be less than %1$s/%2$s pixels',
+        'ERROR_09' => 'Error! the language does not exist',
+      ),
     );
 
     /**
@@ -99,7 +116,7 @@ class Image implements \ArrayAccess
     public function __construct(array $_files = array())
     {
       if (!function_exists('exif_imagetype')) {
-        $this->error = 'Function \'exif_imagetype\' Not found. Please enable \'php_exif\' in your php.ini';
+        $this->error = $this->commonUploadErrors[$this->language]['ERROR_01'];
       }
 
       $this->_files = $_files;
@@ -138,7 +155,7 @@ class Image implements \ArrayAccess
     {
       // return false if $_FILES['key'] isn't found
       if (!isset($this->_files[$offset])) {
-        $this->error = sprintf('No file input found with name: (%s)', $offset);
+        $this->error = sprintf($this->commonUploadErrors[$this->language]['ERROR_02'], $offset);
         return false;
       }
 
@@ -146,7 +163,7 @@ class Image implements \ArrayAccess
 
       // check for common upload errors
       if (isset($this->_files['error'])) {
-        $this->error = $this->commonUploadErrors[$this->_files['error']];
+        $this->error = $this->commonUploadErrors[$this->language][$this->_files['error']];
       }
 
       return true;
@@ -165,7 +182,7 @@ class Image implements \ArrayAccess
       if ( (int) $maxWidth && (int) $maxHeight) {
         $this->dimensions = array($maxWidth, $maxHeight);
       } else {
-        $this->error = 'Invalid dimension! Values must be integers';
+        $this->error = $this->commonUploadErrors[$this->language]['ERROR_03'];
       }
 
       return $this;
@@ -179,6 +196,24 @@ class Image implements \ArrayAccess
     public function getFullPath()
     {
       return $this->fullPath = $this->getLocation().'/'.$this->getName().'.'.$this->getMime();
+    }
+
+    /**
+     * Define a language
+     *
+     * @param $lang string language code 
+     *
+     * @return $this
+     */
+    public function setLanguage($lang)
+    {
+      if (isset($this->commonUploadErrors[$lang])) {
+        $this->language = $lang;
+      } else {
+        $this->error = $this->commonUploadErrors[$this->language]['ERROR_09'];
+      }
+
+      return $this;
     }
 
     /**
@@ -270,9 +305,9 @@ class Image implements \ArrayAccess
     }
 
     /**
-     * Returns error string or false if no errors occurred.
+     * Returns error string
      *
-     * @return string|false
+     * @return string
      */
     public function getError()
     {
@@ -380,14 +415,14 @@ class Image implements \ArrayAccess
       $isDirectoryValid = $this->isDirectoryValid($dir);
 
       if (!$isDirectoryValid) {
-        $this->error = 'Can not create a directory  \''.$dir.'\', please check write permission';
+        $this->error = sprintf($this->commonUploadErrors[$this->language]['ERROR_04'], $dir);
         return false;
       }
 
       $create = !is_dir($dir) ? @mkdir('' . $dir, (int) $permission, true) : true;
 
       if (!$create) {
-        $this->error = 'Error! directory \'' . $dir . '\' could not be created';
+        $this->error = sprintf($this->commonUploadErrors[$this->language]['ERROR_05'], $dir);
         return false;
       }
 
@@ -407,7 +442,7 @@ class Image implements \ArrayAccess
       $this->getImageMime($this->_files['tmp_name']);
       /* validate image mime type */
       if (!in_array($this->mime, $this->mimeTypes)) {
-        $this->error = sprintf('Invalid File! Only (%s) image types are allowed', implode(', ', $this->mimeTypes));
+        $this->error = sprintf($this->commonUploadErrors[$this->language]['ERROR_06'], implode(', ', $this->mimeTypes));
         return false;
       }
 
@@ -418,7 +453,7 @@ class Image implements \ArrayAccess
       if ($this->_files['size'] < $minSize || $this->_files['size'] > $maxSize) {
         $min = $minSize.' bytes ('.intval($minSize / 1000).' kb)';
         $max = $maxSize.' bytes ('.intval($maxSize / 1000).' kb)';
-        $this->error = 'Image size should be minumum '.$min.', upto maximum '.$max;
+        $this->error = sprintf($this->commonUploadErrors[$this->language]['ERROR_07'], $min, $max);
         return false;
       }
 
@@ -428,7 +463,7 @@ class Image implements \ArrayAccess
       $this->height = $this->getHeight();
 
       if ($this->height > $maxHeight || $this->width > $maxWidth) {
-        $this->error = 'Image height/width should be less than '.$maxHeight.'/'.$maxWidth.' pixels';
+        $this->error = sprintf($this->commonUploadErrors[$this->language]['ERROR_08'], $maxHeight, $maxWidth);
         return false;
       }
 
@@ -442,7 +477,7 @@ class Image implements \ArrayAccess
      */
     public function upload()
     {
-      if ($this->error) {
+      if ($this->error !== '') {
         return false;
       }
 
