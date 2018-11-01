@@ -12,9 +12,32 @@
  * @link        https://github.com/samayo/bulletproof
  * @license     MIT
  */
+
+
 namespace Bulletproof\Utils;
 
-function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = false, $upsize = true, $cropToSize = false)
+/*
+ * Variable quality sets what quality should be used for JPEG or what compression should be used for PNG. See example.
+ *
+ * Example:
+ *
+ * array(
+ *       'jpg' => array(
+ *                      'orig'     => true,  // (bool) whether to use same quality as original image (requires ImageMagick)
+ *                      'fallback' => 80,    // (int)  fallback if original image quality can not be detected or is not set. Accepted values are 1-100
+ *                      'max'      => 85,    // (int)  Maximal quality, if detected quality is more than this value, than this will be used. Accepted values are 1-100
+ *                      'min'      => 60     // (int)  Minimal quality, if detected quality is less than this value, than this will be used. Accepted values are 1-100
+ *                      ),
+ *       'png' => 9 // (int) PNG compression level. Accepted values are 0-9. Default is zlib's default which is currently ( 11/2018 ) equal to 6
+ *      );
+ *
+ * Any of the values can be left out.
+ *
+ * Example:
+ * array( 'jpg' => array( 'fallback' => 80 ) ) // this will set JPG quality to 80 on JPGs
+ *
+ */
+function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = false, $upsize = true, $cropToSize = false, $quality = array())
 {
     // Checks whether image cropping is enabled
     if ($cropToSize) {
@@ -131,10 +154,36 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
     switch ($mimeType) {
         case "jpeg":
         case "jpg":
-            imagejpeg($tmp, $image, 90);
+            $q = 90; // function's default value - if everything else fails, this is used.
+            if( false !== $image ) {
+                if ((!empty($quality['jpg']['fallback'])) AND ( (int) $quality['jpg']['fallback'] ) AND ( $quality['jpg']['fallback'] > 0 ) AND ( $quality['jpg']['fallback'] <=100 ) ) {
+                    $q = $quality['jpg']['fallback'];
+                }
+
+                if ((!empty($quality['jpg']['orig'])) AND true ===$quality['jpg']['orig'] ){
+                    if (extension_loaded('imagick')){
+                        $im = new \Imagick($image);
+                        $q = $im->getImageCompressionQuality();
+                    }
+                }
+
+                if((!empty($quality['jpg']['max'])) AND $quality['jpg']['max'] < $q ){
+                    $q = $quality['jpg']['max'];
+                }
+
+                if((!empty($quality['jpg']['min'])) AND $quality['jpg']['min'] > $q ){
+                    $q = $quality['jpg']['min'];
+                }
+            }
+            imagejpeg($tmp, $image, $q );
             break;
         case "png":
-            imagepng($tmp, $image, 0);
+            if ((!empty($quality['png'])) AND ( (int) $quality['png'] ) AND ( $quality['png'] >= -1 ) AND ( $quality['png'] <=9 ) ) {
+                $q = $quality['png'];
+            } else {
+                $q = -1; // -1 is zlib's default value which is currently ( 11/2018 ) equal to 6
+            }
+            imagepng($tmp, $image, $q );
             break;
         case "gif":
             imagegif($tmp, $image);
