@@ -47,13 +47,14 @@ namespace Bulletproof\Utils;
  *                                       Script can handle both relative and
  *                                       absolute paths. Folder path needs to
  *                                       end with '/' (forward slash). If left empty (or set to false) it will overwrite original image
+ * @param      integer     $permission   The permission for destination folder (if it will be created by script)
  *
  * @throws     \Exception  (description)
  *
  * @return     boolean     True on success false on failure
  *
  */
-function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = false, $upsize = true, $cropToSize = false, $quality = array(), $destination = false)
+function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight, $ratio = false, $upsize = true, $cropToSize = false, $quality = array(), $destination = false, $permission = 0755)
 {
     // Checks whether image cropping is enabled
     if ($cropToSize) {
@@ -169,7 +170,7 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
 
     if ($destination !== false) {  // checks if was destination provided
         if(substr( $destination, -1 ) == '/' ) { // check whether prowided destination was folder or file.
-            $create = !is_dir($destination) ? @mkdir($destination, 0777, true) : true; // if it was folder, it will crtete it if needed
+            $create = !is_dir($destination) ? @mkdir($destination, $permission, true) : true; // if it was folder, it will crtete it if needed
             if ($create) {
                 $path_parts = pathinfo($image);
                 $destination = $destination . $path_parts['basename'];
@@ -183,7 +184,7 @@ function resize($image, $mimeType, $imgWidth, $imgHeight, $newWidth, $newHeight,
     }
 
     $path_parts = pathinfo($destination);
-    $create = !is_dir($path_parts['dirname'].'/') ? @mkdir($path_parts['dirname'].'/', 0777, true) : true;
+    $create = !is_dir($path_parts['dirname'].'/') ? @mkdir($path_parts['dirname'].'/', $permission, true) : true;
     if (!$create) {
         return false; // TODO: throw error/exception
     }
