@@ -98,6 +98,26 @@ class Image implements \ArrayAccess
         'ERROR_08' => 'Image height/width should be less than %1$s/%2$s pixels',
         'ERROR_09' => 'Error! the language does not exist',
       ),
+      'es' => array(
+        UPLOAD_ERR_OK => '',
+        UPLOAD_ERR_INI_SIZE => 'La imagen es más larga que la cantidad especificada por el servidor',
+        UPLOAD_ERR_FORM_SIZE => 'La imagen es mayor que la cantidad especificada por el navegador',
+        UPLOAD_ERR_PARTIAL => 'La imagen no fue completamente subida. Por favor inténtalo de nuevo más tarde',
+        UPLOAD_ERR_NO_FILE => 'La imagen no fue encontrada',
+        UPLOAD_ERR_NO_TMP_DIR => 'No se puede escribir en el disco debido a la configuración del servidor (directorio tmp no fue encontrado)',
+        UPLOAD_ERR_CANT_WRITE => 'No se pudo escribir en el disco. Por favor verifique sus permisos',
+        UPLOAD_ERR_EXTENSION => 'Una extensión de PHP ha interrumpido el proceso de subida del archivo',
+
+        'ERROR_01' => 'La función \'exif_imagetype\' no fue encontrada. Por favor habilita \'php_exif\' en php.ini',
+        'ERROR_02' => 'No se pudo encontrar el archivo de entrada con nombre: (%1$s)',
+        'ERROR_03' => 'Dimensiones inválidas! Los valores necesitan ser enteros',
+        'ERROR_04' => 'No se pudo crear el directorio (%1$s), por favor revisa los permisos de escritura',
+        'ERROR_05' => 'Error! directorio (%1$s) no pudo ser creado',
+        'ERROR_06' => 'Archivo inválido! Solo los tipos de imagen (%1$s) son permitidos',
+        'ERROR_07' => 'La imagen necesita ser por lo menos %1$s, y un máximo %2$s',
+        'ERROR_08' => 'El largo y ancho de la imagen necesita ser menos que %1$s/%2$s pixeles',
+        'ERROR_09' => 'Error! El idioma no existe',
+      ),
     );
 
     /**
