@@ -144,9 +144,7 @@ if($image['pics']){
 ```
 
 #### What makes this secure?  
-* Uses **[`exif_imagetype()`][exif_imagetype_link]** to get the true image mime (`.extension`)
-* Uses **[`getimagesize()`][getimagesize_link]** to check if image has a valid height / width in pixels.
-* Sanitized images names, strict folder permissions and more... 
+* Sanitized images names, strict folder permissions and more.
 
 ### License: MIT
 [utils]: https://github.com/samayo/bulletproof/tree/master/src/utils
