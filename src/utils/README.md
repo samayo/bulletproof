@@ -1,12 +1,12 @@
 ### bulletproof\utils 
 
-This utils/ folder contains seperate function to crop, rezize or watermark images
+Contains seperate, stand-alone functions to crop, rezize or watermark images
 
 Install
 -----
-Since these are separate, standalone functions, all you have to do is 
-include them in your project, and call the functions like this: 
+open `utils/` folder and require the function you neeed. 
 
+#### use crop function
 ```php 
 require_once 'src/utils/func.image-crop.php';
 
@@ -19,6 +19,10 @@ require_once 'src/utils/func.image-crop.php';
  * $newHeight : the new height of the image:
  */
 $crop = bulletproof\utils\crop($image, $mime, $width, $height, $newWidth, $newHeight); 
+```
+##### crop function example
+```php
+require_once 'src/utils/func.image-crop.php';
 // call the function and pass the right arguments. 
 $crop = bulletproof\utils\crop( 
 	'images/my-car.jpg', 'jpg', 100, 200, 50, 25
@@ -26,16 +30,17 @@ $crop = bulletproof\utils\crop(
 // now 'images/my-car.jpg' is cropped to 50x25 pixels.
 ```
 
-#### with bulletproof
+### with bulletproof
 
 If you want to use these function with the [bulletproof][bulletproof], here are some examples: 
 
-##### Resizing
+#### Resizing
 ```php 
-// include bulletproof and the resize function.
+// include bulletproof and the function you need.
 require "src/bulletproof.php";
 require "src/utils/func.image-resize.php";
 
+// after you upload the image, call the function
 $image = new Bulletproof\Image($_FILES);
 
 if($image["picture"]){
@@ -53,10 +58,9 @@ if($image["picture"]){
 	}
 }
 ```
-The `crop()` method supports resizing by ratio, checkout the file for more. 
 
 #### Croping
-You can crop images the same way.
+The `crop()` function supports resizing by ratio, checkout the file for more. 
 ```php 
 require "src/utils/func.image-crop.php";
 
@@ -71,9 +75,10 @@ $crop = Bulletproof\crop(
 
 ```
 #### Watermark
+The `watermark()` function allows adding watermark into an image 
+
 ```php 
 require 'src/utils/func.image-watermark.php';
-
 // the image to watermark
 $logo = 'my-logo.png'; 
 // where to place the watermark

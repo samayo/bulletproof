@@ -44,7 +44,7 @@ if($image["pictures"]){
   }
 }
 ```
-To use the full potential of bulletproof, check the following codes & examples.
+For more flexibility, check the options and examples below.
 
 
 Configs
@@ -53,20 +53,20 @@ Configs
 #### Setting Properties
 Before uploading, you can use these methods to restrict the image size, dimensions, mime types, location...
 ```php  
-// Pass a custom name, or leave it if you want it to be auto-generated
-$image->setName($name); 
+// Pass a custom name, or it will be auto-generated
+$image->setName($name);
 
 // define the min/max image upload size (size in bytes) 
-$image->setSize($min, $max); 
+$image->setSize($min, $max);
 
 // define allowed mime types to upload
-$image->setMime(array('jpeg', 'gif'));  
+$image->setMime(array('jpeg', 'gif'));
 
 // set the max width/height limit of images to upload (limit in pixels)
-$image->setDimension($width, $height); 
+$image->setDimension($width, $height);
 
 // pass name (and optional chmod) to create folder for storage
-$image->setLocation($folderName, $optionalPermission);  
+$image->setLocation($folderName, $optionalPermission);
 ```
 
 #### Getting Properties
@@ -97,8 +97,8 @@ $image->getFullPath();
 $image->getJson();
 ```
 
-#### Slightly more customized ways to upload
-To set and get image info, before or after image upload, use as: 
+#### Customized example
+This will set image constrains and return output after upload
 ```php 
 $image = new Bulletproof\Image($_FILES);
 
@@ -116,22 +116,21 @@ if($image["pictures"]){
 }
 ``` 
 
-##### Image Manipulation
-If you want to crop, resize or watermark images, use the functions in the separate folder:    [`src/utils`][utils]
+#### Image Manipulation
+To crop, resize or watermak images, use functions stored in [`src/utils`][utils]
 
-#### Creating your own custom errors
-To create your own errors and responses, instead of the default error messages, use exceptions:
+#### Creating custom errors
+Use php exceptions to define custom error responses
 ```php 
-if($image['pics']){
-
+if($image['pictures']){
   try {
     if($image->getMime() !== 'png'){
       throw new \Exception('Only PNG image types are allowed');
     }
 
-    // do the same to check size, dimension ...
+    // check size, width, height...
 
-    if(!$upload = $image->upload()){
+    if(!$image->upload()){
       throw new \Exception($image->getError());
     } else {
       echo $image->getFullPath();
