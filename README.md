@@ -32,9 +32,9 @@ And copy & paste the following code to upload the image
 ```php 
 require_once  "path/to/bulletproof.php";
 
-$image = new Bulletproof\Image($_FILES);
+$image = new Bulletproof\Image($_FILES['pictures']);
 
-if($image["pictures"]){
+if($image){
   $upload = $image->upload(); 
 
   if($upload){
