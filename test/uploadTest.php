@@ -72,22 +72,22 @@ class uploadTest extends TestCase {
       $this->assertEquals($isHeight, $isWidth);
     }
 
-    // check if setting image location is correct
+    // check if setting image storage is correct
     public function testLocation () {
-      $this->bulletproof->setLocation('my-folder');
-      $this->assertEquals($this->bulletproof->getLocation(), 'my-folder');
+      $this->bulletproof->setLocation('uploads');
+      $this->assertEquals($this->bulletproof->getStorage(), 'uploads');
     }
 
 
     // check full path of image uploaded
 
    public function testFullpath(){
-        $this->bulletproof->setLocation('images');
+        $this->bulletproof->setLocation('uploads');
         $this->bulletproof->setName('2012');
         $this->bulletproof->setMime(['jpeg']);
         $upload = $this->bulletproof->upload();
         $getMime = $this->bulletproof->getMime();
-        $this->assertSame($upload->getFullPath(), 'images/2012.jpeg');
+        $this->assertSame($upload->getPath(), 'uploads/2012.jpeg');
     }
 
  
@@ -95,7 +95,7 @@ class uploadTest extends TestCase {
      public function testJsonOutput(){
         $upload = $this->bulletproof->setName('we_belive_in_json')->upload();
         $this->assertSame($upload->getJson(), 
-            '{"name":"we_belive_in_json","mime":"jpeg","height":345,"width":384,"size":17438,"location":"bulletproof","fullpath":"bulletproof\/we_belive_in_json.jpeg"}');
+            '{"name":"we_belive_in_json","mime":"jpeg","height":345,"width":384,"size":17438,"storage":"uploads","path":"uploads\/we_belive_in_json.jpeg"}');
 
     }
 
