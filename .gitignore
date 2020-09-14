@@ -2,7 +2,5 @@
 .idea/*
 vendor/*
 test.php
-result/
 resources
-bulletproof
-test-issue.php
+uploads
