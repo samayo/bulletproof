@@ -19,7 +19,7 @@
        "ext-exif":"*"
     },
     "require-dev":{
-       "phpunit/phpunit":"^6"
+       "phpunit/phpunit":"6.4.4"
     },
     "autoload":{
         "classmap": [
