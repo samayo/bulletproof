@@ -66,7 +66,7 @@ class Image implements \ArrayAccess
     protected $acceptedMimes = array(
       1 => 'gif', 'jpeg', 'png', 'swf', 'psd',
       'bmp', 'tiff', 'tiff', 'jpc', 'jp2', 'jpx',
-      'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico'
+      'jb2', 'swc', 'iff', 'wbmp', 'xbm', 'ico', 'webp'
     );
 
     /**
