@@ -1,6 +1,4 @@
 .gitignore
 .idea/*
 vendor/*
-test.php
-resources
-uploads
+dev
