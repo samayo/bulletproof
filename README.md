@@ -1,6 +1,6 @@
 ## BULLETPROOF [![Build Status](https://travis-ci.org/samayo/bulletproof.svg?branch=master)](https://travis-ci.org/samayo/bulletproof.svg?branch=master)
 
-[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg?format=flat-square)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads?format=flat-square)](https://packagist.org/packages/samayo/bulletproof?format=flat-square) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)  [![Gitter chat](https://img.shields.io/badge/gitter-join--chat-blue.svg)](https://gitter.im/fastpress/fastpress) [![License](https://poser.pugx.org/samayo/bulletproof/license)](https://packagist.org/packages/fastpress/framework)
+[![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg?format=flat-square)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads?format=flat-square)](https://packagist.org/packages/samayo/bulletproof?format=flat-square) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)  [![License](https://poser.pugx.org/samayo/bulletproof/license)](https://packagist.org/packages/fastpress/framework)
 
 Bulletproof is a single-class PHP library to upload images securely.
 
@@ -20,10 +20,9 @@ Or [download it manually][bulletproof_archive] in a ZIP format
 Usage
 -----
 
-To quickly upload images, use the following code:
+To quickly upload images, use the following HTML & PHP code:
 
 ```html
-<!-- (1) copy/paste the following HTML form -->
 <form method="POST" enctype="multipart/form-data">
   <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
   <input type="file" name="pictures" accept="image/*"/>
@@ -31,7 +30,6 @@ To quickly upload images, use the following code:
 </form>
 ```
 ```php 
-// (2) Add this code to your PHP file
 require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
