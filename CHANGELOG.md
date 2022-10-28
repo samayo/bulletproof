@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 5.0.0 
+ - Compatibility with PHP8+
+
 ### 4.0.0
  - I'm not going to lie, most changes were done to get the perfect scrutinizer code quality
  - Also removed getting errors with `$image['error']` use `$image->getError()` instead

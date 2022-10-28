@@ -3,3 +3,4 @@
 vendor/*
 dev
 uploads
+.phpunit.result.cache

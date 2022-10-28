@@ -48,7 +48,7 @@ if($image["picture"]){
 	
 	if($upload){
 		Bulletproof\Utils\resize(
-			$image->getFullPath(), 
+			$image->getPath(), 
 			$image->getMime(),
 			$image->getWidth(),
 			$image->getHeight(),
@@ -65,7 +65,7 @@ The `crop()` function supports resizing by ratio, checkout the file for more.
 require "src/utils/func.image-crop.php";
 
 $crop = Bulletproof\Utils\crop(
-	$upload->getFullPath(), 
+	$upload->getPath(), 
 	$upload->getMime(),
 	$upload->getWidth(),
 	$upload->getHeight(),
@@ -87,7 +87,7 @@ $position = 'center';
 list($logoWidth, $logoHeight) = getimagesize($logo);
 
 $watermark = Bulletproof\watermark(
-	$upload->getFullPath(), 
+	$upload->getPath(), 
 	$upload->getMime(),
 	$upload->getWidth(),
 	$upload->getHeight(),
