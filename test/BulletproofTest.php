@@ -16,8 +16,8 @@ class BulletproofTest extends \Bulletproof\Image {
     /**
      * Prevent class from making new folder
      */
-    public function setLocation($dir = "bulletproof", $optionalPermision = 0666){
-    	$this->location = $dir;
+    public function setStorage($dir = "uploads", $optionalPermision = 0666){
+    	$this->storage = $dir;
     	return $this; 
     }
 }

@@ -2,34 +2,36 @@
 
 [![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg?format=flat-square)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads?format=flat-square)](https://packagist.org/packages/samayo/bulletproof?format=flat-square) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)  [![Gitter chat](https://img.shields.io/badge/gitter-join--chat-blue.svg)](https://gitter.im/fastpress/fastpress) [![License](https://poser.pugx.org/samayo/bulletproof/license)](https://packagist.org/packages/fastpress/framework)
 
-Bulletproof is a single-class library to upload images in PHP with security.
+Bulletproof is a single-class PHP library to upload images securely.
 
-Install
+Installation
 -----
 
-Using git
+Install using git
 ```bash
 $ git clone https://github.com/samayo/bulletproof.git
 ```
-Or composer
+Install using Composer
 ```bash
 $ composer require samayo/bulletproof:4.0.*
 ```
-Or [download it manually][bulletproof_archive] based on the archived version of release-cycles.
+Or [download it manually][bulletproof_archive] in a ZIP format
 
 Usage
 -----
 
-Create an HTML form like this. 
+To quickly upload images, use the following code:
+
 ```html
+<!-- (1) copy/paste the following HTML form -->
 <form method="POST" enctype="multipart/form-data">
   <input type="hidden" name="MAX_FILE_SIZE" value="1000000"/>
   <input type="file" name="pictures" accept="image/*"/>
   <input type="submit" value="upload"/>
 </form>
 ```
-And copy & paste the following code to upload the image
 ```php 
+// (2) Add this code to your PHP file
 require_once  "path/to/bulletproof.php";
 
 $image = new Bulletproof\Image($_FILES);
@@ -44,73 +46,73 @@ if($image["pictures"]){
   }
 }
 ```
-For more flexibility, check the options and examples below.
+For more options or configurations, check the following examples:
 
 
 Configs
 -----
 
 #### Setting Properties
-Before uploading, you can use these methods to restrict the image size, dimensions, mime types, location...
+Methods to set restriction on the image name, size, type, etc.. to upload
 ```php  
-// Pass a custom name, or it will be auto-generated
+// To provide a name for the image. If unused, image name will be auto-generated.
 $image->setName($name);
 
-// define the min/max image upload size (size in bytes) 
+// To set the min/max image size to upload (in bytes)
 $image->setSize($min, $max);
 
-// define allowed mime types to upload
+// To define a list of allowed image types to upload
 $image->setMime(array('jpeg', 'gif'));
 
-// set the max width/height limit of images to upload (limit in pixels)
+// To set the max image height/width to upload (limit in pixels)
 $image->setDimension($width, $height);
 
-// pass name (and optional chmod) to create folder for storage
-$image->setLocation($folderName, $optionalPermission);
+// To create a folder name to store the uploaded image, with optional chmod permission
+$image->setStorage($folderName, $optionalPermission);
 ```
 
 #### Getting Properties
-Methods for getting image info before/after upload. 
+Methods to retrieve image data before/after upload. 
 ```php 
-// get the provided or auto-generated image name
+// To get the image name
 $image->getName();
 
-// get the image size (in bytes)
+// To get the image size (in bytes)
 $image->getSize();
 
-// get the image mime (extension)
+// To get the image mime (extension)
 $image->getMime();
 
-// get the image width in pixels
+// To get the image width in pixels
 $image->getWidth();
 
-// get the image height in pixels
+// To get the image height in pixels
 $image->getHeight();
 
-// get image location (folder where images are uploaded)
-$image->getLocation();
+// To get image location (folder where images are uploaded)
+$image->getStorage();
 
-// get the full image path. ex 'images/logo.jpg'
+// To get the full image path. ex 'images/logo.jpg'
 $image->getFullPath();
 
-// get the json format value of all the above information
+// To get the json format value of all the above information
 $image->getJson();
 ```
 
-#### Customized example
-This will set image constrains and return output after upload
+#### Extended Configuration Usage
+How to use the property setters and getters. 
 ```php 
 $image = new Bulletproof\Image($_FILES);
 
 $image->setName("samayo")
       ->setMime(["gif"])
-      ->setLocation(__DIR__ . "/avatars");
+      ->setStorage(__DIR__ . "/avatars");
 
 if($image["pictures"]){
   if($image->upload()){
     echo $image->getName(); // samayo
     echo $image->getMime(); // gif
-    echo $image->getLocation(); // avatars
+    echo $image->getStorage(); // avatars
     echo $image->getFullPath(); // avatars/samayo.gif
   }
 }

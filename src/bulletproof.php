@@ -4,7 +4,7 @@
  * 
  * A single-class PHP library to upload images securely.
  * 
- * PHP support 5.3+
+ * PHP support 8.1+
  * 
  * @version     5.0.0
  * @author      https://twitter.com/_samayo
@@ -299,7 +299,7 @@ class Image implements \ArrayAccess
     public function setName($isNameProvided = null)
     {
       if ($isNameProvided) {
-        $this->name = filter_var($isNameProvided, FILTER_SANITIZE_STRING);
+        $this->name = $isNameProvided;
       }else{
         $this->name = uniqid('', true) . '_' . str_shuffle(implode(range('e', 'q')));
       }
@@ -448,7 +448,7 @@ class Image implements \ArrayAccess
       }
 
       $isValid = $this->constraintValidator();
-      $this->setName();
+
 
       $isSuccess = $isValid && $this->isSaved($this->_files['tmp_name'], $this->getPath());
 

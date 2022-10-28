@@ -11,12 +11,12 @@ class uploadTest extends TestCase {
     /**
      *  Initialize an array to mimic the properties $_FILES global
      */
-    public function setUp() {
+    public function setUp() : void {
       $files = array(
           'ikea' => array(
-              'name' => __DIR__ . "/monkey.jpg",
+              'name' => __DIR__ . "/fixture/monkey.jpg",
               'type' => 'image/jpg',
-              'tmp_name' =>  __DIR__ . "/monkey.jpg",
+              'tmp_name' =>  __DIR__ . "/fixture/monkey.jpg",
               'error' => 0,
               'size' => 17438,
           )
@@ -74,7 +74,7 @@ class uploadTest extends TestCase {
 
     // check if setting image storage is correct
     public function testLocation () {
-      $this->bulletproof->setLocation('uploads');
+      $this->bulletproof->setStorage('uploads');
       $this->assertEquals($this->bulletproof->getStorage(), 'uploads');
     }
 
@@ -82,7 +82,7 @@ class uploadTest extends TestCase {
     // check full path of image uploaded
 
    public function testFullpath(){
-        $this->bulletproof->setLocation('uploads');
+        $this->bulletproof->setStorage('uploads');
         $this->bulletproof->setName('2012');
         $this->bulletproof->setMime(['jpeg']);
         $upload = $this->bulletproof->upload();
@@ -119,14 +119,14 @@ class uploadTest extends TestCase {
     public function testImageSizeFailWithMsg () {
       $this->bulletproof->setSize(888, 9999);
       $upload = $this->bulletproof->upload();
-       $this->assertEquals($this->bulletproof->getError(), 'Image size should be minumum 888 bytes (0 kb), upto maximum 9999 bytes (9 kb)');
+       $this->assertEquals($this->bulletproof->getError(), 'Image size should be minimum 888 bytes (0 kb), upto maximum 9999 bytes (9 kb)');
     }
 
     // check invalid dimension fails with msg
 public function testImageDimensionFailWithMsg () {
   $this->bulletproof->setDimension(42, 43);
   $this->bulletproof->upload();
-    $this->assertEquals($this->bulletproof->getError(), 'Image height/width should be less than 43/42 pixels');
+    $this->assertEquals($this->bulletproof->getError(), 'Image should be smaller than 43px in height, and smaller than 42px in width');
 }
 
 
