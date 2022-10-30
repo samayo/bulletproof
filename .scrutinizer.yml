@@ -2,11 +2,11 @@ build:
     image: default-bionic
     environment:
         php: 8.1.2
-  nodes:
-    analysis:
-      tests:
-        override:
-          - php-scrutinizer-run
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - php-scrutinizer-run
 tools:
     php_sim: true
     php_pdepend: true
