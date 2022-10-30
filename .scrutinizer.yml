@@ -1,3 +1,12 @@
+build:
+    image: default-bionic
+    environment:
+        php: 8.1.2
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
 tools:
     php_sim: true
     php_pdepend: true
@@ -142,10 +151,3 @@ checks:
         assignment_of_null_return: true
         argument_type_checks: true
         align_assignments: false
-
-build:
-  nodes:
-    analysis:
-      tests:
-        override:
-          - php-scrutinizer-run
