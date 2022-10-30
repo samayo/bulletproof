@@ -142,3 +142,10 @@ checks:
         assignment_of_null_return: true
         argument_type_checks: true
         align_assignments: false
+
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
