@@ -114,21 +114,21 @@ class Image implements \ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value) {}
+    public function offsetSet($offset, $value) : void {}
 
     /**
      * \ArrayAccess unused method
      * 
      * @param mixed $offset
      */
-    public function offsetExists($offset){}
+    public function offsetExists($offset) : bool {}
 
     /**
      * \ArrayAccess unused method
      * 
      * @param mixed $offset
      */
-    public function offsetUnset($offset){}
+    public function offsetUnset($offset) : void {}
 
     /**
      * \ArrayAccess - get array value from object
@@ -137,7 +137,7 @@ class Image implements \ArrayAccess
      *
      * @return string|bool
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset) : mixed
     {
         /* return false if $image['key'] isn't found */
         if (!isset($this->_files[$offset])) {
