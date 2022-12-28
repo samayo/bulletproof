@@ -2,16 +2,16 @@
 
 [![Latest Stable Version](https://poser.pugx.org/samayo/bulletproof/v/stable.svg?format=flat-square)](https://packagist.org/packages/samayo/bulletproof) [![Total Downloads](https://poser.pugx.org/samayo/bulletproof/downloads?format=flat-square)](https://packagist.org/packages/samayo/bulletproof?format=flat-square) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/samayo/bulletproof/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/samayo/bulletproof/?branch=master)  [![License](https://poser.pugx.org/samayo/bulletproof/license)](https://packagist.org/packages/fastpress/framework)
 
-Bulletproof is a single-class PHP library to upload images securely.
+A single-file PHP library to upload images securely.
 
 Installation
 -----
 
-Install using git
+Using git
 ```bash
 $ git clone https://github.com/samayo/bulletproof.git
 ```
-Install using Composer
+Using Composer
 ```bash
 $ composer require samayo/bulletproof:5.0.*
 ```
@@ -20,7 +20,7 @@ Or [download it manually][bulletproof_archive] in a ZIP format
 Usage
 -----
 
-To quickly upload images, use the following HTML & PHP code:
+Use the following example to quickly upload an image
 
 ```html
 <form method="POST" enctype="multipart/form-data">
@@ -44,14 +44,13 @@ if($image["pictures"]){
   }
 }
 ```
-For more options or configurations, check the following examples:
 
-
-Configs
+Configuration
 -----
+Settings to upload images with more options
 
-#### Setting Properties
-Methods to set restriction on the image name, size, type, etc.. to upload
+#### Set options
+Settings used before uploading image to set options
 ```php  
 // To provide a name for the image. If unused, image name will be auto-generated.
 $image->setName($name);
@@ -69,8 +68,8 @@ $image->setDimension($width, $height);
 $image->setStorage($folderName, $optionalPermission);
 ```
 
-#### Getting Properties
-Methods to retrieve image data before/after upload. 
+#### Get options
+Settings used after uploading image to set options
 ```php 
 // To get the image name
 $image->getName();
@@ -97,32 +96,30 @@ $image->getPath();
 $image->getJson();
 ```
 
-#### Extended Configuration Usage
+#### Upload example with more options
 How to use the property setters and getters. 
 ```php 
 $image = new Bulletproof\Image($_FILES);
 
-$image->setName("samayo")
-      ->setMime(["gif"])
-      ->setStorage(__DIR__ . "/avatars");
+$image->setName("dog")
+      ->setMime(["jpg"])
+      ->setStorage(__DIR__ . "/uploads");
 
 if($image["pictures"]){
   if($image->upload()){
-    echo $image->getName(); // samayo   
-    echo $image->getMime(); // gif
-    echo $image->getStorage(); // avatars
-    echo $image->getPath(); // avatars/samayo.gif
+    echo $image->getName(); // dog   
+    echo $image->getMime(); // jpg
+    echo $image->getStorage(); // uploads
+    echo $image->getPath(); // uploads/dog.jpg
   }
 }
 ``` 
 
-#### Image Manipulation
-To crop, resize or watermak images, use functions stored in [`src/utils`][utils]
-
 #### Creating custom errors
-Use php exceptions to define custom error responses
+How to use exceptions to catch errors
 ```php 
 if($image['pictures']){
+
   try {
     if($image->getMime() !== 'png'){
       throw new \Exception('Only PNG image types are allowed');
@@ -133,12 +130,13 @@ if($image['pictures']){
     if(!$image->upload()){
       throw new \Exception($image->getError());
     } else {
-      echo $image->getPath();
+      $path = $image->getPath();
     }
     
   } catch (\Exception $e){
-    echo "Error " . $e->getMessage();
+    echo "Image upload error: " . $e->getMessage();
   }
+
 }
 ```
 

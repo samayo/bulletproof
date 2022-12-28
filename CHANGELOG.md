@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 5.1.0
+ - Removed functions used to crop, resize and watermark images. Image manipulation is no longer supported
+
 ### 5.0.0 
  - Compatibility with PHP8+
 
@@ -35,7 +38,7 @@
  - git went haywire, 2.0.3 had to be born
 
 ### 2.0.2
- - enabled checking for 'exif_imagetype' function.
+ - enabled checking for `exif_imagetype` function.
  - added configurable array messages thanks to github.com/lordgiotto
 
 ### 2.0.1
