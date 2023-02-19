@@ -150,5 +150,5 @@ if($image['pictures']){
 ### License: MIT
 [utils]: https://github.com/samayo/bulletproof/tree/master/src/utils
 [bulletproof_archive]: http://github.com/samayo/bulletproof/releases
-[exif_imagetype_link]: http://php.net/manual/de/function.exif-imagetype.php
-[getimagesize_link]: http://php.net/manual/en/function.getimagesize.php
+[exif_imagetype_link]: https://php.net/manual/function.exif-imagetype.php 
+[getimagesize_link]: http://php.net/manual/function.getimagesize.php
