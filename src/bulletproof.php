@@ -292,7 +292,7 @@ class Image implements \ArrayAccess
     /**
      * Provide image name if not provided.
      *
-     * @param null $isNameProvided
+     * @param null|string $isNameProvided
      *
      * @return $this
      */
